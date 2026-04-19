@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Тест: Интерфейсы и сети (Часть 4)</title>
+    <style>
+        :root {
+            --system-background: #f2f2f7;
+            --system-blue: #007aff;
+            --system-gray: #8e8e93;
+            --separator-color: #c6c6c8;
+            --label-primary: #000000;
+            --label-secondary: #8e8e93;
+            --grouped-background: #ffffff;
+            --grouped-background-ios: #f0f0f0;
+            --system-green: #34c759;
+            --system-red: #ff3b30;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif; margin: 0; background-color: var(--grouped-background-ios); color: var(--label-primary); display: flex; flex-direction: column; min-height: 100vh; }
+        .header { background-color: var(--grouped-background); padding: 12px 10px; text-align: center; font-size: 17px; font-weight: 600; border-bottom: 0.5px solid var(--separator-color); position: relative; display: flex; align-items: center; justify-content: center; }
+        .back-button { position: absolute; left: 16px; font-size: 17px; color: var(--system-blue); text-decoration: none; cursor: pointer; }
+        .footer { background-color: var(--grouped-background); padding: 12px 20px; text-align: center; font-size: 12px; color: var(--label-secondary); border-top: 0.5px solid var(--separator-color); margin-top: auto; }
+        main { flex-grow: 1; padding: 22px 0; }
+        .content-container { background-color: var(--grouped-background); margin: 0 16px; border-radius: 10px; overflow: hidden; border: 0.5px solid var(--separator-color); padding: 16px; }
+        #question-text { font-size: 18px; font-weight: 500; margin-bottom: 20px; min-height: 60px; }
+        #answers-container { display: flex; flex-direction: column; gap: 12px; }
+        .answer-btn { width: 100%; padding: 14px 16px; font-size: 17px; cursor: pointer; border: 1px solid var(--separator-color); background: var(--grouped-background); border-radius: 8px; text-align: left; transition: background-color 0.2s; }
+        .answer-btn:hover:not(:disabled) { background: #e5e5ea; }
+        .answer-btn.correct { background-color: var(--system-green); border-color: var(--system-green); color: white; font-weight: 600; }
+        .answer-btn.wrong { background-color: var(--system-red); border-color: var(--system-red); color: white; font-weight: 600; }
+        .answer-btn:disabled { cursor: not-allowed; opacity: 0.8; }
+        #next-button { width: 100%; padding: 14px; font-size: 17px; font-weight: 600; cursor: pointer; display: block; margin: 30px auto 0; background-color: var(--system-blue); color: white; border: none; border-radius: 8px; }
+        #next-button:disabled { background-color: var(--system-gray); }
+        #feedback { text-align: center; font-size: 18px; font-weight: bold; margin-top: 20px; min-height: 25px; }
+        .correct-text { color: var(--system-green); }
+        .wrong-text { color: var(--system-red); }
+        h1 { font-size: 22px; font-weight: 700; margin-bottom: 20px; text-align: center; }
+        @media (min-width: 768px) { main { display: flex; justify-content: center; } .content-container { max-width: 600px; width: 100%; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="back-button">&lsaquo; Назад</a>
+        <span>Решу игэ - сдам гиа</span>
+    </header>
+    <main>
+        <div class="content-container">
+            <h1>Тест по интерфейсам и сетям (Часть 4)</h1>
+            <div id="quiz-area">
+                <div id="question-text"></div>
+                <div id="answers-container"></div>
+                <div id="feedback"></div>
+            </div>
+            <button id="next-button">Следующий вопрос</button>
+        </div>
+    </main>
+    <footer class="footer">
+        Решу игэ - сдам гиа
+    </footer>
+<script>
+const questions = [
+    ["Что такое 'InfiniBand'?",
+    ["Высокопроизводительный сетевой коммутационный стандарт для ЦОД", "Беспроводной стандарт для 'Интернета вещей'", "Интерфейс для подключения жестких дисков", "Протокол шифрования данных", "Графический интерфейс", "Стандарт для потокового видео", "Протокол VoIP", "Система управления базами данных", "Язык программирования", "Мобильная операционная система"], 0],
+
+    ["Какой из этих протоколов используется для потоковой передачи медиа в реальном времени?",
+    ["RTP (Real-time Transport Protocol)", "TCP (Transmission Control Protocol)", "HTTP (HyperText Transfer Protocol)", "FTP (File Transfer Protocol)", "SNMP (Simple Network Management Protocol)", "SMTP (Simple Mail Transfer Protocol)", "RTSP (Real Time Streaming Protocol)", "RTCP (RTP Control Protocol)", "WebRTC", "HLS (HTTP Live Streaming)"], 0],
+
+    ["Что такое 'дуплексное несоответствие' (duplex mismatch) в сети Ethernet?",
+    ["Когда один конец соединения работает в полудуплексном, а другой — в полнодуплексном режиме", "Когда скорости на двух концах соединения разные", "Когда используются разные типы кабелей", "Когда MTU на портах разный", "Когда автосогласование не работает", "Когда один порт настроен как access, а другой как trunk", "Когда используются разные стандарты Ethernet", "Когда коннекторы несовместимы", "Когда кабель поврежден", "Когда есть петля в сети"], 0],
+
+    ["Какая версия USB впервые представила симметричный разъем Type-C?",
+    ["USB 3.1", "USB 2.0", "USB 3.0", "USB 1.1", "USB 4", "USB 3.2", "Wireless USB", "USB On-The-Go", "USB Power Delivery", "Thunderbolt 3"], 0],
+
+    ["Что такое 'broadcast-домен'?",
+    ["Сегмент сети, в котором широковещательный кадр (broadcast) достигает всех узлов", "Имя домена для рассылки почты", "Группа компьютеров в Active Directory", "VLAN для широковещания", "Логическая группа IP-адресов", "Физическая область покрытия Wi-Fi", "Адрес для отправки пакетов всем устройствам", "Набор правил на firewall", "Кластер серверов", "Сегмент сети, ограниченный маршрутизатором"], 0],
+
+    ["Какой протокол канального уровня инкапсулирует пакеты IPv4/IPv6 для передачи через L2-сети, например, Ethernet?",
+    ["Ethernet II", "PPP (Point-to-Point Protocol)", "HDLC", "Frame Relay", "ATM", "802.1Q (для VLAN)", "MPLS", "PPPoE", "SLIP", "Token Ring"], 0],
+
+    ["Что такое 'SAN' (Storage Area Network)?",
+    ["Сеть хранения данных", "Стандартная аналитическая сеть", "Защищенная анонимная сеть", "Сеть с последовательным доступом", "Сетевой агент хранения", "Архитектура сетевых служб", "Протокол сетевой аутентификации", "Сеть с доступом к серверам", "Облачное хранилище", "Локальное хранилище"], 0],
+
+    ["Какой протокол часто используется для реализации SAN?",
+    ["Fibre Channel (FC) или iSCSI", "NFS", "SMB/CIFS", "HTTP", "FTP", "Ethernet", "TCP/IP", "SCSI", "SAS", "SATA"], 0],
+
+    ["Что такое 'анонс маршрута' (route advertisement) в протоколах маршрутизации?",
+    ["Процесс, при котором маршрутизатор сообщает соседям об известных ему сетях", "Блокировка нежелательных маршрутов", "Установка статического маршрута", "Запрос на получение таблицы маршрутизации", "Сообщение об ошибке в маршруте", "Определение лучшего маршрута", "Удаление маршрута из таблицы", "Агрегация маршрутов", "Шифрование таблицы маршрутизации", "Тестирование доступности маршрута"], 0],
+
+    ["Что означает 'hot-swappable' (горячая замена)?",
+    ["Возможность заменять компонент без выключения питания системы", "Компонент, который сильно нагревается", "Программное обеспечение, которое можно обновить 'на лету'", "Быстрое переключение на резервный компонент", "Компонент, не требующий драйверов", "Автоматически настраиваемый компонент", "Компонент с низким энергопотреблением", "Физически защищенный компонент", "Компонент, работающий в экстремальных условиях", "Устаревший компонент"], 0],
+    
+    ["Что такое 'CSMA/CA' и где он используется?",
+    ["Множественный доступ с контролем несущей и избеганием коллизий, используется в Wi-Fi", "Множественный доступ с контролем несущей и обнаружением коллизий, в Ethernet", "Кодовое разделение каналов, в сотовых сетях", "Протокол доступа к среде в Token Ring", "Метод арбитража в PCI", "Управление потоком в RS-232", "Протокол установления сессии в TCP", "Алгоритм в OSPF", "Механизм в Bluetooth", "Протокол в сетях Zigbee"], 0],
+
+    ["Какой из этих IP-адресов относится к диапазону APIPA?",
+    ["169.254.10.20", "192.168.0.1", "10.0.0.1", "172.16.1.1", "127.0.0.1", "8.8.8.8", "224.0.0.5", "0.0.0.0", "255.255.255.255", "1.0.0.1"], 0],
+
+    ["Что такое 'Passive Optical Network' (PON)?",
+    ["Технология широкополосного доступа по оптоволокну с пассивными разветвителями", "Сеть, не потребляющая электроэнергию", "Оптическая сеть для военных целей", "Стандарт для подводных кабелей", "Протокол для оптических коммутаторов", "Сеть с очень низкой задержкой", "Технология беспроводной оптической связи", "Старый стандарт для локальных сетей", "Оптический аналог Ethernet", "Интерфейс для подключения оптических трансиверов"], 0],
+    
+    ["Какой протокол используется для преобразования MAC-адреса в IP-адрес?",
+    ["RARP (Reverse ARP) или BOOTP/DHCP", "ARP (Address Resolution Protocol)", "DNS", "ICMP", "WINS", "SLP", "LLMNR", "mDNS", "NAT", "Inverse ARP"], 0],
+    
+    ["Что такое 'Time to Live' (TTL) в IP-пакете?",
+    ["Счетчик, который уменьшается на каждом маршрутизаторе для предотвращения зацикливания пакетов", "Время, в течение которого пакет должен быть доставлен", "Время жизни DNS-записи в кеше", "Время до следующей синхронизации NTP", "Продолжительность TCP-сессии", "Время ожидания подтверждения пакета", "Метка времени отправки пакета", "Приоритет пакета", "Размер пакета", "Идентификатор протокола верхнего уровня"], 0],
+
+    ["Какой интерфейс используется для подключения SIM-карт в мобильных устройствах?",
+    ["ISO/IEC 7816", "USB", "SDIO", "I2C", "SPI", "UART", "GPIO", "JTAG", "UICC", "eSIM (встроенный)"], 0],
+
+    ["Что такое 'балансировщик нагрузки' (load balancer)?",
+    ["Устройство или ПО, распределяющее сетевой трафик между несколькими серверами", "Источник бесперебойного питания", "Система охлаждения для серверов", "Протокол маршрутизации", "Оптимизатор WAN-соединений", "Межсетевой экран", "Агрегатор каналов", "Коммутатор для ЦОД", "Прокси-сервер", "Система управления контентом"], 0],
+    
+    ["В IPv6, какой адрес используется для 'localhost'?",
+    ["::1", "127.0.0.1", "fe80::1", "ff02::1", "::", "fc00::", "2001::1", "::ffff:127.0.0.1", "0:0:0:0:0:0:0:1", "localhost"], 0],
+
+    ["Что такое 'Frame Relay'?",
+    ["Технология коммутации пакетов для глобальных сетей (WAN) с использованием виртуальных каналов", "Стандарт для локальных сетей Ethernet", "Протокол беспроводной связи", "Технология для потокового видео", "Интерфейс для жестких дисков", "Метод шифрования", "Протокол электронной почты", "Сетевая операционная система", "Топология сети", "Способ модуляции"], 0],
+
+    ["Какой из этих стандартов описывает высокоскоростную беспроводную связь в миллиметровом диапазоне (60 ГГц)?",
+    ["WiGig (IEEE 802.11ad)", "Wi-Fi 6 (802.11ax)", "Bluetooth 5.0", "NFC", "LTE-U", "5G NR", "UWB", "Z-Wave", "LoRaWAN", "Zigbee"], 0],
+
+    ["Что такое 'маршрутизатор пограничного шлюза' (Border Gateway Router)?",
+    ["Маршрутизатор, который соединяет автономную систему (AS) с другими автономными системами", "Маршрутизатор внутри одной локальной сети", "Домашний Wi-Fi роутер", "Программный маршрутизатор", "Коммутатор 3-го уровня", "Межсетевой экран с функцией маршрутизации", "VPN-концентратор", "Балансировщик нагрузки", "Маршрутизатор ядра сети провайдера", "Маршрутизатор доступа"], 0],
+    
+    ["Протокол 'iSCSI' (Internet Small Computer System Interface) позволяет передавать команды SCSI через...",
+    ["Сети TCP/IP", "Сети Fibre Channel", "Прямое подключение SAS", "Шину PCI Express", "Интерфейс USB", "Беспроводную сеть Wi-Fi", "Сети InfiniBand", "Параллельный кабель SCSI", "Кабель FireWire", "Сети Token Ring"], 0],
+    
+    ["Что такое 'Anycast'?",
+    ["Метод адресации, при котором пакет направляется на ближайший из группы получателей с одним и тем же адресом", "Отправка пакета всем устройствам в сети (Broadcast)", "Отправка пакета группе устройств (Multicast)", "Отправка пакета одному устройству (Unicast)", "Отправка пакета по географическому признаку (Geocast)", "Любой тип передачи данных", "Адрес, который может быть присвоен любому устройству", "Трансляция адресов", "Протокол маршрутизации", "Способ балансировки нагрузки"], 0],
+    
+    ["Какой стандарт описывает аутентификацию на портах сети (Port-Based Network Access Control)?",
+    ["IEEE 802.1X", "IEEE 802.1Q (VLAN)", "IEEE 802.3ad (Link Aggregation)", "IEEE 802.1p (QoS)", "IEEE 802.11i (WPA2)", "RADIUS", "TACACS+", "Kerberos", "IPsec", "LDAP"], 0],
+
+    ["Что такое 'headless' система (например, сервер)?",
+    ["Система, работающая без подключенного монитора, клавиатуры и мыши", "Система без операционной системы", "Система с неисправным загрузочным сектором", "Система только с командной строкой", "Система в спящем режиме", "Виртуальная машина", "Система, управляемая через веб-интерфейс", "Система с поврежденным заголовком файла", "Система без установленных драйверов", "Одноплатный компьютер"], 0],
+
+    ["Какой из этих интерфейсов является устаревшим и использовался для подключения модемов и мышей?",
+    ["COM-порт (RS-232)", "USB", "PS/2", "LPT", "Ethernet", "VGA", "FireWire", "Game Port", "AT-разъем клавиатуры", "DIN-5"], 0],
+
+    ["Что такое 'proxy-сервер'?",
+    ["Сервер-посредник между клиентом и другим сервером", "DNS-сервер", "DHCP-сервер", "Файловый сервер", "Веб-сервер", "Почтовый сервер", "Маршрутизатор", "Межсетевой экран", "Балансировщик нагрузки", "VPN-шлюз"], 0],
+    
+    ["Какой протокол используется для управления сессиями, например, в VoIP-телефонии?",
+    ["SIP (Session Initiation Protocol)", "RTP (Real-time Transport Protocol)", "HTTP", "TCP", "H.323", "MGCP", "Megaco (H.248)", "IAX2", "Skype Protocol", "WebRTC"], 0],
+
+    ["Что такое 'dark fiber' (темное волокно)?",
+    ["Неиспользуемое, 'незажженное' оптоволокно, которое можно арендовать", "Оптоволокно черного цвета", "Кабель, проложенный под землей", "Зашифрованный оптический канал", "Поврежденное оптоволокно", "Военный стандарт оптоволокна", "Оптоволокно для передачи данных в ИК-диапазоне", "Одномодовое оптоволокно", "Многомодовое оптоволокно", "Оптоволокно без коннекторов"], 0],
+    
+    ["Какая файловая система является основной в современных версиях Windows?",
+    ["NTFS (New Technology File System)", "FAT32", "exFAT", "ReFS (Resilient File System)", "HPFS", "FAT16", "Ext4", "APFS", "HFS+", "ZFS"], 0],
+
+    ["Что такое 'контейнеризация' (например, Docker)?",
+    ["Метод виртуализации на уровне операционной системы для запуска изолированных приложений", "Полная виртуализация с эмуляцией оборудования", "Создание архива с приложением", "Упаковка приложения в физический контейнер", "Разделение приложения на микросервисы", "Безопасная 'песочница' для приложений", "Система управления пакетами", "Облачная платформа", "Среда для разработки", "Система непрерывной интеграции"], 0],
+
+    ["Какой из этих портов НЕ является стандартным портом для электронной почты?",
+    ["80 (HTTP)", "25 (SMTP)", "110 (POP3)", "143 (IMAP)", "993 (IMAPS)", "995 (POP3S)", "465 (SMTPS)", "587 (SMTP Submission)", "2525 (альтернативный SMTP)", "443 (иногда для ActiveSync)"], 0],
+
+    ["Что такое 'Telnet'?",
+    ["Устаревший, небезопасный протокол для удаленного управления в текстовом режиме", "Безопасный протокол для удаленного управления", "Протокол передачи файлов", "Протокол для просмотра веб-страниц", "Протокол для синхронизации времени", "Сетевая утилита для проверки портов", "Язык разметки", "Протокол VoIP", "Система доменных имен", "Протокол беспроводной связи"], 0],
+
+    ["Какой тип IP-адреса изменяется каждый раз при переподключении к сети (если не зарезервирован)?",
+    ["Динамический", "Статический", "Приватный", "Публичный", "Loopback", "APIPA", "Multicast", "Broadcast", "Anycast", "Link-local"], 0],
+
+    ["Что такое 'PoE+' (стандарт 802.3at)?",
+    ["Улучшенная версия PoE с большей мощностью (до 25.5 Вт)", "PoE для 10-гигабитных сетей", "PoE с возможностью управления питанием", "Пассивный стандарт PoE", "PoE для оптоволокна", "PoE с передачей данных и питания по разным парам", "Проприетарный стандарт PoE", "PoE для промышленного оборудования", "PoE с напряжением 48В", "PoE с напряжением 24В"], 0],
+    
+    ["Какой протокол используется для шифрования трафика в беспроводных сетях стандарта WPA2?",
+    ["AES (Advanced Encryption Standard)", "TKIP (Temporal Key Integrity Protocol)", "WEP (Wired Equivalent Privacy)", "DES (Data Encryption Standard)", "3DES", "RC4", "SSL", "TLS", "IPsec", "Blowfish"], 0],
+    
+    ["Что такое 'SFP' (Small Form-factor Pluggable)?",
+    ["Компактный сменный трансивер для телекоммуникационного оборудования", "Протокол безопасной передачи файлов", "Стандарт для блоков питания", "Формат файловой системы", "Программный межсетевой экран", "Разъем для SIM-карт", "Интерфейс для SD-карт", "Тип процессора для сетевых устройств", "Язык описания политик безопасности", "Система предотвращения сбоев"], 0],
+    
+    ["Какой протокол маршрутизации является гибридным, сочетая в себе свойства distance-vector и link-state?",
+    ["EIGRP", "OSPF", "RIP", "BGP", "IS-IS", "IGRP", "EGP", "STATIC", "DVMRP", "PIM-SM"], 0],
+
+    ["Что такое 'DHCP Relay Agent'?",
+    ["Устройство (обычно маршрутизатор), которое пересылает DHCP-запросы в другую подсеть", "Резервный DHCP-сервер", "Клиент DHCP", "Опция в настройках DHCP", "Атака на DHCP", "Функция безопасности на коммутаторе", "База данных DHCP-аренд", "Протокол для общения DHCP-серверов", "Графический интерфейс для управления DHCP", "Журнал событий DHCP"], 0],
+
+    ["Какая технология позволяет передавать голос по сетям, основанным на IP?",
+    ["VoIP (Voice over IP)", "POTS (Plain Old Telephone Service)", "ISDN (Integrated Services Digital Network)", "GSM", "CDMA", "PSTN (Public Switched Telephone Network)", "Frame Relay", "ATM", "T1/E1", "Analog Telephony"], 0],
+    
+    ["Что такое 'Single-mode' оптоволокно?",
+    ["Оптоволокно с малым диаметром сердцевины, передающее одну моду света, для больших расстояний", "Оптоволокно, работающее только в одном направлении", "Оптоволокно с большим диаметром, передающее несколько мод, для коротких расстояний", "Оптоволокно, используемое в однопортовых трансиверах", "Оптоволокно без защитной оболочки", "Оптоволокно для аналоговых сигналов", "Устаревший тип оптоволокна", "Оптоволокно, не требующее источников света", "Пластиковое оптоволокно", "Гибкое оптоволокно"], 0],
+
+    ["Что такое 'World Wide Web' (WWW)?",
+    ["Система взаимосвязанных гипертекстовых документов, доступных через интернет", "Синоним интернета", "Глобальная сеть компьютеров", "Протокол передачи данных", "Название первого веб-браузера", "Компания, разработавшая интернет", "Стандарт для веб-страниц", "Поисковая система", "Социальная сеть", "Облачное хранилище"], 0],
+
+    ["Какой из этих интерфейсов использует для передачи данных свет?",
+    ["OpticalCON", "XLR", "Speakon", "BNC", "RCA", "TRS", "MIDI (DIN-5)", "RJ-45", "PowerCON", "D-Sub"], 0],
+
+    ["Что такое 'RADIUS'?",
+    ["Протокол для централизованной аутентификации, авторизации и учета (AAA)", "Протокол маршрутизации", "Стандарт шифрования", "Программное обеспечение для бэкапа", "Геометрическая величина", "Сетевая топология", "Система доменных имен", "Протокол для удаленного рабочего стола", "Антивирусная программа", "Язык программирования"], 0],
+
+    ["Какой из этих стандартов USB обеспечивает самую высокую скорость передачи данных?",
+    ["USB4", "USB 3.2 Gen 2x2", "USB 3.1 Gen 2", "USB 3.0", "USB 2.0", "USB 1.1", "USB 3.2 Gen 1", "Thunderbolt 2", "FireWire 800", "eSATA"], 0],
+
+    ["Что такое 'ping of death'?",
+    ["Тип DoS-атаки, использующий отправку слишком большого ICMP-пакета", "Команда для проверки доступности хоста", "Сообщение о недоступности маршрута", "Ошибка в реализации TCP/IP стека", "Вирус, распространяющийся через ICMP", "Потеря 100% пакетов при пинге", "Очень высокая задержка ответа", "Сетевая игра", "Утилита для стресс-тестирования сети", "Аппаратный сбой сетевой карты"], 0],
+    
+    ["Какой протокол канального уровня используется в беспроводных сетях Wi-Fi?",
+    ["CSMA/CA", "CSMA/CD", "Token Passing", "Polling", "ALOHA", "TDMA", "FDMA", "CDMA", "Master/Slave", "PPP"], 0],
+    
+    ["Что такое 'консольный порт' (console port) на сетевом оборудовании?",
+    ["Порт для прямого управления устройством через терминал", "Порт для подключения к сети Ethernet", "Порт USB", "Порт для подключения монитора", "Порт для объединения устройств в стек", "Порт для питания устройства", "Оптический порт SFP", "Порт для подключения антенны", "Порт для удаленного управления", "Диагностический порт"], 0],
+
+    ["Что такое 'IP-спуфинг'?",
+    ["Подмена IP-адреса отправителя в заголовке IP-пакета", "Подмена MAC-адреса", "Перехват DNS-запросов", "Создание ложной веб-страницы (фишинг)", "Атака 'человек посередине'", "Сканирование IP-адресов", "Блокировка IP-адреса", "Динамическое изменение IP-адреса", "Сокрытие IP-адреса за прокси", "Трансляция сетевых адресов (NAT)"], 0],
+    
+    ["Какой из этих интерфейсов разработан для подключения периферийных устройств к мобильным телефонам и планшетам и является предшественником USB Type-C во многих из них?",
+    ["Micro-USB", "Mini-USB", "USB Type-A", "Lightning", "FireWire 400", "30-pin dock connector (Apple)", "FastPort (Sony Ericsson)", "Pop-Port (Nokia)", "eSATAp", "RS-232"], 0]
+];
+
+const questionTextEl = document.getElementById('question-text');
+const answersContainerEl = document.getElementById('answers-container');
+const feedbackEl = document.getElementById('feedback');
+const nextButton = document.getElementById('next-button');
+
+let currentQuestionIndex = 0;
+let correctAnswerText = '';
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function showQuestion() {
+  feedbackEl.innerHTML = '';
+  nextButton.disabled = true;
+  
+  if (currentQuestionIndex >= questions.length) {
+      questionTextEl.textContent = 'Тест завершен!';
+      answersContainerEl.innerHTML = '';
+      feedbackEl.innerHTML = `Вы ответили на все вопросы. Чтобы начать заново, обновите страницу.`;
+      nextButton.textContent = 'Начать заново';
+      nextButton.disabled = false;
+      nextButton.onclick = () => location.reload();
+      return;
+  }
+
+  const questionData = questions[currentQuestionIndex];
+  const question = questionData[0];
+  const allAnswers = questionData[1];
+  const correctAnswIndex = questionData[2]
+  correctAnswerText = allAnswers[correctAnswIndex];
+
+  // Get all incorrect answers
+  const incorrectAnswers = allAnswers.filter((_, index) => index !== correctAnswIndex);
+  
+  // Shuffle incorrect answers and pick two
+  shuffleArray(incorrectAnswers);
+  const selectedIncorrectAnswers = incorrectAnswers.slice(0, 2);
+
+  // Create the final list of answers for the user and shuffle it
+  const answersToShow = [correctAnswerText, ...selectedIncorrectAnswers];
+  shuffleArray(answersToShow);
+
+
+  questionTextEl.textContent = `${currentQuestionIndex + 1}. ${question}`;
+  answersContainerEl.innerHTML = '';
+
+  answersToShow.forEach(answer => {
+    const button = document.createElement('button');
+    button.textContent = answer;
+    button.classList.add('answer-btn');
+    button.onclick = () => selectAnswer(button, answer);
+    answersContainerEl.appendChild(button);
+  });
+}
+
+function selectAnswer(selectedButton, selectedAnswer) {
+  const isCorrect = selectedAnswer === correctAnswerText;
+
+  Array.from(answersContainerEl.children).forEach(button => {
+    button.disabled = true;
+    if (button.textContent === correctAnswerText) {
+      button.classList.add('correct');
+    } else if (button === selectedButton) {
+      button.classList.add('wrong');
+    }
+  });
+
+  if (isCorrect) {
+    feedbackEl.textContent = 'Правильно!';
+    feedbackEl.className = 'correct-text';
+  } else {
+    feedbackEl.textContent = 'Неправильно!';
+    feedbackEl.className = 'wrong-text';
+  }
+
+  nextButton.disabled = false;
+}
+
+nextButton.addEventListener('click', () => {
+    currentQuestionIndex++;
+    showQuestion();
+});
+
+// Initial load
+shuffleArray(questions);
+showQuestion();
+</script>
+</body>
+</html>

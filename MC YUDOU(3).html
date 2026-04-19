@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Тест: Интерфейсы и сети (Часть 3)</title>
+    <style>
+        :root {
+            --system-background: #f2f2f7;
+            --system-blue: #007aff;
+            --system-gray: #8e8e93;
+            --separator-color: #c6c6c8;
+            --label-primary: #000000;
+            --label-secondary: #8e8e93;
+            --grouped-background: #ffffff;
+            --grouped-background-ios: #f0f0f0;
+            --system-green: #34c759;
+            --system-red: #ff3b30;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif; margin: 0; background-color: var(--grouped-background-ios); color: var(--label-primary); display: flex; flex-direction: column; min-height: 100vh; }
+        .header { background-color: var(--grouped-background); padding: 12px 10px; text-align: center; font-size: 17px; font-weight: 600; border-bottom: 0.5px solid var(--separator-color); position: relative; display: flex; align-items: center; justify-content: center; }
+        .back-button { position: absolute; left: 16px; font-size: 17px; color: var(--system-blue); text-decoration: none; cursor: pointer; }
+        .footer { background-color: var(--grouped-background); padding: 12px 20px; text-align: center; font-size: 12px; color: var(--label-secondary); border-top: 0.5px solid var(--separator-color); margin-top: auto; }
+        main { flex-grow: 1; padding: 22px 0; }
+        .content-container { background-color: var(--grouped-background); margin: 0 16px; border-radius: 10px; overflow: hidden; border: 0.5px solid var(--separator-color); padding: 16px; }
+        #question-text { font-size: 18px; font-weight: 500; margin-bottom: 20px; min-height: 60px; }
+        #answers-container { display: flex; flex-direction: column; gap: 12px; }
+        .answer-btn { width: 100%; padding: 14px 16px; font-size: 17px; cursor: pointer; border: 1px solid var(--separator-color); background: var(--grouped-background); border-radius: 8px; text-align: left; transition: background-color 0.2s; }
+        .answer-btn:hover:not(:disabled) { background: #e5e5ea; }
+        .answer-btn.correct { background-color: var(--system-green); border-color: var(--system-green); color: white; font-weight: 600; }
+        .answer-btn.wrong { background-color: var(--system-red); border-color: var(--system-red); color: white; font-weight: 600; }
+        .answer-btn:disabled { cursor: not-allowed; opacity: 0.8; }
+        #next-button { width: 100%; padding: 14px; font-size: 17px; font-weight: 600; cursor: pointer; display: block; margin: 30px auto 0; background-color: var(--system-blue); color: white; border: none; border-radius: 8px; }
+        #next-button:disabled { background-color: var(--system-gray); }
+        #feedback { text-align: center; font-size: 18px; font-weight: bold; margin-top: 20px; min-height: 25px; }
+        .correct-text { color: var(--system-green); }
+        .wrong-text { color: var(--system-red); }
+        h1 { font-size: 22px; font-weight: 700; margin-bottom: 20px; text-align: center; }
+        @media (min-width: 768px) { main { display: flex; justify-content: center; } .content-container { max-width: 600px; width: 100%; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="back-button">&lsaquo; Назад</a>
+        <span>Решу игэ - сдам гиа</span>
+    </header>
+    <main>
+        <div class="content-container">
+            <h1>Тест по интерфейсам и сетям (Часть 3)</h1>
+            <div id="quiz-area">
+                <div id="question-text"></div>
+                <div id="answers-container"></div>
+                <div id="feedback"></div>
+            </div>
+            <button id="next-button">Следующий вопрос</button>
+        </div>
+    </main>
+    <footer class="footer">
+        Решу игэ - сдам гиа
+    </footer>
+<script>
+const questions = [
+    ["Какая версия протокола IP в настоящее время является основной в интернете?",
+    ["IPv4", "IPv6", "IPv5", "IPX/SPX", "AppleTalk", "NetBEUI", "DECnet", "SNA", "X.25", "Frame Relay"], 0],
+
+    ["Какой протокол используется для передачи веб-страниц от сервера к браузеру?",
+    ["HTTP (HyperText Transfer Protocol)", "FTP (File Transfer Protocol)", "SMTP (Simple Mail Transfer Protocol)", "POP3 (Post Office Protocol 3)", "IMAP (Internet Message Access Protocol)", "Telnet", "SSH (Secure Shell)", "SNMP (Simple Network Management Protocol)", "DNS (Domain Name System)", "UDP (User Datagram Protocol)"], 0],
+
+    ["Что такое 'пропускная способность' (bandwidth) сети?",
+    ["Максимальное количество данных, которое может быть передано за единицу времени", "Время задержки передачи данных", "Количество ошибок при передаче", "Физическая длина сетевого кабеля", "Количество подключенных устройств", "Мощность сигнала", "Частотный диапазон", "Надежность соединения", "Уровень загрузки сети", "Стоимость передачи данных"], 0],
+    
+    ["В модели OSI, какой уровень отвечает за шифрование и сжатие данных?",
+    ["Представительский уровень (L6)", "Прикладной уровень (L7)", "Сеансовый уровень (L5)", "Транспортный уровень (L4)", "Сетевой уровень (L3)", "Канальный уровень (L2)", "Физический уровень (L1)", "Этот функционал отсутствует в OSI", "Комбинированный уровень L5-L6", "Уровень ядра"], 0],
+
+    ["Какой из этих протоколов используется для отправки электронной почты?",
+    ["SMTP (Simple Mail Transfer Protocol)", "POP3 (Post Office Protocol 3)", "IMAP (Internet Message Access Protocol)", "HTTP (HyperText Transfer Protocol)", "FTP (File Transfer Protocol)", "NTP (Network Time Protocol)", "DHCP (Dynamic Host Configuration Protocol)", "DNS (Domain Name System)", "SNMP (Simple Network Management Protocol)", "XMPP (Extensible Messaging and Presence Protocol)"], 0],
+
+    ["Что такое 'хаб' (hub) в контексте сетей Ethernet?",
+    ["Устройство, повторяющее полученный сигнал на все свои порты", "Устройство, направляющее трафик только на порт назначения", "Устройство, соединяющее разные сети", "Программное обеспечение для управления сетью", "Тип сетевого кабеля", "Пассивное соединительное устройство", "Фильтр трафика", "Усилитель сигнала", "Преобразователь среды передачи", "Концентратор питания"], 0],
+
+    ["Какой стандарт определяет 'Power over Ethernet' (PoE)?",
+    ["IEEE 802.3af", "IEEE 802.11ac", "IEEE 802.1Q", "IEEE 802.3ad", "IEEE 802.1X", "IEEE 802.1p", "IEEE 802.3u", "IEEE 802.3ab", "IEEE 802.3z", "IEEE 802.5"], 0],
+
+    ["Что измеряет команда 'tracert' (или 'traceroute')?",
+    ["Маршрут (последовательность маршрутизаторов) до целевого хоста", "Пропускную способность канала", "MAC-адрес целевого хоста", "Открытые порты на целевом хосте", "Версию операционной системы хоста", "Время ответа DNS-сервера", "Количество потерянных пакетов", "Уровень джиттера", "Физическое расстояние до хоста", "Доступность хоста по протоколу TCP"], 0],
+
+    ["Какой из интерфейсов в первую очередь предназначен для подключения видеокарт к материнской плате?",
+    ["PCI Express (PCIe) x16", "PCI", "SATA", "M.2", "AGP (в прошлом)", "ISA", "EISA", "USB Type-C", "Thunderbolt 3", "NVMe"], 0],
+
+    ["Протокол 'Token Ring' (IEEE 802.5) использует какую топологию?",
+    ["Логическое кольцо, часто на физической звезде", "Физическая шина", "Физическая ячеистая сеть (Mesh)", "Физическая точка-точка", "Физическое дерево", "Двойное физическое кольцо", "Только физическая звезда", "Только физическое кольцо", "Шина-звезда", "Кольцо-звезда"], 0],
+    
+    ["Какой протокол используется для автоматического назначения IP-адресов компьютерам в сети?",
+    ["DHCP (Dynamic Host Configuration Protocol)", "DNS (Domain Name System)", "ARP (Address Resolution Protocol)", "NAT (Network Address Translation)", "BOOTP (Bootstrap Protocol)", "STATIC", "APIPA (Automatic Private IP Addressing)", "SLAAC (Stateless Address Autoconfiguration)", "RARP (Reverse Address Resolution Protocol)", "WINS (Windows Internet Name Service)"], 0],
+
+    ["Что такое 'VPN'?",
+    ["Virtual Private Network (Виртуальная частная сеть)", "Very Public Network", "Voice Protocol Number", "Virtual Path Name", "Verified Protocol Negotiation", "Volatile Packet Network", "Virtual Port Number", "Vector Packet Navigation", "Voice Priority Network", "Virtual Protocol Name"], 0],
+
+    ["Какой тип разъема используется в интерфейсе HDMI?",
+    ["Type A (Standard)", "Type B (Dual-Link)", "Type C (Mini)", "Type D (Micro)", "Type E (Automotive)", "RJ-45", "BNC", "SCART", "S-Video", "DisplayPort"], 0],
+
+    ["Какая технология беспроводной связи предназначена для очень коротких расстояний (несколько сантиметров) и используется, например, для мобильных платежей?",
+    ["NFC (Near Field Communication)", "Bluetooth Low Energy (BLE)", "Wi-Fi Direct", "IrDA (инфракрасная связь)", "Zigbee", "Z-Wave", "UWB (Ultra-wideband)", "GSM", "RFID", "ANT+"], 0],
+
+    ["Что такое 'Порт' в контексте протоколов TCP и UDP?",
+    ["Число, идентифицирующее конкретное приложение или процесс на хосте", "Физический разъем на устройстве", "MAC-адрес сетевой карты", "Номер VLAN", "IP-адрес хоста", "Сетевой интерфейс", "Логический канал", "Адрес памяти", "Идентификатор сокета", "Очередь пакетов"], 0],
+
+    ["Какой протокол канального уровня чаще всего используется для установления интернет-соединения через модем или DSL?",
+    ["PPP (Point-to-Point Protocol)", "Ethernet", "Token Ring", "FDDI", "HDLC (High-Level Data Link Control)", "SLIP (Serial Line Internet Protocol)", "Frame Relay", "ATM (Asynchronous Transfer Mode)", "Wi-Fi (802.11)", "L2TP"], 0],
+
+    ["Что такое 'QoS' (Quality of Service)?",
+    ["Механизм для приоритизации трафика и обеспечения качества обслуживания", "Протокол шифрования", "Система обнаружения вторжений", "Метод балансировки нагрузки", "Протокол аутентификации", "Способ сжатия данных", "Алгоритм маршрутизации", "Стандарт кодирования видео", "Протокол управления сессиями", "Механизм кеширования"], 0],
+
+    ["Какой из этих адресов является примером частного (private) IP-адреса согласно RFC 1918?",
+    ["192.168.10.5", "8.8.8.8", "1.1.1.1", "208.67.222.222", "127.0.0.1", "224.0.0.1", "169.253.1.1", "0.0.0.0", "255.255.255.255", "91.198.174.192"], 0],
+
+    ["Что такое 'кеширующий DNS-сервер'?",
+    ["Сервер, который временно хранит результаты DNS-запросов", "Основной авторитативный сервер для домена", "Сервер, отвечающий за корневую зону DNS", "DNS-сервер, использующий шифрование", "Резервный DNS-сервер", "Локальный DNS-файл hosts", "DNS-сервер, который перенаправляет запросы", "Сервер, динамически обновляющий DNS-записи", "Зеркало DNS-сервера", "DNS-сервер для внутренней сети"], 0],
+
+    ["Интерфейс UFS (Universal Flash Storage) является конкурентом какого другого стандарта для мобильных устройств?",
+    ["eMMC (embedded MultiMediaCard)", "SATA", "microSD", "NVMe", "CompactFlash", "Memory Stick", "SD Card", "XQD Card", "CFast Card", "PATA"], 0],
+
+    ["На каком физическом явлении основана передача данных по оптоволоконному кабелю?",
+    ["Полное внутреннее отражение света", "Электромагнитная индукция", "Эффект Холла", "Пьезоэлектрический эффект", "Сверхпроводимость", "Джозефсоновский переход", "Эффект Доплера", "Квантовая телепортация", "Акустические волны", "Интерференция света"], 0],
+    
+    ["Что означает 'Daisy Chain' в контексте подключения устройств?",
+    ["Последовательное подключение устройств одно к другому", "Подключение всех устройств к центральному хабу", "Беспроводное подключение", "Подключение в форме кольца", "Использование разветвителя", "Подключение с избыточностью", "Подключение к общей шине", "Иерархическое подключение", "Прямое соединение двух устройств", "Использование моста"], 0],
+
+    ["Какой из этих протоколов используется для управления сетевыми устройствами (сбор статистики, изменение конфигурации)?",
+    ["SNMP (Simple Network Management Protocol)", "ICMP (Internet Control Message Protocol)", "Telnet/SSH", "HTTP", "NetFlow/sFlow", "Syslog", "NTP", "RADIUS", "TACACS+", "BGP"], 0],
+
+    ["Что такое 'MAC-spoofing'?",
+    ["Подмена MAC-адреса сетевого адаптера", "Атака на переполнение таблицы MAC-адресов коммутатора", "Прослушивание трафика", "Создание ложной точки доступа", "Фильтрация по MAC-адресам", "Поиск MAC-адреса по IP", "Привязка IP к MAC", "Трансляция MAC-адресов", "Шифрование на основе MAC", "Динамическое назначение MAC-адресов"], 0],
+    
+    ["Какой протокол маршрутизации является протоколом 'состояния канала' (link-state)?",
+    ["OSPF (Open Shortest Path First)", "RIP (Routing Information Protocol)", "BGP (Border Gateway Protocol)", "IGRP (Interior Gateway Routing Protocol)", "EGP (Exterior Gateway Protocol)", "DVMRP", "PIM-DM", "RIPv2", "Babel", "EIGRP (гибридный)"], 0],
+
+    ["Какова основная функция 'шлюза по умолчанию' (default gateway) в настройках сети?",
+    ["Направлять трафик, предназначенный для других сетей", "Преобразовывать доменные имена в IP-адреса", "Назначать IP-адреса устройствам", "Фильтровать входящий трафик", "Обеспечивать беспроводной доступ", "Хранить локальный кеш", "Идентифицировать устройство в сети", "Синхронизировать время", "Подключаться к провайдеру", "Управлять сессиями"], 0],
+    
+    ["Какой из стандартов Wi-Fi впервые представил технологию MIMO (Multiple-Input Multiple-Output)?",
+    ["802.11n", "802.11g", "802.11a", "802.11b", "802.11ac", "802.11ax", "802.11ad", "MIMO не используется в Wi-Fi", "Все стандарты его используют", "Только 802.11ac Wave 2"], 0],
+
+    ["Что такое 'Checksum' (контрольная сумма)?",
+    ["Значение, используемое для проверки целостности данных", "Ключ шифрования", "Счетчик пакетов", "Порядковый номер пакета", "Адрес отправителя", "Адрес получателя", "Размер пакета", "Время жизни пакета", "Код приоритета", "Цифровая подпись"], 0],
+    
+    ["Какой из следующих интерфейсов является чисто цифровым?",
+    ["DVI-D (Digital)", "VGA (Video Graphics Array)", "S-Video", "Композитный (RCA)", "Компонентный (YPbPr)", "SCART (аналоговый режим)", "DVI-A (Analog)", "RF (антенный вход)", "3.5mm аудио", "TRS"], 0],
+
+    ["Какой протокол используется для установления безопасных соединений при просмотре веб-страниц (обеспечивает 'S' в HTTPS)?",
+    ["TLS (Transport Layer Security)", "SSL (Secure Sockets Layer)", "IPsec (Internet Protocol Security)", "SSH (Secure Shell)", "PGP (Pretty Good Privacy)", "S/MIME", "Kerberos", "WPA3", "WEP", "EAP-TLS"], 0],
+
+    ["Что означает 'APIPA' (Automatic Private IP Addressing)?",
+    ["Механизм самоназначения IP-адреса (в диапазоне 169.254.x.x), если DHCP-сервер недоступен", "Протокол аутентификации на уровне порта", "Азиатско-Тихоокеанский сетевой информационный центр", "Автоматическая установка приватного IP-адреса", "Протокол приоритизации трафика", "Ассоциация производителей интернет-протоколов", "Система предотвращения атак", "Адрес для широковещания", "Приватный IP-адрес, назначенный вручную", "Протокол анонимного доступа"], 0],
+    
+    ["Какая команда в Linux/macOS используется для просмотра и настройки сетевых интерфейсов?",
+    ["ifconfig / ip addr", "netstat", "route", "iptables", "ss", "ethtool", "iwconfig", "hostname", "uname", "sysctl"], 0],
+
+    ["В контексте структурированных кабельных систем (СКС), что такое 'патч-панель'?",
+    ["Коммутационная панель с разъемами для соединения и переключения кабелей", "Беспроводная точка доступа", "Сетевой коммутатор", "Блок розеток", "Органайзер для кабелей", "Маршрутизатор", "Источник бесперебойного питания", "Серверная стойка", "Оптоволоконный кросс", "Заземляющая шина"], 0],
+
+    ["Какой из этих протоколов работает по принципу 'клиент-сервер' для получения почты?",
+    ["POP3 / IMAP", "SMTP", "HTTP", "FTP", "NFS", "SMB/CIFS", "SNTP", "LDAP", "XMPP", "SIP"], 0],
+
+    ["Что такое 'MTU' (Maximum Transmission Unit)?",
+    ["Максимальный размер пакета, который может быть передан на канальном уровне", "Минимальное время передачи", "Максимальная пропускная способность", "Количество передающих устройств", "Модуль передачи данных", "Среднее время наработки на отказ", "Максимальное число пользователей", "Версия протокола", "Таблица модуляции", "Тип передающего устройства"], 0],
+    
+    ["Какой стандарт сотовой связи относится к 5-му поколению (5G)?",
+    ["NR (New Radio)", "LTE (Long-Term Evolution)", "UMTS (Universal Mobile Telecommunications System)", "GSM (Global System for Mobile Communications)", "CDMA2000", "WiMAX", "HSPA+", "EDGE", "GPRS", "iDEN"], 0],
+
+    ["Что такое 'port forwarding' (проброс портов) на маршрутизаторе?",
+    ["Перенаправление трафика с внешнего порта маршрутизатора на внутренний IP-адрес и порт", "Блокировка доступа к определенному порту", "Зеркалирование трафика порта", "Агрегация портов", "Изменение номера порта", "Динамическое открытие портов", "Аутентификация по порту", "Сканирование портов", "Скрытие портов", "Приоритизация порта"], 0],
+    
+    ["Какой протокол используется для разрешения доменных имен в IPv6 сетях?",
+    ["DNS с записями AAAA", "DNS с записями A", "WINS", "NetBIOS", "LLMNR", "mDNS", "ARPv6", "NDP (Neighbor Discovery Protocol)", "DHCPv6", "SLP"], 0],
+
+    ["Что такое 'коаксиальный кабель'?",
+    ["Кабель с центральным проводником и экранирующей оплеткой, разделенными диэлектриком", "Кабель, состоящий из нескольких скрученных пар проводов", "Кабель из оптического волокна", "Плоский ленточный кабель", "Телефонный кабель", "Силовой кабель", "Акустический кабель", "Кабель для передачи видеосигнала", "Подводный кабель", "Радиочастотный кабель"], 0],
+    
+    ["Какой из этих интерфейсов позволяет передавать и данные, и питание, и видеосигнал по одному кабелю USB-C?",
+    ["Thunderbolt 3 / USB4", "USB 3.1 Gen 1", "HDMI", "DisplayPort", "SATA", "eSATA", "FireWire", "USB 2.0", "MHL", "SlimPort"], 0],
+
+    ["Что такое 'DoS-атака' (Denial of Service)?",
+    ["Атака, целью которой является отказ в обслуживании легитимных пользователей", "Атака с целью кражи данных", "Атака с использованием вредоносного ПО", "Фишинговая атака", "Атака 'человек посередине'", "SQL-инъекция", "Межсайтовый скриптинг (XSS)", "Подбор паролей", "Атака на повышение привилегий", "Социальная инженерия"], 0],
+
+    ["Какой протокол туннелирования часто используется для создания VPN-соединений 'сайт-сайт'?",
+    ["IPsec", "PPTP", "L2TP", "SSL/TLS", "OpenVPN", "WireGuard", "SSTP", "IKEv2", "GRE", "VXLAN"], 0],
+    
+    ["Что такое 'коммутатор' (switch) L2?",
+    ["Устройство, которое пересылает кадры данных на основе MAC-адресов", "Устройство, повторяющее сигнал на все порты", "Устройство, работающее на основе IP-адресов", "Устройство, соединяющее локальную сеть с интернетом", "Беспроводная точка доступа", "Конвертер среды передачи", "Межсетевой экран", "Балансировщик нагрузки", "Прокси-сервер", "Модем"], 0],
+
+    ["Что означает стандарт '1000BASE-T'?",
+    ["Gigabit Ethernet по витой паре", "Fast Ethernet по витой паре", "10-гигабитный Ethernet по оптоволокну", "Gigabit Ethernet по оптоволокну", "Ethernet 10 Мбит/с по коаксиальному кабелю", "Стандарт беспроводной связи", "Протокол передачи данных", "Тип разъема", "Метод кодирования", "Стандарт питания"], 0],
+    
+    ["В контексте цифрового видео, что такое 'HDCP'?",
+    ["High-bandwidth Digital Content Protection (Защита цифрового содержимого высокой четкости)", "High Definition Color Profile", "Hardware-Defined Control Protocol", "High-speed Data Compression Protocol", "Host-Device Communication Port", "Hyper-Dimensional Content Protection", "High-Definition Coded Picture", "Hardware-based Digital Control Panel", "High-speed Digital Connection Port", "Hybrid Digital Content Protocol"], 0],
+
+    ["Какой протокол используется для безопасной передачи файлов?",
+    ["SFTP (SSH File Transfer Protocol) или FTPS (FTP over SSL/TLS)", "FTP (File Transfer Protocol)", "TFTP (Trivial File Transfer Protocol)", "HTTP (HyperText Transfer Protocol)", "SMB/CIFS", "NFS (Network File System)", "WebDAV", "SCP (Secure Copy Protocol)", "rsync", "BitTorrent"], 0],
+    
+    ["Что такое 'SSO' (Single Sign-On)?",
+    ["Технология, позволяющая пользователю один раз войти в систему и получать доступ к нескольким сервисам", "Протокол безопасных сокетов", "Статический IP-адрес", "Симметричное шифрование", "Стандарт организации сетей", "Протокол синхронизации серверов", "Служба коротких сообщений", "Защищенный системный объект", "Система управления сессиями", "Единый идентификатор службы"], 0],
+
+    ["Какой из перечисленных интерфейсов является самым медленным?",
+    ["Последовательный порт (RS-232)", "USB 3.0", "SATA III", "Gigabit Ethernet", "Thunderbolt 3", "PCIe 4.0", "FireWire 800", "USB 2.0", "Fast Ethernet", "1-Wire"], 0],
+
+    ["Какая технология позволяет запускать несколько операционных систем на одном физическом компьютере?",
+    ["Виртуализация", "Эмуляция", "Контейнеризация", "Многозадачность", "Многопоточность", "Кластеризация", "Параллельные вычисления", "Облачные вычисления", "Терминальный доступ", "Удаленный рабочий стол"], 0],
+
+    ["Что такое 'ExFAT'?",
+    ["Файловая система, оптимизированная для флеш-накопителей", "Файловая система для Linux", "Журналируемая файловая система", "Сетевая файловая система", "Виртуальная файловая система", "Файловая система для оптических дисков", "Система шифрования файлов", "Утилита для проверки диска", "Драйвер файловой системы", "Архивный файловый формат"], 0]
+];
+
+const questionTextEl = document.getElementById('question-text');
+const answersContainerEl = document.getElementById('answers-container');
+const feedbackEl = document.getElementById('feedback');
+const nextButton = document.getElementById('next-button');
+
+let currentQuestionIndex = 0;
+let correctAnswerText = '';
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function showQuestion() {
+  feedbackEl.innerHTML = '';
+  nextButton.disabled = true;
+  
+  if (currentQuestionIndex >= questions.length) {
+      questionTextEl.textContent = 'Тест завершен!';
+      answersContainerEl.innerHTML = '';
+      feedbackEl.innerHTML = `Вы ответили на все вопросы. Чтобы начать заново, обновите страницу.`;
+      nextButton.textContent = 'Начать заново';
+      nextButton.disabled = false;
+      nextButton.onclick = () => location.reload();
+      return;
+  }
+
+  const questionData = questions[currentQuestionIndex];
+  const question = questionData[0];
+  const allAnswers = questionData[1];
+  const correctAnswIndex = questionData[2]
+  correctAnswerText = allAnswers[correctAnswIndex];
+
+  // Get all incorrect answers
+  const incorrectAnswers = allAnswers.filter((_, index) => index !== correctAnswIndex);
+  
+  // Shuffle incorrect answers and pick two
+  shuffleArray(incorrectAnswers);
+  const selectedIncorrectAnswers = incorrectAnswers.slice(0, 2);
+
+  // Create the final list of answers for the user and shuffle it
+  const answersToShow = [correctAnswerText, ...selectedIncorrectAnswers];
+  shuffleArray(answersToShow);
+
+
+  questionTextEl.textContent = `${currentQuestionIndex + 1}. ${question}`;
+  answersContainerEl.innerHTML = '';
+
+  answersToShow.forEach(answer => {
+    const button = document.createElement('button');
+    button.textContent = answer;
+    button.classList.add('answer-btn');
+    button.onclick = () => selectAnswer(button, answer);
+    answersContainerEl.appendChild(button);
+  });
+}
+
+function selectAnswer(selectedButton, selectedAnswer) {
+  const isCorrect = selectedAnswer === correctAnswerText;
+
+  Array.from(answersContainerEl.children).forEach(button => {
+    button.disabled = true;
+    if (button.textContent === correctAnswerText) {
+      button.classList.add('correct');
+    } else if (button === selectedButton) {
+      button.classList.add('wrong');
+    }
+  });
+
+  if (isCorrect) {
+    feedbackEl.textContent = 'Правильно!';
+    feedbackEl.className = 'correct-text';
+  } else {
+    feedbackEl.textContent = 'Неправильно!';
+    feedbackEl.className = 'wrong-text';
+  }
+
+  nextButton.disabled = false;
+}
+
+nextButton.addEventListener('click', () => {
+    currentQuestionIndex++;
+    showQuestion();
+});
+
+// Initial load
+shuffleArray(questions);
+showQuestion();
+</script>
+</body>
+</html>

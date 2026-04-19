@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>О предмете: Интерфейсы и протоколы</title>
+    <style>
+        :root {
+            --system-background: #f2f2f7;
+            --system-blue: #007aff;
+            --system-gray: #8e8e93;
+            --separator-color: #c6c6c8;
+            --label-primary: #000000;
+            --label-secondary: #8e8e93;
+            --grouped-background: #ffffff;
+            --grouped-background-ios: #f0f0f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+            margin: 0;
+            background-color: var(--grouped-background-ios);
+            color: var(--label-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: var(--grouped-background);
+            padding: 12px 10px;
+            text-align: center;
+            font-size: 17px;
+            font-weight: 600;
+            border-bottom: 0.5px solid var(--separator-color);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 16px;
+            font-size: 17px;
+            color: var(--system-blue);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .footer {
+            background-color: var(--grouped-background);
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--label-secondary);
+            border-top: 0.5px solid var(--separator-color);
+            margin-top: auto;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 22px 16px;
+        }
+
+        .content-container {
+            background-color: var(--grouped-background);
+            border-radius: 10px;
+            padding: 20px;
+            border: 0.5px solid var(--separator-color);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        p {
+            font-size: 17px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .start-test-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            background-color: var(--system-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 24px;
+        }
+        
+        @media (min-width: 768px) {
+            .content-container {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="index.html" class="back-button">&lsaquo; Назад</a>
+        <span>О предмете</span>
+    </header>
+
+    <main>
+        <div class="content-container">
+            <h1>Интерфейсы и протоколы</h1>
+            <p>
+                Добро пожаловать на страницу, посвященную изучению интерфейсов и протоколов. Эти два понятия являются фундаментальными в мире цифровых технологий и передачи данных.
+            </p>
+            <p>
+                <strong>Интерфейс</strong> — это граница между двумя взаимодействующими системами, устройствами или программами. Он определяет физические характеристики (например, тип разъема и контактов), электрические параметры (уровни напряжения) и логические правила для обмена сигналами.
+            </p>
+            <p>
+                <strong>Протокол</strong> — это набор правил и соглашений, которые определяют порядок обмена данными между устройствами. Протоколы гарантируют, что передаваемая информация будет правильно понята обеими сторонами. Примерами могут служить TCP/IP в интернете, USB для подключения периферии или Bluetooth для беспроводной связи.
+            </p>
+            <p>
+                Этот курс поможет вам разобраться в разнообразии современных интерфейсов, понять их классификацию, принципы работы и области применения. Вы изучите как классические последовательные и параллельные порты, так и высокоскоростные шины, используемые в компьютерах и мобильных устройствах.
+            </p>
+            <div class="test-buttons-container">
+                <a href="MC YUDOU(1).html" class="start-test-btn">Тест 1</a>
+                <a href="MC YUDOU(2).html" class="start-test-btn">Тест 2</a>
+                <a href="MC YUDOU(3).html" class="start-test-btn">Тест 3</a>
+                <a href="MC YUDOU(4).html" class="start-test-btn">Тест 4</a>
+                <a href="MC YUDOU ALL.html" class="start-test-btn all-questions-btn">Все вопросы</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        Решу игэ - сдам гиа
+    </footer>
+
+    <style>
+        .test-buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .start-test-btn {
+            text-decoration: none;
+        }
+        .all-questions-btn {
+            background-color: var(--system-gray);
+        }
+    </style>
+</body>
+</html>
