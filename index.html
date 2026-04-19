@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">в
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Решу ИГЭ</title>
+    <style>
+        :root {
+            --system-background: #f2f2f7;
+            --system-blue: #007aff;
+            --system-gray: #8e8e93;
+            --separator-color: #c6c6c8;
+            --label-primary: #000000;
+            --label-secondary: #8e8e93;
+            --grouped-background: #ffffff;
+            --grouped-background-ios: #f0f0f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+            margin: 0;
+            background-color: var(--grouped-background-ios);
+            color: var(--label-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header, .footer {
+            background-color: var(--grouped-background);
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--label-secondary);
+            border-bottom: 0.5px solid var(--separator-color);
+        }
+
+        .header {
+            font-weight: 600;
+            font-size: 17px;
+            border-bottom: 0.5px solid var(--separator-color);
+            border-top: 0.5px solid var(--separator-color);
+        }
+
+        .footer {
+            border-top: 0.5px solid var(--separator-color);
+            margin-top: auto;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 22px 0;
+        }
+
+        .list-container {
+            background-color: var(--grouped-background);
+            margin: 0 16px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 0.5px solid var(--separator-color);
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 0.5px solid var(--separator-color);
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item:hover {
+            background-color: #e5e5ea;
+        }
+
+        .list-item .label {
+            font-size: 17px;
+            color: var(--label-primary);
+        }
+
+        .list-item .chevron {
+            font-size: 20px;
+            color: var(--system-gray);
+            font-weight: 300;
+        }
+        
+        /* For wider screens */
+        @media (min-width: 768px) {
+            main {
+                display: flex;
+                justify-content: center;
+            }
+            .list-container {
+                max-width: 600px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        Решу игэ - сдам гиа
+    </header>
+
+    <main>
+        <div class="list-container">
+            <div class="list-item" onclick="window.location.href='MC YUDOU(1).html'">
+                <span class="label">MC YUDOU</span>
+                <span class="chevron">&rsaquo;</span>
+            </div>
+            <div class="list-item" onclick="window.location.href='MC YUDOU(1).html'">
+                <span class="label">MC 2</span>
+                <span class="chevron">&rsaquo;</span>
+            </div>
+            <div class="list-item" onclick="window.location.href='MC YUDOU(1).html'">
+                <span class="label">MC 3</span>
+                <span class="chevron">&rsaquo;</span>
+            </div>
+            <div class="list-item" onclick="window.location.href='MC YUDOU(1).html'">
+                <span class="label">MC 4</span>
+                <span class="chevron">&rsaquo;</span>
+            </div>
+            <div class="list-item" onclick="window.location.href='MC YUDOU(1).html'">
+                <span class="label">MC ALL</span>
+                <span class="chevron">&rsaquo;</span>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        Решу игэ - сдам гиа
+    </footer>
+
+</body>
+</html>
