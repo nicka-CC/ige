@@ -478,6 +478,7 @@ const feedbackEl = document.getElementById('feedback');
 const nextButton = document.getElementById('next-button');
 
 let currentQuestionIndex = 0;
+let score = 0;
 let correctAnswerText = '';
 
 function shuffleArray(array) {
@@ -492,9 +493,23 @@ function showQuestion() {
   nextButton.disabled = true;
   
   if (currentQuestionIndex >= questions.length) {
+      const percentage = (score / questions.length) * 100;
+      let message = '';
+      if (percentage >= 95) {
+          message = 'Отлично!';
+      } else if (percentage >= 75) {
+          message = 'Хорошо!';
+      } else if (percentage >= 50) {
+          message = 'Сомнительно, но окей.';
+      } else if (percentage >= 25) {
+          message = 'Пиздец, бро.';
+      } else {
+          message = 'Тебе пизда :)';
+      }
+
       questionTextEl.textContent = 'Тест завершен!';
       answersContainerEl.innerHTML = '';
-      feedbackEl.innerHTML = `Вы ответили на все вопросы. Чтобы начать заново, обновите страницу.`;
+      feedbackEl.innerHTML = `Вы набрали ${score} из ${questions.length} (${percentage.toFixed(0)}%). ${message}`;
       nextButton.textContent = 'Начать заново';
       nextButton.disabled = false;
       nextButton.onclick = () => location.reload();
@@ -538,6 +553,9 @@ function selectAnswer(selectedButton, selectedAnswer) {
     button.disabled = true;
     if (button.textContent === correctAnswerText) {
       button.classList.add('correct');
+      if (button === selectedButton) { // Ensure score is only incremented once per question
+        score++;
+      }
     } else if (button === selectedButton) {
       button.classList.add('wrong');
     }
