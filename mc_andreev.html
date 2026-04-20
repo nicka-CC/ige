@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Тест по C и разработке ПО</title>
+    <style>
+        :root {
+            --system-background: #f2f2f7;
+            --system-blue: #007aff;
+            --system-gray: #8e8e93;
+            --separator-color: #c6c6c8;
+            --label-primary: #000000;
+            --label-secondary: #8e8e93;
+            --grouped-background: #ffffff;
+            --grouped-background-ios: #f0f0f0;
+            --system-green: #34c759;
+            --system-red: #ff3b30;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+            margin: 0;
+            background-color: var(--grouped-background-ios);
+            color: var(--label-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: env(safe-area-inset-top);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        .header {
+            background-color: var(--grouped-background);
+            padding: 12px 10px;
+            text-align: center;
+            font-size: 17px;
+            font-weight: 600;
+            border-bottom: 0.5px solid var(--separator-color);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 16px;
+            font-size: 17px;
+            color: var(--system-blue);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .footer {
+            background-color: var(--grouped-background);
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--label-secondary);
+            border-top: 0.5px solid var(--separator-color);
+            margin-top: auto;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 22px 0;
+        }
+
+        .content-container {
+            background-color: var(--grouped-background);
+            margin: 0 16px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 0.5px solid var(--separator-color);
+            padding: 16px;
+        }
+
+        .list-container {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 0.5px solid var(--separator-color);
+            text-decoration: none;
+            color: var(--label-primary);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item-title {
+            font-size: 17px;
+        }
+
+        .list-item-chevron {
+            font-size: 22px;
+            color: var(--system-gray);
+            font-weight: 300;
+        }
+
+        .description {
+            padding: 16px;
+            font-size: 15px;
+            color: var(--label-secondary);
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="index.html" class="back-button">&lsaquo; Назад</a>
+        <span>C и C++</span>
+    </header>
+
+    <main>
+        <div class="content-container">
+            <p class="description">
+                C и C++ — это два фундаментальных языка программирования, которые лежат в основе многих современных технологий. C, созданный в 1970-х, известен своей эффективностью и используется в системном программировании, тогда как C++ является его объектно-ориентированным расширением, предлагая более высокий уровень абстракции.
+            </p>
+            <ul class="list-container">
+                <li><a href="mc_andreev(1).html" class="list-item"><span class="list-item-title">Тест 1</span><span class="list-item-chevron">&rsaquo;</span></a></li>
+                <li><a href="mc_andreev(2).html" class="list-item"><span class="list-item-title">Тест 2</span><span class="list-item-chevron">&rsaquo;</span></a></li>
+                <li><a href="mc_andreev(3).html" class="list-item"><span class="list-item-title">Тест 3</span><span class="list-item-chevron">&rsaquo;</span></a></li>
+                <li><a href="mc_andreev(4).html" class="list-item"><span class="list-item-title">Тест 4</span><span class="list-item-chevron">&rsaquo;</span></a></li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="footer">
+        Решу игэ - сдам гиа
+    </footer>
+
+</body>
+</html>

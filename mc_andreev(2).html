@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Тест по C и разработке ПО</title>
+    <style>
+        :root {
+            --system-background: #f2f2f7;
+            --system-blue: #007aff;
+            --system-gray: #8e8e93;
+            --separator-color: #c6c6c8;
+            --label-primary: #000000;
+            --label-secondary: #8e8e93;
+            --grouped-background: #ffffff;
+            --grouped-background-ios: #f0f0f0;
+            --system-green: #34c759;
+            --system-red: #ff3b30;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+            margin: 0;
+            background-color: var(--grouped-background-ios);
+            color: var(--label-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: env(safe-area-inset-top);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        .header {
+            background-color: var(--grouped-background);
+            padding: 12px 10px;
+            text-align: center;
+            font-size: 17px;
+            font-weight: 600;
+            border-bottom: 0.5px solid var(--separator-color);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 16px;
+            font-size: 17px;
+            color: var(--system-blue);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .footer {
+            background-color: var(--grouped-background);
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--label-secondary);
+            border-top: 0.5px solid var(--separator-color);
+            margin-top: auto;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 22px 0;
+        }
+
+        .content-container {
+            background-color: var(--grouped-background);
+            margin: 0 16px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 0.5px solid var(--separator-color);
+            padding: 16px;
+        }
+
+        #question-text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        #answers-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .answer-btn {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 17px;
+            cursor: pointer;
+            border: 1px solid var(--separator-color);
+            background: var(--grouped-background);
+            border-radius: 8px;
+            text-align: left;
+            transition: background-color 0.2s;
+        }
+
+        .answer-btn:hover:not(:disabled) {
+            background: #e5e5ea;
+        }
+        
+        .answer-btn.correct {
+            background-color: var(--system-green);
+            border-color: var(--system-green);
+            color: white;
+            font-weight: 600;
+        }
+        .answer-btn.wrong {
+            background-color: var(--system-red);
+            border-color: var(--system-red);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .answer-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        #next-button {
+            width: 100%;
+            padding: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
+            background-color: var(--system-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+        }
+        
+        #next-button:disabled {
+            background-color: var(--system-gray);
+        }
+
+        #feedback {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 25px;
+        }
+
+        .correct-text { color: var(--system-green); }
+        .wrong-text { color: var(--system-red); }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            main {
+                display: flex;
+                justify-content: center;
+            }
+            .content-container {
+                max-width: 600px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="index.html" class="back-button">&lsaquo; Назад</a>
+        <span>Решу игэ - сдам гиа</span>
+    </header>
+
+    <main>
+        <div class="content-container">
+            <h1>Тест по C и разработке ПО</h1>
+            <div id="quiz-area">
+                <div id="question-text"></div>
+                <div id="answers-container"></div>
+                <div id="feedback"></div>
+            </div>
+            <button id="next-button">Следующий вопрос</button>
+        </div>
+    </main>
+
+    <footer class="footer">
+        Решу игэ - сдам гиа
+    </footer>
+<script>
+const questions = [
+    [
+      "Как обозначается побитовое И?",
+      [
+        "a & b. Пример: 1001 & 1100 → 1000",
+        "Для сокращения сроков и повышения надежности через переиспользование решений. Повторное использование проверенных решений из предыдущих проектов снижает время разработки и увеличивает надежность системы за счет уже протестированных компонентов.",
+        "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.",
+        "Определяет макрос или макрофункцию. Пример: #define PI 3.14",
+        "float, double, long double. Различаются точностью и размером",
+        "Бизнес-моделирование, моделирование данных, обработка, генерация приложения, тестирование. RAD-модель состоит из: 1) анализ информационных потоков. 2) определение объектов данных. 3) преобразование данных в бизнес-функции. 4) использование компонентов и 4GL-языков. 5) интеграция и тестирование.",
+        "Принимает true/false. Логические выражения возвращают bool",
+        "Переходит к следующей итерации цикла. Пропускает оставшуюся часть тела",
+        "Проверяет значение на совпадение с case. Требует break для выхода из ветки",
+        "Буквы, цифры, подчеркивания, не начинаются с цифры. Регистрозависимы"
+      ],
+      0
+    ],
+    [
+      "Что делает операция сдвига влево <<?",
+      [
+        "Сдвигает биты a на b позиций влево. Эквивалент умножения на 2^b",
+        "float, double, long double. Различаются точностью и размером",
+        "Количество элементов между адресами. x = (адрес2 - адрес1)/sizeof(тип)",
+        "Сбор требований, быстрое проектирование, построение макета, оценка заказчиком. Процесс включает: 1) определение целей и известных требований 2) фокус на видимые пользователю характеристики. 3) создание макета. 4) итеративное уточнение требований через оценку заказчика.",
+        "void, арифметические (int, float, double, _Bool), символьные (char), комплексные (C99)",
+        "Символом \ в конце строки. Компилятор воспримет как одну строку",
+        "Компиляторы, редакторы связей, загрузчики, отладчики. Обеспечивают преобразование исходного кода в исполняемые файлы и диагностику ошибок",
+        "Определяет макрос или макрофункцию. Пример: #define PI 3.14",
+        "Проверяет значение на совпадение с case. Требует break для выхода из ветки",
+        "Набор функций, вызывающих друг друга. Программа состоит из функций, включая обязательную функцию main()"
+      ],
+      0
+    ]
+];
+</script>
+</body>
+</html>
