@@ -3,235 +3,801 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Тест по C#</title>
+    <title>Тест 4 по C#</title>
     <style>
         :root {
             --system-background: #f2f2f7;
             --system-blue: #007aff;
-            --system-gray: #8e8e93;
+            --system-green: #34c759;
+            --system-red: #ff3b30;
             --separator-color: #c6c6c8;
             --label-primary: #000000;
             --label-secondary: #8e8e93;
             --grouped-background: #ffffff;
             --grouped-background-ios: #f0f0f0;
-            --system-green: #34c759;
-            --system-red: #ff3b30;
         }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
-            margin: 0;
-            background-color: var(--grouped-background-ios);
-            color: var(--label-primary);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            padding-top: env(safe-area-inset-top);
-            padding-right: env(safe-area-inset-right);
-            padding-bottom: env(safe-area-inset-bottom);
-            padding-left: env(safe-area-inset-left);
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
-        }
-
-        .header {
-            background-color: var(--grouped-background);
-            padding: 12px 10px;
-            text-align: center;
-            font-size: 17px;
-            font-weight: 600;
-            border-bottom: 0.5px solid var(--separator-color);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 16px;
-            font-size: 17px;
-            color: var(--system-blue);
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .footer {
-            background-color: var(--grouped-background);
-            padding: 12px 20px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--label-secondary);
-            border-top: 0.5px solid var(--separator-color);
-            margin-top: auto;
-        }
-
-        main {
-            flex-grow: 1;
-            padding: 22px 0;
-        }
-
-        .content-container {
-            background-color: var(--grouped-background);
-            margin: 0 16px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 0.5px solid var(--separator-color);
-            padding: 16px;
-        }
-
-        #question-text {
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 20px;
-            min-height: 60px;
-        }
-
-        #answers-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .answer-btn {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 17px;
-            cursor: pointer;
-            border: 1px solid var(--separator-color);
-            background: var(--grouped-background);
-            border-radius: 8px;
-            text-align: left;
-            transition: background-color 0.2s;
-        }
-
-        .answer-btn:hover:not(:disabled) {
-            background: #e5e5ea;
-        }
-        
-        .answer-btn.correct {
-            background-color: var(--system-green);
-            border-color: var(--system-green);
-            color: white;
-            font-weight: 600;
-        }
-        .answer-btn.wrong {
-            background-color: var(--system-red);
-            border-color: var(--system-red);
-            color: white;
-            font-weight: 600;
-        }
-        
-        .answer-btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.8;
-        }
-
-        #next-button {
-            width: 100%;
-            padding: 14px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            display: block;
-            margin: 30px auto 0;
-            background-color: var(--system-blue);
-            color: white;
-            border: none;
-            border-radius: 8px;
-        }
-        
-        #next-button:disabled {
-            background-color: var(--system-gray);
-        }
-
-        #feedback {
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 20px;
-            min-height: 25px;
-        }
-
-        .correct-text { color: var(--system-green); }
-        .wrong-text { color: var(--system-red); }
-
-        h1 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        @media (min-width: 768px) {
-            main {
-                display: flex;
-                justify-content: center;
-            }
-            .content-container {
-                max-width: 600px;
-                width: 100%;
-            }
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif; margin: 0; background-color: var(--grouped-background-ios); color: var(--label-primary); padding-top: env(safe-area-inset-top); padding-right: env(safe-area-inset-right); padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        .header { background-color: var(--grouped-background); padding: 12px 10px; text-align: center; font-size: 17px; font-weight: 600; border-bottom: 0.5px solid var(--separator-color); position: sticky; top: 0; z-index: 1; }
+        .back-button { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 17px; color: var(--system-blue); text-decoration: none; cursor: pointer; }
+        main { padding: 22px 16px; }
+        .question-block { background-color: var(--grouped-background); border-radius: 10px; margin-bottom: 20px; padding: 16px; border: 0.5px solid var(--separator-color); }
+        .question-title { font-size: 17px; font-weight: 600; margin-bottom: 12px; }
+        .answers-list { list-style: none; padding: 0; margin: 0; }
+        .answer-item { padding: 8px 0; }
+        .answer-item label { display: flex; align-items: center; font-size: 16px; }
+        .answer-item input { margin-right: 12px; }
+        .button-container { text-align: center; margin-top: 22px; }
+        .submit-button { background-color: var(--system-blue); color: white; font-size: 17px; font-weight: 600; border: none; border-radius: 10px; padding: 14px 20px; cursor: pointer; width: 100%; max-width: 300px; }
+        #results { background-color: var(--grouped-background); border-radius: 10px; margin: 22px 0; padding: 16px; border: 0.5px solid var(--separator-color); text-align: center; }
+        .correct-answer { color: var(--system-green); font-weight: bold; }
+        .incorrect-answer { color: var(--system-red); text-decoration: line-through; }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <a href="mc_antonov.html" class="back-button">&lsaquo; Назад</a>
-        <span>Решу игэ - сдам гиа</span>
+        <a href="mc_antonov.html" class="back-button">&lsaquo; C#</a>
+        <span>Тест 4</span>
     </header>
 
     <main>
-        <div class="content-container">
-            <h1>Тест по C#</h1>
-            <div id="quiz-area">
-                <div id="question-text"></div>
-                <div id="answers-container"></div>
-                <div id="feedback"></div>
+        <form id="quiz-form">
+            <!-- Questions 151-200 -->
+            <div class="question-block" id="q151"><p class="question-title">151. Что такое SignalR?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q151" value="a">a) Библиотека для добавления веб-функциональности в реальном времени в приложения</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q151" value="b">b) Система для отправки SMS-сообщений</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q151" value="c">c) Фреймворк для обработки сигналов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q151" value="d">d) Протокол для радиосвязи</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q151" value="e">e) Библиотека для работы с графикой</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q151" value="f">f) Конкурент Entity Framework</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q151" value="g">g) Новый тип делегата</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q151" value="h">h) Инструмент для профилирования</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q151" value="i">i) Устаревшая технология</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q151" value="j">j) Способ вызова RPC</label></li>
+                </ul>
             </div>
-            <button id="next-button">Следующий вопрос</button>
-        </div>
+            <div class="question-block" id="q152"><p class="question-title">152. Что такое Hub в SignalR?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q152" value="a">a) Высокоуровневый конвейер, позволяющий клиенту и серверу вызывать методы друг у друга</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q152" value="b">b) Центральный узел сети</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q152" value="c">c) USB-концентратор</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q152" value="d">d) Класс для хранения соединений</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q152" value="e">e) Конфигурационный файл SignalR</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q152" value="f">f) Точка входа в приложение</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q152" value="g">g) Интерфейс для клиентов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q152" value="h">h) Базовый класс для всех контроллеров</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q152" value="i">i) Репозиторий кода</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q152" value="j">j) Провайдер аутентификации</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q153"><p class="question-title">153. В чем разница между Blazor Server и Blazor WebAssembly?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q153" value="a">a) Blazor Server исполняет код на сервере, а WebAssembly - в браузере клиента</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q153" value="b">b) Blazor WebAssembly исполняет код на сервере, а Server - в браузере</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q153" value="c">c) Blazor Server использует SignalR для обновлений UI, а WebAssembly - нет</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q153" value="d">d) Blazor WebAssembly требует загрузки .NET runtime в браузер, а Server - нет</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q153" value="e">e) Blazor Server имеет меньшую задержку UI, но требует постоянного подключения</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q153" value="f">f) Blazor WebAssembly может работать оффлайн</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q153" value="g">g) Нет разницы</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q153" value="h">h) Blazor Server устарел</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q153" value="i">i) Blazor WebAssembly не поддерживает .NET</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q153" value="j">j) Blazor Server не может вызывать JavaScript</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q154"><p class="question-title">154. Что такое .NET MAUI?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q154" value="a">a) Кросс-платформенный фреймворк для создания нативных мобильных и десктопных приложений</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q154" value="b">b) Эволюция Xamarin.Forms</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q154" value="c">c) Использует единую кодовую базу для Android, iOS, macOS и Windows</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q154" value="d">d) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q154" value="e">e) Конкурент React Native и Flutter</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q154" value="f">f) Использует XAML для описания UI</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q154" value="g">g) Новый UI фреймворк</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q154" value="h">h) Позволяет писать UI на C#</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q154" value="i">i) Часть .NET 6 и новее</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q154" value="j">j) Язык программирования</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q155"><p class="question-title">155. Что такое `BenchmarkDotNet`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q155" value="a">a) Библиотека для тестирования производительности .NET кода</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q155" value="b">b) Инструмент для нагрузочного тестирования веб-сайтов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q155" value="c">c) Встроенный профилировщик Visual Studio</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q155" value="d">d) Статический анализатор кода</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q155" value="e">e) Библиотека для юнит-тестирования</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q155" value="f">f) Платформа для запуска тестов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q155" value="g">g) Система для измерения покрытия кода тестами</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q155" value="h">h) Веб-сервис для сравнения производительности</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q155" value="i">i) Набор правил для написания быстрого кода</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q155" value="j">j) Устаревшая библиотека</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q156"><p class="question-title">156. В чем разница между аутентификацией и авторизацией?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q156" value="a">a) Аутентификация - это проверка личности; авторизация - проверка прав доступа</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q156" value="b">b) Авторизация - это проверка личности; аутентификация - проверка прав доступа</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q156" value="c">c) Это синонимы</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q156" value="d">d) Аутентификация происходит до авторизации</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q156" value="e">e) Авторизация используется для входа, аутентификация - для доступа к ресурсам</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q156" value="f">f) Аутентификация - это "кто ты?", авторизация - "что тебе можно?"</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q156" value="g">g) Аутентификация использует логин/пароль, авторизация - роли/политики</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q156" value="h">h) Нет разницы в контексте ASP.NET Core</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q156" value="i">i) Авторизация является частью аутентификации</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q156" value="j">j) Аутентификация является частью авторизации</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q157"><p class="question-title">157. Что такое JWT (JSON Web Token)?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q157" value="a">a) Стандарт для создания токенов доступа, которые содержат утверждения (claims) в формате JSON</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q157" value="b">b) Зашифрованный JSON</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q157" value="c">c) Токен для работы с Web Sockets</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q157" value="d">d) Токен, который хранится в сессии на сервере</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q157" value="e">e) Используется для аутентификации без сохранения состояния (stateless)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q157" value="f">f) Состоит из заголовка, полезной нагрузки и подписи</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q157" value="g">g) Может быть подписан для проверки подлинности</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q157" value="h">h) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q157" value="i">i) Токен, который нельзя отозвать</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q157" value="j">j) Устаревший стандарт</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q158"><p class="question-title">158. Что такое `GC.SuppressFinalize()`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q158" value="a">a) Метод, который сообщает GC, что финализатор для объекта вызывать не нужно</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q158" value="b">b) Принудительно вызывает финализатор</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q158" value="c">c) Временно отключает сборку мусора</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q158" value="d">d) Обычно вызывается в конце метода `Dispose()`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q158" value="e">e) Помогает избежать двойного освобождения ресурсов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q158" value="f">f) Перемещает объект в очередь финализации</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q158" value="g">g) Запрещает финализацию для всех объектов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q158" value="h">h) Устаревший метод</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q158" value="i">i) Вызывается автоматически</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q158" value="j">j) Связан с `IDisposable`</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q159"><p class="question-title">159. Что такое `Source Generators` (Генераторы кода)?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q159" value="a">a) Компонент компилятора Roslyn, который может генерировать C# код во время компиляции</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q159" value="b">b) T4 шаблоны</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q159" value="c">c) Инструмент для создания проектов из шаблонов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q159" value="d">d) Позволяет уменьшить количество шаблонного (boilerplate) кода</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q159" value="e">e) Может анализировать существующий код для генерации нового</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q159" value="f">f) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q159" value="g">g) Генерируемый код добавляется в сборку</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q159" value="h">h) Может повысить производительность</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q159" value="i">i) Замена рефлексии в некоторых случаях</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q159" value="j">j) Инструмент для рефакторинга</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q160"><p class="question-title">160. Для чего нужен `[NotNullWhen(true)]` атрибут?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q160" value="a">a) Чтобы сообщить компилятору, что переменная не будет `null`, если метод вернул `true`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q160" value="b">b) Чтобы запретить `null` в качестве аргумента</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q160" value="c">c) Чтобы указать, что возвращаемое значение никогда не будет `null`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q160" value="d">d) Для nullable reference types</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q160" value="e">e) Используется в методах, похожих на `Try...`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q160" value="f">f) Помогает статическому анализатору</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q160" value="g">g) Атрибут для `out` параметров</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q160" value="h">h) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q160" value="i">i) Устаревший атрибут</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q160" value="j">j) Требует .NET 5+</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q161"><p class="question-title">161. Какой атрибут используется для указания маршрута в ASP.NET Core MVC/API?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q161" value="a">a) [Route]</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q161" value="b">b) [HttpGet]</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q161" value="c">c) [HttpPost]</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q161" value="d">d) [ApiController]</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q161" value="e">e) [ActionName]</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q161" value="f">f) [Url]</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q161" value="g">g) [Path]</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q161" value="h">h) [EndPoint]</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q161" value="i">i) [Map]</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q161" value="j">j) [Controller]</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q162"><p class="question-title">162. Что такое `IHostedService`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q162" value="a">a) Интерфейс для реализации долгоживущих фоновых задач в ASP.NET Core</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q162" value="b">b) Сервис для хостинга веб-сайтов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q162" value="c">c) Базовый интерфейс для всех сервисов в DI</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q162" value="d">d) Интерфейс для Middleware</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q162" value="e">e) Используется для запуска приложения</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q162" value="f">f) Управляет жизненным циклом хоста</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q162" value="g">g) Связан с Kestrel</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q162" value="h">h) Устаревший интерфейс</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q162" value="i">i) Интерфейс для плагинов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q162" value="j">j) Определяет методы StartAsync и StopAsync</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q163"><p class="question-title">163. Что такое `appsettings.json`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q163" value="a">a) Файл конфигурации в формате JSON для приложений ASP.NET Core</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q163" value="b">b) Файл с настройками Visual Studio</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q163" value="c">c) Файл с зависимостями проекта</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q163" value="d">d) Файл для хранения секретов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q163" value="e">e) Может быть переопределен переменными окружения</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q163" value="f">f) Используется для хранения строк подключения</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q163" value="g">g) Имеет иерархическую структуру</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q163" value="h">h) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q163" value="i">i) Устаревший формат, заменен на XML</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q163" value="j">j) Файл с метаданными сборки</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q164"><p class="question-title">164. Что делает метод `AddDbContext` в ASP.NET Core?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q164" value="a">a) Регистрирует класс контекста базы данных в DI-контейнере</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q164" value="b">b) Добавляет новую базу данных</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q164" value="c">c) Создает миграцию</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q164" value="d">d) По умолчанию регистрирует контекст с жизненным циклом Scoped</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q164" value="e">e) Настраивает провайдера базы данных (например, SQL Server)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q164" value="f">f) Позволяет задать строку подключения</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q164" value="g">g) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q164" value="h">h) Выполняет подключение к БД</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q164" value="i">i) Устаревший метод</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q164" value="j">j) Добавляет `DbContext` в GAC</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q165"><p class="question-title">165. Что такое `[ApiController]` атрибут?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q165" value="a">a) Атрибут, который добавляет специфичное для API поведение контроллерам</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q165" value="b">b) Включает автоматическую валидацию модели и возврат `400 Bad Request`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q165" value="c">c) Включает привязку параметров из источника</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q165" value="d">d) Указывает, что контроллер предназначен для веб-API</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q165" value="e">e) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q165" value="f">f) Устаревший атрибут</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q165" value="g">g) Заменяет `[Route]`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q165" value="h">h) Делает все методы контроллера `async`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q165" value="i">i) Указывает, что возвращаемые значения должны быть JSON</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q165" value="j">j) Синоним `[Controller]`</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q166"><p class="question-title">166. Что такое Roslyn?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q166" value="a">a) Платформа компилятора .NET с открытым исходным кодом для C# и Visual Basic</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q166" value="b">b) Статический анализатор кода</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q166" value="c">c) Предоставляет API для анализа и рефакторинга кода</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q166" value="d">d) На нем основаны Source Generators</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q166" value="e">e) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q166" value="f">f) Новый язык программирования</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q166" value="g">g) Среда выполнения .NET</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q166" value="h">h) Инструмент для сборки проектов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q166" value="i">i) Профилировщик памяти</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q166" value="j">j) Устаревшая платформа</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q167"><p class="question-title">167. В чем различие между `Task.Run` и `Task.Factory.StartNew`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q167" value="a">a) `Task.Run` является предпочтительным и более безопасным сокращением для запуска задач в пуле потоков</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q167" value="b">b) `StartNew` имеет больше перегрузок и требует более аккуратной настройки для безопасного использования с `async/await`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q167" value="c">c) Нет разницы, `Task.Run` вызывает `StartNew`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q167" value="d">d) `Task.Run` неявно использует `TaskCreationOptions.DenyChildAttach`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q167" value="e">e) `StartNew` является устаревшим</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q167" value="f">f) `Task.Run` всегда использует пул потоков, а `StartNew` - нет</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q167" value="g">g) `StartNew` быстрее</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q167" value="h">h) `Task.Run` может возвращать `ValueTask`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q167" value="i">i) `StartNew` не поддерживает `CancellationToken`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q167" value="j">j) `Task.Run` работает только в ASP.NET Core</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q168"><p class="question-title">168. Что такое `[FromServices]` атрибут?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q168" value="a">a) Указывает, что параметр действия контроллера должен быть привязан из DI-контейнера</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q168" value="b">b) Указывает, что параметр должен быть привязан из тела запроса</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q168" value="c">c) Указывает, что параметр должен быть привязан из строки запроса</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q168" value="d">d) Указывает, что сервис является внешним</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q168" value="e">e) Инжектирует сервис</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q168" value="f">f) Устаревший атрибут</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q168" value="g">g) Синоним `[Inject]`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q168" value="h">h) Работает только с `Singleton` сервисами</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q168" value="i">i) Применяется к классам, а не параметрам</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q168" value="j">j) Связан с `IHostedService`</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q169"><p class="question-title">169. Что такое `stack overflow` (переполнение стека)?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q169" value="a">a) Ошибка, возникающая при слишком глубокой или бесконечной рекурсии</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q169" value="b">b) Сайт для программистов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q169" value="c">c) Ошибка, когда в стеке заканчивается память</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q169" value="d">d) Не может быть перехвачено с помощью `try-catch`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q169" value="e">e) Приводит к аварийному завершению процесса</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q169" value="f">f) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q169" value="g">g) Ошибка, связанная с `Stack<T>`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q169" value="h">h) Переполнение кучи</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q169" value="i">i) Связано с `stackalloc`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q169" value="j">j) Ошибка компиляции</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q170"><p class="question-title">170. Что такое `?.` и `??` операторы?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q170" value="a">a) `?.` - null-conditional, `??` - null-coalescing</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q170" value="b">b) `?.` - null-coalescing, `??` - null-conditional</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q170" value="c">c) Это синонимы</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q170" value="d">d) `?.` для доступа к членам, `??` для присваивания значения по умолчанию</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q170" value="e">e) Оба помогают избежать `NullReferenceException`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q170" value="f">f) "Элвис" и "оператор объединения с null"</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q170" value="g">g) `?.` возвращает null, если левый операнд null</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q170" value="h">h) `??` возвращает правый операнд, если левый null</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q170" value="i">i) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q170" value="j">j) Устаревшие операторы</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q171"><p class="question-title">171. Что такое `GC.Collect()`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q171" value="a">a) Принудительно запускает сборку мусора</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q171" value="b">b) Его использование в большинстве случаев не рекомендуется</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q171" value="c">c) Может негативно повлиять на производительность</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q171" value="d">d) Не гарантирует немедленного освобождения памяти</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q171" value="e">e) Имеет перегрузки для указания поколения GC</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q171" value="f">f) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q171" value="g">g) Собирает объекты из кучи</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q171" value="h">h) Блокирующий вызов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q171" value="i">i) Используется для сбора статистики по GC</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q171" value="j">j) Очищает только поколение 0</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q172"><p class="question-title">172. Что такое `this` в методе-расширении?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q172" value="a">a) Модификатор перед первым параметром, указывающий, какой тип расширяется</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q172" value="b">b) Ссылка на текущий экземпляр статического класса</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q172" value="c">c) Не используется в методах-расширениях</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q172" value="d">d) Ссылка на сам метод-расширение</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q172" value="e">e) Указывает, что метод является `public`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q172" value="f">f) Позволяет вызывать метод как метод экземпляра</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q172" value="g">g) Метод-расширение должен быть в статическом классе</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q172" value="h">h) Параметр с `this` не передается явно при вызове</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q172" value="i">i) Устаревший синтаксис</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q172" value="j">j) Означает, что метод - конструктор</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q173"><p class="question-title">173. Что такое `checked` и `unchecked`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q173" value="a">a) Контексты для управления проверкой арифметического переполнения</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q173" value="b">b) `checked` бросает `OverflowException` при переполнении</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q173" value="c">c) `unchecked` "обертывает" значение при переполнении (по умолчанию)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q173" value="d">d) Могут быть операторами или блоками кода</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q173" value="e">e) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q173" value="f">f) Влияют на производительность</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q173" value="g">g) Не влияют на операции с `double` и `float`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q173" value="h">h) Можно настроить как поведение по умолчанию для проекта</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q173" value="i">i) Устаревшие ключевые слова</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q173" value="j">j) Связаны с `Nullable` типами</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q174"><p class="question-title">174. Какая коллекция обеспечивает уникальность элементов?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q174" value="a">a) HashSet<T></label></li>
+                    <li class="answer-item"><label><input type="radio" name="q174" value="b">b) List<T></label></li>
+                    <li class="answer-item"><label><input type="radio" name="q174" value="c">c) Dictionary<TKey, TValue></label></li>
+                    <li class="answer-item"><label><input type="radio" name="q174" value="d">d) Queue<T></label></li>
+                    <li class="answer-item"><label><input type="radio" name="q174" value="e">e) Stack<T></label></li>
+                    <li class="answer-item"><label><input type="radio" name="q174" value="f">f) Array</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q174" value="g">g) SortedSet<T></label></li>
+                    <li class="answer-item"><label><input type="radio" name="q174" value="h">h) LinkedList<T></label></li>
+                    <li class="answer-item"><label><input type="radio" name="q174" value="i">i) Collection<T></label></li>
+                    <li class="answer-item"><label><input type="radio" name="q174" value="j">j) Все коллекции</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q175"><p class="question-title">175. Что такое `[Serializable]`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q175" value="a">a) Атрибут, указывающий, что класс может быть сериализован</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q175" value="b">b) Например, бинарным или SOAP форматером</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q175" value="c">c) Не требуется для JSON или XML сериализации (например, `JsonSerializer` или `XmlSerializer`)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q175" value="d">d) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q175" value="e">e) Устарел во многих сценариях .NET Core</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q175" value="f">f) Наследуется производными классами</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q175" value="g">g) Атрибут, помечающий поля для сериализации</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q175" value="h">h) Требуется для передачи объектов между AppDomain</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q175" value="i">i) Делает класс потокобезопасным</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q175" value="j">j) Связан с `IDisposable`</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q176"><p class="question-title">176. Что такое `protected internal`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q176" value="a">a) Модификатор доступа, разрешающий доступ из текущей сборки ИЛИ из производных классов в других сборках</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q176" value="b">b) Доступ только из производных классов в той же сборке</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q176" value="c">c) Доступ из любого места в той же сборке</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q176" value="d">d) Доступ только из производных классов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q176" value="e">e) Синоним `public`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q176" value="f">f) Устаревший модификатор</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q176" value="g">g) То же самое, что и `private protected`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q176" value="h">h) Более строгий, чем `internal`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q176" value="i">i) Менее строгий, чем `public`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q176" value="j">j) Модификатор для сборок</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q177"><p class="question-title">177. Что такое `private protected`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q177" value="a">a) Модификатор доступа, разрешающий доступ из производных классов только в текущей сборке</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q177" value="b">b) Доступ из текущей сборки ИЛИ из производных классов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q177" value="c">c) Доступ только из приватных классов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q177" value="d">d) Доступ только из `sealed` классов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q177" value="e">e) То же самое, что и `protected internal`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q177" value="f">f) Более строгий, чем `protected`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q177" value="g">g) Появился в C# 7.2</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q177" value="h">h) Менее строгий, чем `private`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q177" value="i">i) Устаревший модификатор</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q177" value="j">j) Синоним `internal`</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q178"><p class="question-title">178. Что такое `[HttpGet]`, `[HttpPost]`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q178" value="a">a) Атрибуты, указывающие, что метод действия обрабатывает GET или POST HTTP-запросы</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q178" value="b">b) Методы для выполнения HTTP-запросов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q178" value="c">c) Замена для `[Route]`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q178" value="d">d) Используются в ASP.NET Core</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q178" value="e">e) Также существуют `[HttpPut]`, `[HttpDelete]`, `[HttpPatch]`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q178" value="f">f) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q178" value="g">g) Указывают на HTTP-глагол</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q178" value="h">h) Устаревшие атрибуты</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q178" value="i">i) Работают только с `[ApiController]`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q178" value="j">j) Связаны с `HttpClient`</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q179"><p class="question-title">179. Какой класс используется для выполнения HTTP-запросов?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q179" value="a">a) HttpClient</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q179" value="b">b) WebRequest</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q179" value="c">c) HttpWebRequest</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q179" value="d">d) WebClient</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q179" value="e">e) RestSharp</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q179" value="f">f) Socket</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q179" value="g">g) HttpRequest</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q179" value="h">h) Flurl</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q179" value="i">i) Рекомендуется создавать один экземпляр `HttpClient` и переиспользовать его</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q179" value="j">j) `HttpClientFactory` - предпочтительный способ управления `HttpClient` в ASP.NET Core</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q180"><p class="question-title">180. Что такое `Minimal APIs` в .NET 6?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q180" value="a">a) Упрощенный способ создания HTTP API с минимальным количеством кода</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q180" value="b">b) Не используют контроллеры</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q180" value="c">c) Используют лямбда-выражения для определения конечных точек</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q180" value="d">d) Хорошо подходят для микросервисов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q180" value="e">e) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q180" value="f">f) Используют `MapGet`, `MapPost` и т.д.</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q180" value="g">g) Менее функциональны, чем MVC/API с контроллерами</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q180" value="h">h) Устаревший подход</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q180" value="i">i) Требуют больше настроек</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q180" value="j">j) API с одним методом</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q181"><p class="question-title">181. Что такое `[Required]` атрибут?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q181" value="a">a) Атрибут валидации, указывающий, что свойство или поле не должно быть `null`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q181" value="b">b) Для строк - не должно быть пустой строкой</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q181" value="c">c) Находится в `System.ComponentModel.DataAnnotations`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q181" value="d">d) Используется при валидации модели в ASP.NET Core</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q181" value="e">e) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q181" value="f">f) То же, что и `required` модификатор</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q181" value="g">g) Атрибут только для Entity Framework</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q181" value="h">h) Устаревший атрибут</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q181" value="i">i) Работает только со строками</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q181" value="j">j) Запрещает изменение свойства</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q182"><p class="question-title">182. Что такое `Enumerable.Range()`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q182" value="a">a) Генерирует последовательность целых чисел в указанном диапазоне</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q182" value="b">b) Возвращает диапазон из существующей коллекции</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q182" value="c">c) Метод для работы с `range` оператором</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q182" value="d">d) Устаревший метод</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q182" value="e">e) Создает массив</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q182" value="f">f) Принимает начальное значение и количество</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q182" value="g">g) Возвращает `IEnumerable<int>`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q182" value="h">h) Статический метод класса `Enumerable`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q182" value="i">i) Используется для тестирования</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q182" value="j">j) Медленнее, чем `for` цикл</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q183"><p class="question-title">183. Что такое `int.TryParse()`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q183" value="a">a) Метод для безопасного преобразования строки в `int` без генерации исключения</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q183" value="b">b) Возвращает `bool` - результат успеха</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q183" value="c">c) Использует `out` параметр для возврата результата</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q183" value="d">d) Предпочтительнее, чем `int.Parse()` если строка может быть невалидной</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q183" value="e">e) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q183" value="f">f) Бросает `FormatException`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q183" value="g">g) Устаревший метод</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q183" value="h">h) Более медленный, чем `Convert.ToInt32`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q183" value="i">i) Не поддерживает форматы и культуры</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q183" value="j">j) Возвращает `null` при неудаче</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q184"><p class="question-title">184. Какая разница между `interface` и `abstract class`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q184" value="a">a) Класс может наследовать несколько интерфейсов, но только один класс (абстрактный или нет)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q184" value="b">b) Абстрактный класс может иметь реализацию методов и поля, интерфейс (до C# 8.0) - нет</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q184" value="c">c) Абстрактный класс может иметь конструктор</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q184" value="d">d) Члены интерфейса по умолчанию `public`, у абстрактного класса - `private`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q184" value="e">e) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q184" value="f">f) Нет разницы</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q184" value="g">g) Абстрактный класс используется для is-a связи, интерфейс для can-do</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q184" value="h">h) Интерфейсы не могут иметь статических членов (до C# 8.0)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q184" value="i">i) Абстрактный класс устарел</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q184" value="j">j) Интерфейс не может содержать события</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q185"><p class="question-title">185. Что такое `IDbConnection`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q185" value="a">a) Интерфейс, представляющий соединение с базой данных в ADO.NET</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q185" value="b">b) Реализуется классами вроде `SqlConnection` и `NpgsqlConnection`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q185" value="c">c) Позволяет писать код, не зависящий от конкретной БД</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q185" value="d">d) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q185" value="e">e) Управляет транзакциями</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q185" value="f">f) Определяет метод `Open()`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q185" value="g">g) Часть `System.Data`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q185" value="h">h) Устаревший интерфейс, заменен на `DbContext`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q185" value="i">i) Интерфейс для Entity Framework</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q185" value="j">j) Используется для Dapper</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q186"><p class="question-title">186. Что такое Dapper?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q186" value="a">a) Простой object-relational mapper (ORM) для .NET</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q186" value="b">b) Часто называют "Micro-ORM"</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q186" value="c">c) Фокусируется на производительности</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q186" value="d">d) Работает через методы-расширения для `IDbConnection`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q186" value="e">e) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q186" value="f">f) Разработан командой Stack Overflow</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q186" value="g">g) Конкурент Entity Framework</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q186" value="h">h) Не отслеживает изменения объектов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q186" value="i">i) Требует написания SQL-запросов вручную</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q186" value="j">j) Полноценный ORM</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q187"><p class="question-title">187. Что такое `[Key]` атрибут в EF Core?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q187" value="a">a) Указывает, что свойство является первичным ключом</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q187" value="b">b) Находится в `System.ComponentModel.DataAnnotations`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q187" value="c">c) Если не указан, EF пытается найти ключ по имени (`Id` или `ClassNameId`)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q187" value="d">d) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q187" value="e">e) Используется для составных ключей</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q187" value="f">f) Указывает, что поле является внешним ключом</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q187" value="g">g) Запрещает `null` значения</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q187" value="h">h) Устаревший атрибут</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q187" value="i">i) Указывает, что поле должно быть индексировано</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q187" value="j">j) Связан с `Dictionary`</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q188"><p class="question-title">188. Что такое `async void` и когда его следует использовать?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q188" value="a">a) Асинхронный метод, не возвращающий `Task`; использовать только для обработчиков событий</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q188" value="b">b) Следует избегать, так как исключения из `async void` методов сложно перехватить</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q188" value="c">c) Нельзя `await`-ить</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q188" value="d">d) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q188" value="e">e) Синоним для `async Task`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q188" value="f">f) Используется для fire-and-forget сценариев</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q188" value="g">g) Более производительный, чем `async Task`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q188" value="h">h) Устаревший синтаксис</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q188" value="i">i) Используется, когда результат не важен</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q188" value="j">j) Рекомендуется для всех асинхронных методов</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q189"><p class="question-title">189. Что такое `[Fact]` атрибут?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q189" value="a">a) Атрибут, помечающий метод как тест в xUnit</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q189" value="b">b) Атрибут, помечающий метод как тест в NUnit</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q189" value="c">c) Атрибут, помечающий метод как тест в MSTest</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q189" value="d">d) Атрибут для указания фактов о программе</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q189" value="e">e) Встроенный атрибут C#</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q189" value="f">f) Устаревший атрибут</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q189" value="g">g) Синоним `[Test]`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q189" value="h">h) Атрибут для параметризованных тестов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q189" value="i">i) Указывает, что метод является `true`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q189" value="j">j) Связан с `BenchmarkDotNet`</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q190"><p class="question-title">190. Что такое `[Theory]` и `[InlineData]`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q190" value="a">a) Атрибуты для создания параметризованных тестов в xUnit</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q190" value="b">b) Атрибуты для создания параметризованных тестов в NUnit</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q190" value="c">c) Атрибуты для создания параметризованных тестов в MSTest</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q190" value="d">d) `[Theory]` помечает тест, `[InlineData]` предоставляет данные для него</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q190" value="e">e) Позволяют выполнить один и тот же тест с разными входными данными</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q190" value="f">f) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q190" value="g">g) Устаревшие атрибуты</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q190" value="h">h) Используются для `BenchmarkDotNet`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q190" value="i">i) Встроенные атрибуты C#</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q190" value="j">j) Связаны с рефлексией</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q191"><p class="question-title">191. Что такое `LINQPad`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q191" value="a">a) Инструмент для интерактивного выполнения C#/F#/VB выражений, запросов и программ</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q191" value="b">b) "Песочница" для .NET</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q191" value="c">c) Позволяет быстро тестировать LINQ-запросы</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q191" value="d">d) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q191" value="e">e) Может подключаться к базам данных</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q191" value="f">f) Плагин для Visual Studio</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q191" value="g">g) Онлайн-компилятор</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q191" value="h">h) Устаревший инструмент</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q191" value="i">i) Отладчик для LINQ</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q191" value="j">j) Часть .NET SDK</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q192"><p class="question-title">192. Что такое `AutoMapper`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q192" value="a">a) Библиотека для автоматического копирования данных из одного объекта в другой (маппинга)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q192" value="b">b) Например, для маппинга DTO в сущности EF</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q192" value="c">c) Использует соглашения для маппинга полей с одинаковыми именами</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q192" value="d">d) Позволяет настраивать сложные правила маппинга</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q192" value="e">e) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q192" value="f">f) Встроен в .NET</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q192" value="g">g) Инструмент для навигации по коду</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q192" value="h">h) Устаревшая библиотека</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q192" value="i">i) Используется для маппинга маршрутов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q192" value="j">j) Единственная библиотека для маппинга</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q193"><p class="question-title">193. Что такое `FluentValidation`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q193" value="a">a) Библиотека для создания строго типизированных правил валидации с "текучим" (fluent) интерфейсом</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q193" value="b">b) Альтернатива атрибутам `DataAnnotations`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q193" value="c">c) Позволяет отделить правила валидации от моделей</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q193" value="d">d) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q193" value="e">e) Встроена в .NET</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q193" value="f">f) Используется для валидации баз данных</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q193" value="g">g) Устаревшая библиотека</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q193" value="h">h) Библиотека для асинхронной валидации</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q193" value="i">i) Не поддерживает сложные сценарии</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q193" value="j">j) Используется только в Blazor</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q194"><p class="question-title">194. Что такое `Serilog`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q194" value="a">a) Популярная библиотека для структурированного логирования в .NET</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q194" value="b">b) Встроенный логгер ASP.NET Core</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q194" value="c">c) Библиотека для сериализации</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q194" value="d">d) Устаревшая библиотека</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q194" value="e">e) Инструмент для анализа логов</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q194" value="f">f) Конкурент NLog и log4net</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q194" value="g">g) Позволяет отправлять логи в различные приемники (sinks)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q194" value="h">h) Позволяет обогащать логи контекстной информацией</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q194" value="i">i) Поддерживает шаблоны сообщений</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q194" value="j">j) Библиотека для работы с последовательными портами</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q195"><p class="question-title">195. Что такое `IConfiguration`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q195" value="a">a) Интерфейс для доступа к конфигурации приложения в ASP.NET Core</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q195" value="b">b) Представляет собой иерархическую коллекцию пар "ключ-значение"</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q195" value="c">c) Может читать данные из `appsettings.json`, переменных окружения, командной строки и др.</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q195" value="d">d) Регистрируется в DI-контейнере по умолчанию</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q195" value="e">e) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q195" value="f">f) Используется для `DbContext`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q195" value="g">g) Устаревший интерфейс</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q195" value="h">h) Интерфейс для настройки Kestrel</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q195" value="i">i) Позволяет изменять конфигурацию во время выполнения</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q195" value="j">j) Связан с `web.config`</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q196"><p class="question-title">196. Что такое `WebApplication.CreateBuilder(args)`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q196" value="a">a) Метод для создания и настройки хоста приложения в .NET 6+ Minimal APIs</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q196" value="b">b) Создает `WebApplicationBuilder`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q196" value="c">c) Настраивает DI, конфигурацию, логирование</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q196" value="d">d) Заменил `CreateHostBuilder` в новых шаблонах</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q196" value="e">e) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q196" value="f">f) Устаревший метод</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q196" value="g">g) Создает экземпляр приложения</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q196" value="h">h) Метод для Blazor</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q196" value="i">i) Связан с `IHostedService`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q196" value="j">j) Запускает веб-сервер Kestrel</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q197"><p class="question-title">197. Что такое `CORS` (Cross-Origin Resource Sharing)?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q197" value="a">a) Механизм, позволяющий веб-странице запрашивать ресурсы с другого домена</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q197" value="b">b) Политика безопасности браузера</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q197" value="c">c) Настраивается в ASP.NET Core с помощью Middleware</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q197" value="d">d) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q197" value="e">e) Способ обхода Same-Origin Policy</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q197" value="f">f) Устаревшая технология</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q197" value="g">g) Связан с CSRF</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q197" value="h">h) Протокол шифрования</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q197" value="i">i) Заголовок HTTP-запроса</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q198"><p class="question-title">198. Что такое `MediatR`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q198" value="a">a) Библиотека для реализации паттерна Посредник (Mediator) в .NET</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q198" value="b">b) Помогает уменьшить связанность между компонентами</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q198" value="c">c) Реализует In-process messaging</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q198" value="d">d) Часто используется для реализации CQRS</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q198" value="e">e) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q198" value="f">f) Встроен в .NET</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q198" value="g">g) Библиотека для работы с медиа-файлами</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q198" value="h">h) Устаревшая библиотека</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q198" value="i">i) Конкурент SignalR</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q198" value="j">j) Связан с `IHostedService`</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q199"><p class="question-title">199. Что такое `Polly`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q199" value="a">a) Библиотека для обработки временных сбоев (transient faults) с помощью политик, таких как Retry, Circuit Breaker, Timeout</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q199" value="b">b) Библиотека для полиморфизма</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q199" value="c">c) Библиотека для работы с полигонами</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q199" value="d">d) Устаревшая библиотека</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q199" value="e">e) Встроена в .NET</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q199" value="f">f) Используется для интеграции с `HttpClientFactory`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q199" value="g">g) Повышает отказоустойчивость приложений</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q199" value="h">h) Все вышеперечисленное</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q199" value="i">i) Конкурент `MediatR`</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q199" value="j">j) Библиотека для логирования</label></li>
+                </ul>
+            </div>
+            <div class="question-block" id="q200"><p class="question-title">200. Какой паттерн проектирования реализует `IAsyncEnumerable<T>` в сочетании с `yield`?</p>
+                <ul class="answers-list">
+                    <li class="answer-item"><label><input type="radio" name="q200" value="a">a) Итератор (Iterator)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q200" value="b">b) Наблюдатель (Observer)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q200" value="c">c) Фабрика (Factory)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q200" value="d">d) Стратегия (Strategy)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q200" value="e">e) Декоратор (Decorator)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q200" value="f">f) Адаптер (Adapter)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q200" value="g">g) Прокси (Proxy)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q200" value="h">h) Singleton</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q200" value="i">i) Команда (Command)</label></li>
+                    <li class="answer-item"><label><input type="radio" name="q200" value="j">j) Шаблонный метод (Template Method)</label></li>
+                </ul>
+            </div>
+            <div class="button-container">
+                <button type="submit" class="submit-button">Завершить тест</button>
+            </div>
+        </form>
+        <div id="results" style="display: none;"></div>
     </main>
 
-    <footer class="footer">
-        Решу игэ - сдам гиа
-    </footer>
-<script>
-const questions = [
-    [
-      "Что будет выведено при выполнении следующего кода C#? int i = 5; Console.WriteLine(i++);",
-      [
-        "5",
-        "Ссылку на созданный объект",
-        "26",
-        "Память освобождается сборщиком мусора автоматически",
-        "base(x, y)",
-        "while...",
-        "Экземпляры структур хранятся в стеке, а экземпляры классов - в куче",
-        "Конструктор структуры может иметь любое количество аргументов",
-        "X obj = new X();",
-        "4 байта"
-      ],
-      0
-    ],
-    [
-      "Какая операция в языке C# доступна только в блоках небезопасного кода?",
-      [
-        "Операция взятия адреса (&)",
-        "Ссылку на созданный объект",
-        "26",
-        "Память освобождается сборщиком мусора автоматически",
-        "base(x, y)",
-        "while...",
-        "Экземпляры структур хранятся в стеке, а экземпляры классов - в куче",
-        "Конструктор структуры может иметь любое количество аргументов",
-        "X obj = new X();",
-        "4 байта"
-      ],
-      0
-    ]
-];
-</script>
+    <script>
+        const correctAnswers = {
+            q151: 'a', q152: 'a', q153: 'a', q154: 'd', q155: 'a', q156: 'a', q157: 'h', q158: 'a', q159: 'f', q160: 'a',
+            q161: 'a', q162: 'a', q163: 'h', q164: 'g', q165: 'e', q166: 'e', q167: 'a', q168: 'a', q169: 'f', q170: 'a',
+            q171: 'f', q172: 'a', q173: 'e', q174: 'a', q175: 'd', q176: 'a', q177: 'a', q178: 'f', q179: 'a', q180: 'e',
+            q181: 'e', q182: 'a', q183: 'e', q184: 'e', q185: 'd', q186: 'e', q187: 'd', q188: 'd', q189: 'a', q190: 'f',
+            q191: 'd', q192: 'e', q193: 'd', q194: 'a', q195: 'e', q196: 'e', q197: 'd', q198: 'e', q199: 'h', q200: 'a'
+        };
+
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let score = 0;
+            const totalQuestions = Object.keys(correctAnswers).length;
+            
+            document.querySelectorAll('.answer-item label').forEach(label => {
+                label.classList.remove('correct-answer', 'incorrect-answer');
+                const input = label.querySelector('input');
+                if(input) input.disabled = true;
+            });
+
+            for (const qId in correctAnswers) {
+                const correctAnswer = correctAnswers[qId];
+                const selectedAnswer = document.querySelector(`input[name="${qId}"]:checked`);
+                const questionBlock = document.getElementById(qId);
+                
+                if (selectedAnswer) {
+                    const parentLabel = selectedAnswer.parentElement;
+                    if (selectedAnswer.value === correctAnswer) {
+                        score++;
+                        parentLabel.classList.add('correct-answer');
+                    } else {
+                        parentLabel.classList.add('incorrect-answer');
+                        const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
+                        if (correctLabel) correctLabel.classList.add('correct-answer');
+                    }
+                } else {
+                     if(questionBlock) {
+                         const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
+                         if (correctLabel) correctLabel.classList.add('correct-answer');
+                     }
+                }
+            }
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<h2>Ваш результат: ${score} из ${totalQuestions}</h2>`;
+            resultsDiv.style.display = 'block';
+            this.querySelector('.submit-button').style.display = 'none';
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
 </body>
 </html>
