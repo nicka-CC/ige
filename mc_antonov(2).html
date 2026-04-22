@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
+
+<!DOCTYPE html><html lang="ru"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Тест 2 по C#</title>
@@ -8,847 +7,317 @@
         :root {
             --system-background: #f2f2f7;
             --system-blue: #007aff;
-            --system-green: #34c759;
-            --system-red: #ff3b30;
+            --system-gray: #8e8e93;
             --separator-color: #c6c6c8;
             --label-primary: #000000;
             --label-secondary: #8e8e93;
             --grouped-background: #ffffff;
             --grouped-background-ios: #f0f0f0;
+            --system-green: #34c759;
+            --system-red: #ff3b30;
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif; margin: 0; background-color: var(--grouped-background-ios); color: var(--label-primary); padding-top: env(safe-area-inset-top); padding-right: env(safe-area-inset-right); padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-        .header { background-color: var(--grouped-background); padding: 12px 10px; text-align: center; font-size: 17px; font-weight: 600; border-bottom: 0.5px solid var(--separator-color); position: sticky; top: 0; z-index: 1; }
-        .back-button { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 17px; color: var(--system-blue); text-decoration: none; cursor: pointer; }
-        main { padding: 22px 16px; }
-        .question-block { background-color: var(--grouped-background); border-radius: 10px; margin-bottom: 20px; padding: 16px; border: 0.5px solid var(--separator-color); }
-        .question-title { font-size: 17px; font-weight: 600; margin-bottom: 12px; }
-        .answers-list { list-style: none; padding: 0; margin: 0; }
-        .answer-item { padding: 8px 0; }
-        .answer-item label { display: flex; align-items: center; font-size: 16px; }
-        .answer-item input { margin-right: 12px; }
-        .button-container { text-align: center; margin-top: 22px; }
-        .submit-button { background-color: var(--system-blue); color: white; font-size: 17px; font-weight: 600; border: none; border-radius: 10px; padding: 14px 20px; cursor: pointer; width: 100%; max-width: 300px; }
-        #results { background-color: var(--grouped-background); border-radius: 10px; margin: 22px 0; padding: 16px; border: 0.5px solid var(--separator-color); text-align: center; }
-        .correct-answer { color: var(--system-green); font-weight: bold; }
-        .incorrect-answer { color: var(--system-red); text-decoration: line-through; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+            margin: 0;
+            background-color: var(--grouped-background-ios);
+            color: var(--label-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: env(safe-area-inset-top);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        .header {
+            background-color: var(--grouped-background);
+            padding: 12px 10px;
+            text-align: center;
+            font-size: 17px;
+            font-weight: 600;
+            border-bottom: 0.5px solid var(--separator-color);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 16px;
+            font-size: 17px;
+            color: var(--system-blue);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .footer {
+            background-color: var(--grouped-background);
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--label-secondary);
+            border-top: 0.5px solid var(--separator-color);
+            margin-top: auto;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 22px 0;
+        }
+
+        .content-container {
+            background-color: var(--grouped-background);
+            margin: 0 16px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 0.5px solid var(--separator-color);
+            padding: 16px;
+        }
+
+        #question-text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        #answers-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .answer-btn {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 17px;
+            cursor: pointer;
+            border: 1px solid var(--separator-color);
+            background: var(--grouped-background);
+            border-radius: 8px;
+            text-align: left;
+            transition: background-color 0.2s;
+        }
+
+        .answer-btn:hover:not(:disabled) {
+            background: #e5e5ea;
+        }
+        
+        .answer-btn.correct {
+            background-color: var(--system-green);
+            border-color: var(--system-green);
+            color: white;
+            font-weight: 600;
+        }
+        .answer-btn.wrong {
+            background-color: var(--system-red);
+            border-color: var(--system-red);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .answer-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        #next-button {
+            width: 100%;
+            padding: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
+            background-color: var(--system-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+        }
+        
+        #next-button:disabled {
+            background-color: var(--system-gray);
+        }
+
+        #feedback {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 25px;
+        }
+
+        .correct-text { color: var(--system-green); }
+        .wrong-text { color: var(--system-red); }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            main {
+                display: flex;
+                justify-content: center;
+            }
+            .content-container {
+                max-width: 600px;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <a href="mc_antonov.html" class="back-button">&lsaquo; C#</a>
+        <a href="mc_antonov.html" class="back-button">‹ Назад</a>
         <span>Тест 2</span>
     </header>
 
     <main>
-        <form id="quiz-form">
-            <!-- Questions 51-100 -->
-            <div class="question-block" id="q51">
-                <p class="question-title">51. В чем разница между IQueryable и IEnumerable?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q51" value="a">a) IQueryable строит дерево выражений, выполняемое на сервере; IEnumerable выполняет фильтрацию в памяти клиента</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q51" value="b">b) IEnumerable работает только с коллекциями в памяти, IQueryable - только с базами данных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q51" value="c">c) IQueryable является устаревшим интерфейсом, замененным на IEnumerable</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q51" value="d">d) IEnumerable поддерживает отложенные вычисления, а IQueryable - нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q51" value="e">e) Никакой разницы, это синонимы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q51" value="f">f) IQueryable находится в System.Data, а IEnumerable в System.Linq</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q51" value="g">g) IQueryable предназначен для синхронных запросов, IEnumerable - для асинхронных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q51" value="h">h) IEnumerable позволяет изменять коллекцию, IQueryable - только читать</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q51" value="i">i) IQueryable используется для XML, IEnumerable для JSON</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q51" value="j">j) IQueryable быстрее, так как работает на низком уровне</label></li>
-                </ul>
+        <div class="content-container">
+            <h1>Тест 2 по C#</h1>
+            <div id="quiz-area">
+                <div id="question-text"></div>
+                <div id="answers-container"></div>
+                <div id="feedback"></div>
             </div>
-            <div class="question-block" id="q52">
-                <p class="question-title">52. Что такое "unboxing" (распаковка)?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q52" value="a">a) Преобразование ссылочного типа (object) обратно в значимый тип</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q52" value="b">b) Преобразование значимого типа в ссылочный</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q52" value="c">c) Извлечение объекта из коллекции</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q52" value="d">d) Десериализация объекта</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q52" value="e">e) Раскрытие реализации класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q52" value="f">f) Освобождение неуправляемых ресурсов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q52" value="g">g) Процесс вызова деструктора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q52" value="h">h) Создание экземпляра структуры</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q52" value="i">i) Процесс сборки мусора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q52" value="j">j) Распаковка архива</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q53">
-                <p class="question-title">53. Что определяет ключевое слово `record` в C# 9+?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q53" value="a">a) Ссылочный тип с семантикой равенства на основе значений и неизменяемостью</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q53" value="b">b) Значимый тип, аналогичный struct, но с методами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q53" value="c">c) Статический класс для хранения констант</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q53" value="d">d) Псевдоним для `Tuple`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q53" value="e">e) Тип данных для работы с базами данных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q53" value="f">f) Способ объявления неизменяемой структуры</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q53" value="g">g) Класс, который может быть только унаследован</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q53" value="h">h) Запись в лог-файл</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q53" value="i">i) Интерфейс для сериализации</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q53" value="j">j) Специальный тип для асинхронных операций</label></li>
-                </ul>
-            </div>
-             <div class="question-block" id="q54">
-                <p class="question-title">54. Для чего нужен атрибут `[Serializable]`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q54" value="a">a) Чтобы указать, что экземпляр класса может быть сериализован (например, в бинарный формат)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q54" value="b">b) Чтобы сделать класс статическим</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q54" value="c">c) Чтобы запретить сериализацию класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q54" value="d">d) Чтобы указать, что класс является потокобезопасным</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q54" value="e">e) Чтобы связать класс с таблицей в базе данных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q54" value="f">f) Чтобы разрешить использование класса в нескольких сборках</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q54" value="g">g) Чтобы автоматически генерировать XML-документацию</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q54" value="h">h) Чтобы пометить класс как устаревший</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q54" value="i">i) Чтобы указать, что класс может быть использован в COM-объектах</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q54" value="j">j) Чтобы разрешить множественное наследование</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q55">
-                <p class="question-title">55. Каким будет результат `(int)10.9`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q55" value="a">a) 10</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q55" value="b">b) 11</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q55" value="c">c) Ошибка компиляции</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q55" value="d">d) Ошибка времени выполнения (InvalidCastException)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q55" value="e">e) 10.0</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q55" value="f">f) 9</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q55" value="g">g) 0</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q55" value="h">h) null</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q55" value="i">i) Зависит от текущей культуры</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q55" value="j">j) Неопределенное поведение</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q56">
-                <p class="question-title">56. Что такое Extension Method (метод-расширение)?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q56" value="a">a) Статический метод в статическом классе, который можно вызывать как метод экземпляра</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q56" value="b">b) Метод, который расширяет функциональность базового класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q56" value="c">c) Метод, определенный в partial-классе</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q56" value="d">d) Переопределенный метод из класса object</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q56" value="e">e) Метод, который принимает неограниченное число аргументов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q56" value="f">f) Метод, возвращающий `dynamic`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q56" value="g">g) Внутренний метод .NET Framework, недоступный программисту</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q56" value="h">h) Метод, добавленный с помощью рефлексии</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q56" value="i">i) Любой метод в sealed-классе</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q56" value="j">j) Метод, который может быть вызван до создания экземпляра</label></li>
-                </ul>
-            </div>
-            <!-- More unique questions -->
-            <div class="question-block" id="q57">
-                <p class="question-title">57. Что такое `lock` в C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q57" value="a">a) Оператор для обеспечения монопольного доступа к блоку кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q57" value="b">b) Ключевое слово для блокировки файла</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q57" value="c">c) Метод для блокировки пользовательского интерфейса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q57" value="d">d) Атрибут для неизменяемых полей</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q57" value="e">e) Команда для фиксации версии сборки</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q57" value="f">f) Способ остановить выполнение потока</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q57" value="g">g) Класс для шифрования данных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q57" value="h">h) Оператор для работы с базами данных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q57" value="i">i) Тип блокировки в Entity Framework</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q57" value="j">j) Псевдоним для `readonly`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q58">
-                <p class="question-title">58. В чем разница между `StringBuilder` и `string`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q58" value="a">a) `string` неизменяемый, `StringBuilder` изменяемый</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q58" value="b">b) `StringBuilder` быстрее для конкатенации</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q58" value="c">c) `StringBuilder` создает меньше мусора в памяти при частых изменениях</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q58" value="d">d) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q58" value="e">e) `string` - значимый тип, `StringBuilder` - ссылочный</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q58" value="f">f) `StringBuilder` не поддерживает Unicode</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q58" value="g">g) `string` хранится в стеке, `StringBuilder` - в куче</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q58" value="h">h) У `StringBuilder` нет методов `ToUpper` и `ToLower`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q58" value="i">i) `string` - это класс, `StringBuilder` - структура</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q58" value="j">j) Нет разницы</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q59">
-                <p class="question-title">59. Что такое `dynamic`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q59" value="a">a) Тип, проверка которого осуществляется во время выполнения, а не компиляции</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q59" value="b">b) Базовый класс для всех динамических прокси</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q59" value="c">c) Псевдоним для `object`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q59" value="d">d) Тип для хранения динамически загружаемых сборок</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q59" value="e">e) Ключевое слово для создания JIT-компиляторов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q59" value="f">f) Интерфейс для взаимодействия с динамическими языками</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q59" value="g">g) Атрибут для методов, изменяющих свою сигнатуру</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q59" value="h">h) Способ вызова unmanaged-кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q59" value="i">i) Устаревшее ключевое слово из C# 1.0</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q59" value="j">j) Тип, используемый для создания анонимных объектов</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q60">
-                <p class="question-title">60. Что такое `var`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q60" value="a">a) Синтаксический сахар для неявного определения типа переменной компилятором</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q60" value="b">b) Тип данных, который может хранить любое значение (как dynamic)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q60" value="c">c) Псевдоним для `System.Object`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q60" value="d">d) Ключевое слово для объявления глобальных переменных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q60" value="e">e) Структура для хранения пар "ключ-значение"</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q60" value="f">f) Способ создания изменяемых переменных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q60" value="g">g) Указание компилятору, что тип будет определен во время выполнения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q60" value="h">h) Устаревшее ключевое слово, заменено на `let`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q60" value="i">i) Тип для Variant-данных, как в VB6</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q60" value="j">j) Тип, который не требует инициализации</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q61">
-                <p class="question-title">61. Какая разница между `is` и `as`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q61" value="a">a) `is` проверяет тип и возвращает bool, `as` пытается привести тип и возвращает null в случае неудачи</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q61" value="b">b) `as` проверяет тип и возвращает bool, `is` пытается привести тип и возвращает null в случае неудачи</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q61" value="c">c) `is` бросает исключение при неудаче, `as` возвращает null</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q61" value="d">d) `as` работает только со ссылочными типами, `is` - с любыми</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q61" value="e">e) `is` - это устаревший синтаксис, `as` - современный</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q61" value="f">f) Нет никакой разницы, это синонимы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q61" value="g">g) `is` используется для проверки наследования, `as` - для реализации интерфейсов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q61" value="h">h) `as` изменяет исходный объект, `is` - нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q61" value="i">i) `is` проверяет точное совпадение типа, `as` допускает неявное преобразование</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q61" value="j">j) `as` является более производительным</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q62">
-                <p class="question-title">62. Что делает оператор `??` (null-coalescing operator)?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q62" value="a">a) Возвращает левый операнд, если он не null; иначе возвращает правый</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q62" value="b">b) Возвращает true, если оба операнда null</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q62" value="c">c) Объединяет два словаря</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q62" value="d">d) Вызывает исключение, если левый операнд равен null</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q62" value="e">e) Используется для условного выполнения метода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q62" value="f">f) Проверяет, является ли переменная nullable</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q62" value="g">g) Это побитовый оператор XOR</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q62" value="h">h) Присваивает значение null переменной</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q62" value="i">i) Заменяет тернарный оператор `?:`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q62" value="j">j) Такого оператора нет в C#</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q63">
-                <p class="question-title">63. Для чего используется ключевое слово `params`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q63" value="a">a) Для передачи в метод переменного числа аргументов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q63" value="b">b) Для определения параметров конфигурации</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q63" value="c">c) Для указания generic-параметров</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q63" value="d">d) Для передачи параметров по ссылке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q63" value="e">e) Для доступа к параметрам командной строки</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q63" value="f">f) Для создания многомерных массивов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q63" value="g">g) Для определения именованных параметров</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q63" value="h">h) Для работы с параметрами SQL-запросов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q63" value="i">i) Псевдоним для `out`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q63" value="j">j) Для создания partial-методов</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q64">
-                <p class="question-title">64. Что такое Reflection (рефлексия) в .NET?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q64" value="a">a) Способ инспектировать метаданные сборок, модулей и типов во время выполнения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q64" value="b">b) Технология "отражения" UI-элементов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q64" value="c">c) Графический эффект</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q64" value="d">d) Паттерн проектирования для инверсии управления</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q64" value="e">e) Способ динамического создания кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q64" value="f">f) Механизм для копирования объектов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q64" value="g">g) Способ вызова нативного кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q64" value="h">h) Система логирования .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q64" value="i">i) Набор правил оформления кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q64" value="j">j) Техника отладки</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q65">
-                <p class="question-title">65. Можно ли создать экземпляр статического класса?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q65" value="a">a) Нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q65" value="b">b) Да, с помощью рефлексии</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q65" value="c">c) Да, но только один (Singleton)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q65" value="d">d) Да, если у него есть public конструктор</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q65" value="e">e) Только в unsafe-контексте</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q65" value="f">f) Да, с помощью оператора `new`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q65" value="g">g) Да, но только внутри самого класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q65" value="h">h) Только если он не содержит методов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q65" value="i">i) Да, если он реализует IInstantiable</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q65" value="j">j) Зависит от версии .NET</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q66">
-                <p class="question-title">66. Какой оператор используется для доступа к членам пространства имен или типа?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q66" value="a">a) . (точка)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q66" value="b">b) -> (стрелка)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q66" value="c">c) :: (двойное двоеточие)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q66" value="d">d) => (лямбда-стрелка)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q66" value="e">e) # (решетка)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q66" value="f">f) @ (собака)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q66" value="g">g) : (двоеточие)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q66" value="h">h) / (слеш)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q66" value="i">i) \\ (двойной обратный слеш)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q66" value="j">j) ~ (тильда)</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q67">
-                <p class="question-title">67. Что такое `const`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q67" value="a">a) Поле, значение которого устанавливается при компиляции и не может быть изменено</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q67" value="b">b) Поле, значение которого можно установить только в конструкторе</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q67" value="c">c) Синоним для `static readonly`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q67" value="d">d) Метод, который не изменяет состояние объекта</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q67" value="e">e) Переменная, доступная только для чтения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q67" value="f">f) Класс, который не может быть унаследован</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q67" value="g">g) Параметр метода, который не может быть изменен внутри метода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q67" value="h">h) Атрибут для пометки неизменяемых типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q67" value="i">i) Объявление константной строки</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q67" value="j">j) Тип данных для хранения математических констант</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q68">
-                <p class="question-title">68. Какая разница между `const` и `readonly`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q68" value="a">a) `const` вычисляется при компиляции, `readonly` - при выполнении (в конструкторе)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q68" value="b">b) `readonly` можно применять к статическим полям, `const` - нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q68" value="c">c) `const` можно применять к ссылочным типам, `readonly` - нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q68" value="d">d) Нет разницы, это синонимы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q68" value="e">e) `const` используется для локальных переменных, `readonly` - для полей класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q68" value="f">f) `const` неявно статические, `readonly` могут быть экземплярными</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q68" value="g">g) `readonly` поля можно изменять с помощью рефлексии</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q68" value="h">h) `const` быстрее</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q68" value="i">i) `const` могут быть только числовыми типами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q68" value="j">j) `readonly` - устаревшее, заменено на `const`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q69">
-                <p class="question-title">69. Что такое `partial class`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q69" value="a">a) Класс, определение которого можно разделить на несколько файлов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q69" value="b">b) Класс, который реализует только часть интерфейса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q69" value="c">c) Абстрактный класс</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q69" value="d">d) Класс, который может быть загружен частично</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q69" value="e">e) Внутренний класс</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q69" value="f">f) Неполный, недокомпилированный класс</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q69" value="g">g) Класс, предназначенный для частичного доверия (partial trust)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q69" value="h">h) Класс-шаблон, используемый кодогенераторами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q69" value="i">i) Класс, у которого только часть методов `public`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q69" value="j">j) Технология для ленивой загрузки классов</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q70">
-                <p class="question-title">70. Что такое GAC (Global Assembly Cache)?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q70" value="a">a) Общемашинное хранилище сборок .NET, доступное для всех приложений</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q70" value="b">b) Кэш для ускорения сборки мусора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q70" value="c">c) Глобальный кэш для веб-приложений</name></label></li>
-                    <li class="answer-item"><label><input type="radio" name="q70" value="d">d) Утилита для анализа сборок</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q70" value="e">e) Конфигурационный файл для сборок</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q70" value="f">f) Протокол для общения между сборками</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q70" value="g">g) Спецификация для создания сборок</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q70" value="h">h) Репозиторий NuGet-пакетов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q70" value="i">i) Система контроля версий для сборок</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q70" value="j">j) Устаревшая технология .NET 1.0</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q71">
-                <p class="question-title">71. Что такое `IDisposable` и оператор `using`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q71" value="a">a) Интерфейс для освобождения неуправляемых ресурсов; `using` гарантирует вызов `Dispose()`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q71" value="b">b) Интерфейс для запрета создания экземпляров класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q71" value="c">c) Оператор `using` используется для импорта пространств имен</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q71" value="d">d) `IDisposable` автоматически реализуется всеми классами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q71" value="e">e) `Dispose()` вызывается сборщиком мусора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q71" value="f">f) `using` - это синтаксис для создания псевдонимов типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q71" value="g">g) `IDisposable` нужен для сериализации</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q71" value="h">h) `using` - это аналог `try-finally`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q71" value="i">i) `IDisposable` позволяет объекту удалять себя из памяти</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q71" value="j">j) `using` можно использовать только с классами, но не со структурами</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q72">
-                <p class="question-title">72. В чем отличие `Task` от `Thread`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q72" value="a">a) `Task` - это абстракция над работой, `Thread` - это поток ОС</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q72" value="b">b) `Thread` - это абстракция над работой, `Task` - это поток ОС</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q72" value="c">c) `Task` всегда выполняется в отдельном потоке, `Thread` - нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q72" value="d">d) `Task` нельзя отменить, `Thread` можно</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q72" value="e">e) `Thread` - более легковесный объект, чем `Task`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q72" value="f">f) `Task` используются для CPU-bound операций, `Thread` - для I/O-bound</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q72" value="g">g) Нет никакой разницы, `Task` - это новое имя для `Thread`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q72" value="h">h) `Task` может возвращать результат, `Thread` - нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q72" value="i">i) `Task` работает через пул потоков, `Thread` создает новый поток</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q72" value="j">j) Все перечисленное неверно</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q73">
-                <p class="question-title">73. Что такое `ConfigureAwait(false)`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q73" value="a">a) Указание не возвращаться в исходный контекст синхронизации после `await`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q73" value="b">b) Отключение конфигурации для `Task`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q73" value="c">c) Указание выполнять `Task` в фоновом потоке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q73" value="d">d) Запрет на отмену `Task`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q73" value="e">e) Отключение обработки исключений для `Task`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q73" value="f">f) Выполнение `Task` с низким приоритетом</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q73" value="g">g) Способ сделать асинхронный вызов синхронным</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q73" value="h">h) Указание, что `Task` не возвращает результат</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q73" value="i">i) Устаревшая опция, не имеющая эффекта</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q73" value="j">j) Принудительное выполнение `Task` в потоке UI</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q74">
-                <p class="question-title">74. Что такое `ValueTuple`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q74" value="a">a) Значимый тип для представления кортежей, более эффективный, чем `Tuple`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q74" value="b">b) Ссылочный тип для кортежей</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q74" value="c">c) Псевдоним для `System.Tuple`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q74" value="d">d) Кортеж, который может содержать только типы-значения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q74" value="e">e) Устаревший тип кортежей из C# 6.0</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q74" value="f">f) Неизменяемый кортеж</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q74" value="g">g) Кортеж, который может иметь только 2 элемента</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q74" value="h">h) Интерфейс для всех кортежей</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q74" value="i">i) Класс для работы с XML</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q74" value="j">j) Динамический кортеж</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q75">
-                <p class="question-title">75. Какой из этих LINQ-операторов выполняет запрос немедленно?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q75" value="a">a) ToList()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q75" value="b">b) Select()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q75" value="c">c) Where()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q75" value="d">d) OrderBy()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q75" value="e">e) SelectMany()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q75" value="f">f) GroupBy()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q75" value="g">g) Join()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q75" value="h">h) Take()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q75" value="i">i) Skip()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q75" value="j">j) Все они отложенные</label></li>
-                </ul>
-            </div>
-             <div class="question-block" id="q76">
-                <p class="question-title">76. Что такое ковариантность и контрвариантность в C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q76" value="a">a) Возможность использовать более производный (ковариантность) или менее производный (контрвариантность) тип, чем задано изначально</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q76" value="b">b) Два разных способа приведения типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q76" value="c">c) Свойства, относящиеся к `ref` и `out` параметрам</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q76" value="d">d) Способы определения `get` и `set` в свойствах</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q76" value="e">e) Паттерны для работы с многопоточностью</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q76" value="f">f) Механизмы для оптимизации LINQ-запросов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q76" value="g">g) Атрибуты для управления сериализацией</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q76" value="h">h) Ограничения для generic-типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q76" value="i">i) Устаревшие концепции, замененные `dynamic`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q76" value="j">j) Типы делегатов `Func` и `Action`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q77">
-                <p class="question-title">77. Какое ключевое слово используется для объявления события?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q77" value="a">a) event</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q77" value="b">b) delegate</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q77" value="c">c) on</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q77" value="d">d) raise</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q77" value="e">e) handle</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q77" value="f">f) trigger</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q77" value="g">g) action</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q77" value="h">h) func</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q77" value="i">i) eventhandler</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q77" value="j">j) publish</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q78">
-                <p class="question-title">78. Что из перечисленного НЕ является модификатором доступа в C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q78" value="a">a) global</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q78" value="b">b) public</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q78" value="c">c) private</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q78" value="d">d) protected</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q78" value="e">e) internal</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q78" value="f">f) protected internal</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q78" value="g">g) private protected</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q78" value="h">h) file (в C# 11+)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q78" value="i">i) Все являются модификаторами доступа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q78" value="j">j) static</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q79">
-                <p class="question-title">79. Что делает `nameof()`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q79" value="a">a) Возвращает имя переменной, типа или члена в виде строки</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q79" value="b">b) Возвращает полное имя типа, включая пространство имен</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q79" value="c">c) Возвращает имя текущего метода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q79" value="d">d) Создает псевдоним для типа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q79" value="e">e) Получает значение переменной по ее имени</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q79" value="f">f) Проверяет, существует ли переменная с таким именем</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q79" value="g">g) Используется для рефакторинга</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q79" value="h">h) Получает атрибут по имени</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q79" value="i">i) Возвращает размер типа в байтах</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q79" value="j">j) Сравнивает имена двух типов</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q80">
-                <p class="question-title">80. Для чего нужен `Span<T>`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q80" value="a">a) Для безопасной и эффективной работы с непрерывными областями памяти без выделения новой</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q80" value="b">b) Для создания "растягивающихся" массивов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q80" value="c">c) Для работы с COM-объектами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q80" value="d">d) Для представления временного промежутка</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q80" value="e">e) Это коллекция, похожая на `List<T>`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q80" value="f">f) Для работы с многомерными данными</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q80" value="g">g) Для асинхронного доступа к памяти</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q80" value="h">h) Для управления жизненным циклом объектов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q80" value="i">i) Для работы с указателями в безопасном коде</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q80" value="j">j) Устаревший тип, замененный `Memory<T>`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q81">
-                <p class="question-title">81. Что такое `default(T)`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q81" value="a">a) Возвращает значение по умолчанию для типа T (0, false, null)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q81" value="b">b) Возвращает конструктор по умолчанию для типа T</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q81" value="c">c) Создает новый экземпляр типа T</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q81" value="d">d) Проверяет, является ли T типом по умолчанию</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q81" value="e">e) Используется в `switch` как метка `default`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q81" value="f">f) Сбрасывает переменную к значению по умолчанию</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q81" value="g">g) Получает метаданные типа T</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q81" value="h">h) Работает только с generic-методами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q81" value="i">i) Устаревшая конструкция</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q81" value="j">j) Возвращает `null` для любого типа</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q82">
-                <p class="question-title">82. Можно ли перегружать операторы в C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q82" value="a">a) Да, но не все</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q82" value="b">b) Да, все без исключения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q82" value="c">c) Нет, это запрещено</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q82" value="d">d) Только в `struct`, но не в `class`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q82" value="e">e) Только в `unsafe` коде</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q82" value="f">f) Только операторы `+` и `-`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q82" value="g">g) Да, но только для числовых типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q82" value="h">h) Да, с помощью ключевого слова `overload`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q82" value="i">i) Нет, но можно перегружать методы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q82" value="j">j) Только оператор `=`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q83">
-                <p class="question-title">83. Что такое `AppDomain`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q83" value="a">a) Изолированная среда внутри процесса для выполнения кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q83" value="b">b) Имя домена, на котором запущено приложение</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q83" value="c">c) Конфигурационный файл приложения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q83" value="d">d) Глобальная переменная уровня приложения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q83" value="e">e) Набор сборок, составляющих приложение</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q83" value="f">f) Устаревшая концепция, не используется в .NET Core</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q83" value="g">g) Класс для работы с DNS</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q83" value="h">h) Основное пространство имен приложения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q83" value="i">i) Кэш данных на уровне приложения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q83" value="j">j) Класс для управления жизненным циклом приложения</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q84">
-                <p class="question-title">84. В чем разница между `Action`, `Func` и `Predicate`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q84" value="a">a) `Action` не возвращает значение, `Func` возвращает, `Predicate` возвращает bool</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q84" value="b">b) `Func` не возвращает значение, `Action` возвращает</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q84" value="c">c) `Predicate` принимает два аргумента и возвращает bool</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q84" value="d">d) Это три разных способа объявить делегат</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q84" value="e">e) `Action` используется для событий, `Func` - для LINQ</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q84" value="f">f) `Func` и `Action` - generic, `Predicate` - нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q84" value="g">g) Нет разницы, это синонимы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q84" value="h">h) `Action` может быть `async`, а `Func` нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q84" value="i">i) `Predicate` устарел и заменен `Func<T, bool>`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q84" value="j">j) `Action` и `Func` принимают до 16 аргументов, `Predicate` - только один</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q85">
-                <p class="question-title">85. Что делает `finally` блок?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q85" value="a">a) Выполняется всегда после `try` (и `catch`), независимо от исключения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q85" value="b">b) Выполняется только если исключение было поймано</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q85" value="c">c) Выполняется только если исключения не было</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q85" value="d">d) Завершает выполнение программы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q85" value="e">e) Является синонимом для `catch(Exception)`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q85" value="f">f) Может изменять возвращаемое значение метода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q85" value="g">g) Не может содержать `return`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q85" value="h">h) Выполняется в отдельном потоке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q85" value="i">i) Используется для логирования финального состояния</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q85" value="j">j) Выполняется перед блоком `catch`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q86">
-                <p class="question-title">86. Что такое P/Invoke (Platform Invocation Services)?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q86" value="a">a) Технология для вызова функций из неуправляемых библиотек (например, Win32 API)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q86" value="b">b) Способ вызова приватных методов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q86" value="c">c) Механизм для удаленного вызова процедур (RPC)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q86" value="d">d) Вызов методов с помощью `dynamic`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q86" value="e">e) Технология для вызова методов C# из C++</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q86" value="f">f) API для работы с платформой .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q86" value="g">g) Способ запускать .NET код на других платформах</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q86" value="h">h) Служба для мониторинга производительности платформы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q86" value="i">i) Устаревшая технология, заменена на COM Interop</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q86" value="j">j) Встроенный в C# язык ассемблера</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q87">
-                <p class="question-title">87. Что такое `Nullable<T>` (или `T?`)?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q87" value="a">a) Структура, позволяющая присваивать `null` значимым типам</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q87" value="b">b) Класс, позволяющий присваивать `null` ссылочным типам</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q87" value="c">c) Интерфейс для типов, которые могут быть `null`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q87" value="d">d) Атрибут, указывающий, что переменная может быть `null`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q87" value="e">e) Любой ссылочный тип</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q87" value="f">f) Функция для проверки на `null`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q87" value="g">g) Специальный тип указателя</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q87" value="h">h) Устаревшая возможность, заменена `dynamic`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q87" value="i">i) Способ избежать `NullReferenceException`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q87" value="j">j) Тип, который неявно преобразуется в `string`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q88">
-                <p class="question-title">88. Что такое `switch expression` (выражение switch) в C# 8+?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q88" value="a">a) Более краткая, основанная на сопоставлении с образцом форма `switch`, которая возвращает значение</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q88" value="b">b) Оператор `switch`, который работает только с выражениями</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q88" value="c">c) Динамически вычисляемый `switch`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q88" value="d">d) Устаревшая форма `switch`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q88" value="e">e) Способ использовать `switch` внутри LINQ</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q88" value="f">f) `switch`, который может переключать потоки выполнения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q88" value="g">g) `switch` без `case` и `break`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q88" value="h">h) Конструкция для выбора типа в generic-методе</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q88" value="i">i) `switch`, который работает с лямбда-выражениями</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q88" value="j">j) То же самое, что и `if-else if`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q89">
-                <p class="question-title">89. Какой из этих методов не является частью `System.Object`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q89" value="a">a) Clone()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q89" value="b">b) GetHashCode()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q89" value="c">c) Equals(object obj)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q89" value="d">d) ToString()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q89" value="e">e) GetType()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q89" value="f">f) Finalize()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q89" value="g">g) MemberwiseClone()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q89" value="h">h) ReferenceEquals(object objA, object objB)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q89" value="i">i) Все они являются частью System.Object</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q89" value="j">j) Dispose()</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q90">
-                <p class="question-title">90. Что такое Common Language Runtime (CLR)?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q90" value="a">a) Среда выполнения, которая управляет исполнением .NET-кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q90" value="b">b) Общий язык программирования для .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q90" value="c">c) Библиотека стандартных классов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q90" value="d">d) Компилятор C# в машинный код</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q90" value="e">e) Спецификация для взаимодействия языков</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q90" value="f">f) Набор утилит для командной строки</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q90" value="g">g) Язык ассемблера для .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q90" value="h">h) Виртуальная файловая система</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q90" value="i">i) Отладчик, встроенный в Visual Studio</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q90" value="j">j) Система безопасности .NET</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q91">
-                <p class="question-title">91. Что такое `stackalloc`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q91" value="a">a) Оператор для выделения блока памяти в стеке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q91" value="b">b) Метод для выделения памяти в управляемой куче</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q91" value="c">c) Команда для просмотра стека вызовов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q91" value="d">d) Атрибут для методов, работающих со стеком</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q91" value="e">e) Класс для управления стеком</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q91" value="f">f) Псевдоним для `new`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q91" value="g">g) Функция для очистки стека</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q91" value="h">h) Используется для создания `Stack<T>`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q91" value="i">i) Устаревший оператор, замененный `Span<T>`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q91" value="j">j) Доступен только в `unsafe` коде</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q92">
-                <p class="question-title">92. Что такое `volatile`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q92" value="a">a) Модификатор, указывающий, что поле может изменяться несколькими потоками</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q92" value="b">b) Тип данных для хранения изменяемых значений</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q92" value="c">c) Указание, что метод является небезопасным</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q92" value="d">d) Способ запретить оптимизацию кода компилятором</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q92" value="e">e) Атрибут для временных файлов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q92" value="f">f) Псевдоним для `dynamic`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q92" value="g">g) Класс для работы с энергонезависимой памятью</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q92" value="h">h) Устаревшее ключевое слово</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q92" value="i">i) Модификатор для `const` полей</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q92" value="j">j) То же, что и `lock`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q93">
-                <p class="question-title">93. Какой атрибут используется для условной компиляции метода?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q93" value="a">a) [Conditional("DEBUG")]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q93" value="b">b) [IfDefined("DEBUG")]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q93" value="c">c) #if DEBUG</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q93" value="d">d) [CompileWhen("DEBUG")]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q93" value="e">e) [DebugOnly]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q93" value="f">f) Это делается директивами препроцессора, а не атрибутами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q93" value="g">g) [Switch("DEBUG")]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q93" value="h">h) [Obsolete]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q93" value="i">i) [ExcludeFromCodeCoverage]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q93" value="j">j) [ConditionalCompilation]</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q94">
-                <p class="question-title">94. Что такое `Expression Tree` (дерево выражений)?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q94" value="a">a) Представление кода в виде древовидной структуры данных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q94" value="b">b) Дерево наследования классов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q94" value="c">c) Структура для хранения математических выражений</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q94" value="d">d) Способ визуализации LINQ-запросов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q94" value="e">e) Технология, используемая `IQueryable`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q94" value="f">f) Внутреннее представление лямбда-выражений</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q94" value="g">g) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q94" value="h">h) Граф зависимостей в проекте</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q94" value="i">i) Структура для синтаксического анализа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q94" value="j">j) Устаревшая технология</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q95">
-                <p class="question-title">95. Что такое `yield return`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q95" value="a">a) Оператор для реализации итераторов и отложенного выполнения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q95" value="b">b) Способ вернуть несколько значений из метода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q95" value="c">c) Асинхронный `return`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q95" value="d">d) Синоним `return` в `IEnumerable`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q95" value="e">e) Возврат управления вызывающему коду</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q95" value="f">f) Оператор для создания `Task`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q95" value="g">g) Прерывание итерации цикла</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q95" value="h">h) Используется в генераторах</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q95" value="i">i) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q95" value="j">j) Возвращает `null` и продолжает выполнение</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q96">
-                <p class="question-title">96. Что такое `default interface method`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q96" value="a">a) Метод в интерфейсе с реализацией по умолчанию (C# 8+)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q96" value="b">b) Метод, который должен быть реализован в первую очередь</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q96" value="c">c) Статический метод в интерфейсе</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q96" value="d">d) Метод, который вызывается, если никакой другой не подходит</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q96" value="e">e) Метод расширения для интерфейса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q96" value="f">f) Абстрактный метод в классе</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q96" value="g">g) Виртуальный метод в интерфейсе</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q96" value="h">h) Метод, который нельзя переопределить</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q96" value="i">i) Основной метод интерфейса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q96" value="j">j) Такого не существует в C#</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q97">
-                <p class="question-title">97. Что такое `init` accessor?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q97" value="a">a) Аксессор свойства, позволяющий присвоить значение только при инициализации объекта</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q97" value="b">b) Синоним для `set`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q97" value="c">c) Аксессор, который инициализирует свойство значением по умолчанию</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q97" value="d">d) Аксессор только для чтения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q97" value="e">e) Используется в `record` типах</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q97" value="f">f) Создает неизменяемые (immutable) свойства</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q97" value="g">g) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q97" value="h">h) Аксессор для статических свойств</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q97" value="i">i) Аксессор, который выполняется перед конструктором</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q97" value="j">j) Устаревшая возможность</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q98">
-                <p class="question-title">98. Что такое `with` expression для `record`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q98" value="a">a) Способ создать копию `record` с измененными значениями некоторых свойств</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q98" value="b">b) Способ добавить новые свойства в `record`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q98" value="c">c) Конструкция для сопоставления с образцом</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q98" value="d">d) Синоним для конструктора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q98" value="e">e) Способ реализовать `IDisposable` для `record`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q98" value="f">f) Оператор для объединения двух `record`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q98" value="g">g) Выражение для проверки равенства</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q98" value="h">h) Способ вызвать метод базового `record`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q98" value="i">i) Используется вместе с `init`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q98" value="j">j) Такого выражения нет</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q99">
-                <p class="question-title">99. Что такое `Top-level statements`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q99" value="a">a) Возможность писать код в файле `Program.cs` без класса `Program` и метода `Main`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q99" value="b">b) Глобальные переменные</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q99" value="c">c) Инструкции, которые выполняются до `Main`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q99" value="d">d) Директивы препроцессора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q99" value="e">e) Код, который находится вне любого пространства имен</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q99" value="f">f) Способ определения точки входа с помощью атрибута</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q99" value="g">g) Фича для написания скриптов на C#</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q99" value="h">h) Новая возможность C# 9</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q99" value="i">i) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q99" value="j">j) Код, который выполняется на уровне ОС</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q100">
-                <p class="question-title">100. Что такое `global using`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q100" value="a">a) Директива `using`, которая применяется ко всем файлам в проекте</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q100" value="b">b) Импорт всех пространств имен из сборки</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q100" value="c">c) `using`, который работает для всего решения (solution)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q100" value="d">d) Псевдоним для `using System;`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q100" value="e">e) `using`, объявленный вне пространства имен</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q100" value="f">f) Возможность C# 10</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q100" value="g">g) Способ сделать типы из пространства имен доступными глобально</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q100" value="h">h) `using static` для всех классов в пространстве имен</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q100" value="i">i) Директива для компилятора, чтобы он искал сборки в GAC</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q100" value="j">j) Устаревшая возможность</label></li>
-                </ul>
-            </div>
-        </form>
-        <div id="results" style="display: none;"></div>
-         <div class="button-container">
-              <button type="submit" form="quiz-form" class="submit-button">Завершить тест</button>
-         </div>
+            <button id="next-button">Следующий вопрос</button>
+        </div>
     </main>
 
-    <script>
-        const correctAnswers = {
-            q51: 'a', q52: 'a', q53: 'a', q54: 'a', q55: 'a', q56: 'a', q57: 'a', q58: 'd', q59: 'a', q60: 'a', 
-            q61: 'a', q62: 'a', q63: 'a', q64: 'a', q65: 'a', q66: 'a', q67: 'a', q68: 'a', q69: 'a', q70: 'a', 
-            q71: 'a', q72: 'a', q73: 'a', q74: 'a', q75: 'a', q76: 'a', q77: 'a', q78: 'a', q79: 'a', q80: 'a', 
-            q81: 'a', q82: 'a', q83: 'a', q84: 'a', q85: 'a', q86: 'a', q87: 'a', q88: 'a', q89: 'a', q90: 'a',
-            q91: 'a', q92: 'a', q93: 'a', q94: 'g', q95: 'i', q96: 'a', q97: 'g', q98: 'a', q99: 'i', q100: 'a'
-        };
+    <footer class="footer">
+        Решу игэ - сдам гиа
+    </footer>
+<script>
+const questions =
+    [
+    ["Какой оператор LINQ используется для группировки элементов последовательности по ключу и возвращает последовательность объектов IGrouping<TKey, TElement>?",["SelectMany","GroupBy","Join","ToLookup","Aggregate"],1],
+    ["В чем ключевое отличие между ToLookup() и GroupBy() в LINQ?",["ToLookup() выполняет ленивую (deferred) группировку, а GroupBy() - жадную (immediate).","ToLookup() возвращает словарь, а GroupBy() - последовательность групп.","ToLookup() выполняет жадную (immediate) группировку и кэширует результаты, а GroupBy() использует ленивое выполнение (deferred execution).","GroupBy() не может использовать кастомный компаратор для ключей, в отличие от ToLookup().","Результат ToLookup() можно изменять, а результат GroupBy() - нет."],2],
+    ["Какой тип соединения (join) в LINQ вернет все элементы из левой последовательности и только совпадающие элементы из правой?",["Inner Join","Group Join","Left Outer Join (с использованием DefaultIfEmpty)","Cross Join","Right Outer Join"],2],
+    ["Для чего предназначен оператор LINQ `Zip`?",["Для архивации последовательности в zip-файл.","Для объединения двух последовательностей в одну путем применения функции к элементам с одинаковыми индексами.","Для фильтрации элементов на основе другой последовательности.","Для проецирования каждого элемента в новую форму.","Для пропуска определенного количества элементов в последовательности."],1],
+    ["Что делает метод расширения `AsParallel()` в LINQ?",["Преобразует обычный LINQ-запрос в PLINQ-запрос для параллельного выполнения.","Сериализует результаты запроса в параллельном потоке.","Гарантирует последовательное выполнение запроса.","Выполняет запрос асинхронно, не блокируя вызывающий поток.","Кэширует результаты запроса для последующего использования."],0],
+    ["Что такое 'Large Object Heap' (LOH) в .NET и какие объекты в него попадают?",["Специальная куча для хранения статических объектов.","Область памяти для объектов размером более 85 000 байт, которая не уплотняется (compacted) при сборке мусора.","Куча для хранения объектов, переживших несколько сборок мусора.","Область памяти для сборок, загруженных динамически.","Память, выделенная вне управляемой кучи."],1],
+    ["Какое поколение в сборщике мусора .NET содержит самые 'долгоживущие' объекты?",["Поколение 0","Поколение 1","Поколение 2","LOH (Large Object Heap)","Поколение Эфемерных объектов"],2],
+    ["Что такое 'Task Continuation' в TPL?",["Метод, который выполняется после завершения предыдущей задачи (Task).","Задача, которая отменяет другую задачу.","Задача, которая никогда не завершается.","Задача, которая выполняется в UI-потоке.","Задача, которая является дочерней по отношению к другой."],0],["Для чего используется Expression<Func<T>>?",["Для представления лямбда-выражения в виде дерева выражения, а не скомпилированного кода.","Для создания делегатов, которые выполняются быстрее.","Для определения анонимных методов.","Это устаревший способ создания лямбда-выражений.","Для работы с динамическими объектами."],0],["Как получить доступ к значению по указателю в `unsafe` контексте?",["С помощью оператора разыменования (*).","С помощью метода GetValue().","С помощью оператора ->.","С помощью приведения типа (cast).","Указатели не могут быть разыменованы."],0],["Что такое `stackalloc`?",["Оператор для выделения блока памяти в стеке, а не в куче.","Функция для подсчета количества элементов в стеке.","Атрибут, указывающий, что класс должен быть размещен в стеке.","Метод для очистки стека.","Оператор для создания нового стека."],0],["В чем преимущество использования `Span<T>`?",["Позволяет работать с различными видами памяти (массивы, строки, нативная память) без выделения новой памяти и копирования.","Обеспечивает безопасность типов при работе с указателями.","Упрощает работу с многомерными массивами.","Автоматически освобождает память.","`Span<T>` может храниться в куче."],0],["Какой атрибут позволяет сделать `internal` члены сборки видимыми для другой, 'дружественной' сборки?",["[assembly: InternalsVisibleTo(FriendAssemblyName)]","[assembly: Friend(FriendAssemblyName)]","[assembly: PublicApi]","[assembly: AllowPartiallyTrustedCallers]","[assembly: InternalsPublic]"],0],["Для чего используется `Mutex`?",["Для синхронизации доступа к ресурсу между разными процессами.","Для синхронизации доступа к ресурсу только в пределах одного процесса.","Для атомарного инкремента переменной.","Для отправки сигнала между потоками.","Для приостановки потока на определенное время."],0],["Чем `SemaphoreSlim` отличается от `Semaphore`?",["`SemaphoreSlim` - это более легковесная версия, оптимизированная для использования в рамках одного процесса.","`SemaphoreSlim` не поддерживает именованные семафоры для межпроцессной синхронизации.","`Semaphore` является оберткой над объектом ядра ОС, а `SemaphoreSlim` - нет (в большинстве случаев).","Все вышеперечисленное.","Нет никаких отличий."],3],["Что делает `ReaderWriterLockSlim`?",["Позволяет множественные одновременные доступы на чтение, но эксклюзивный доступ на запись.","Обеспечивает более высокую пропускную способность для сценариев с частым чтением и редкой записью.","Является заменой для более старого `ReaderWriterLock`.","Позволяет 'улучшать' блокировку с чтения до записи.","Все вышеперечисленное."],4],["Какой из перечисленных методов не является потокобезопасным для экземпляра `List<T>`?",["Add","Remove","this[int index] (сеттер)","Sort","Все перечисленные методы не являются потокобезопасными."],4],["Что такое `Expression.Lambda`?",["Метод для компиляции дерева выражения в исполняемый делегат.","Директива для определения лямбда-выражения.","Тип данных для лямбда-функций.","Атрибут для пометки лямбда-выражений.","Создает фабрику делегатов из дерева выражения."],0],["Что такое 'pinning' объекта при работе с `unsafe` кодом?",["Фиксация объекта в памяти, чтобы сборщик мусора не перемещал его во время уплотнения кучи.","Удаление объекта из памяти.","Размещение объекта в специальной области памяти.","Создание сильной ссылки на объект.","Процесс получения указателя на объект."],0],["Какой метод используется для атомарного приращения значения переменной?",["Interlocked.Increment()","lock(obj) { i++; }","Volatile.Write()","Interlocked.Add()","Thread.SpinWait()"],0],["Что такое `[StructLayout(LayoutKind.Sequential)]`?",["Атрибут, который указывает компилятору располагать поля структуры в памяти последовательно, в порядке их объявления.","Используется для взаимодействия с неуправляемым кодом (P/Invoke).","Задает выравнивание полей структуры.","Определяет размер структуры.","Указывает, что структура является blittable."],0],["Что такое `AppDomain`?",["Изолированная среда внутри процесса, где исполняется код .NET.","Процесс операционной системы.","Сборка .NET.","Контекст потока.","Во фреймворке .NET Core и новее концепция `AppDomain` значительно упрощена и не используется для изоляции кода."],4],["Что такое `TaskCompletionSource<T>`?",["Класс, который позволяет создать `Task` и управлять им вручную (устанавливать результат, исключение или отмену) извне.","Источник для отмены задач.","Фабрика для создания задач.","Коллекция для завершенных задач.","Обертка над `Task` для добавления метаданных."],0],["В каком пространстве имен находятся основные классы для работы с потоками, такие как `Thread` и `ThreadPool`?",["System.Threading","System.Collections.Concurrent","System.Threading.Tasks","System.Diagnostics","System.Runtime.CompilerServices"],0],["Что такое `Monitor.Wait` и `Monitor.Pulse`?",["Методы для координации потоков, позволяющие одному потоку ждать сигнала от другого, удерживая блокировку.","Методы для приостановки и возобновления потока.","Устаревшие методы, замененные `Task.Delay`.","Методы для работы с мьютексами.","Методы для управления состоянием потока."],0],["Что такое 'boxing' (упаковка)?",["Процесс преобразования значения значимого типа (struct) в объект ссылочного типа (object).","Процесс создания 'коробки' вокруг значения.","Приводит к выделению памяти в куче.","Все вышеперечисленное.","Может негативно влиять на производительность."],3],["Что такое 'unboxing' (распаковка)?",["Процесс извлечения значения значимого типа из объекта, в который оно было упаковано.","Требует явного приведения к исходному типу.","Может вызвать `InvalidCastException`, если тип указан неверно.","Все вышеперечисленное.","Освобождает память в куче."],3],["Какой метод `string` является наиболее производительным для объединения большого количества строк?",["String.Concat() или String.Join()","Использование оператора `+` в цикле","Использование `StringBuilder`","string.Format()","Интерполяция строк (`${s1}{s2}`)"],2],["Что такое `[Conditional(DEBUG)]`?",["Атрибут, который указывает, что вызов метода будет скомпилирован только если определен символ `DEBUG`.","Метод будет выполнен только в режиме отладки.","Атрибут для условной компиляции.","Символ может быть любым, не только `DEBUG`.","Все вышеперечисленное."],4],["Какая коллекция в `System.Collections.Concurrent` реализует шаблон 'производитель-потребитель'?",["BlockingCollection<T>","ConcurrentQueue<T>","ConcurrentStack<T>","ConcurrentBag<T>","ConcurrentDictionary<TKey, TValue>"],0],["Что такое 'Code Access Security' (CAS)?",["Устаревшая технология безопасности в .NET Framework, которая ограничивала доступ кода к ресурсам на основе его происхождения и других свидетельств.","Современная модель безопасности в .NET Core.","Система управления доступом на основе ролей.","Механизм для подписи сборок.","Технология для изоляции приложений."],0],["Для чего используется ключевое слово `volatile`?",["Указывает, что поле может изменяться несколькими потоками, и предотвращает некоторые виды оптимизаций компилятора и кэширования процессором.","Делает поле потокобезопасным.","Запрещает изменение поля.","Гарантирует атомарность операций с полем.","Является устаревшим."],0],["Что такое `GCHandle`?",["Структура, позволяющая получить стабильный указатель на управляемый объект, чтобы его не перемещал сборщик мусора.","Дескриптор для объекта в куче.","Используется для передачи управляемых объектов в неуправляемый код.","Может создавать разные типы ссылок (Normal, Pinned, Weak).","Все вышеперечисленное."],4],["Какой тип данных в C# является псевдонимом для `System.Int64`?",["long","int","short","byte","ulong"],0],["Что такое 'covariance' и 'contravariance' для generic-типов?",["Способность использовать более производный (covariance) или менее производный (contravariance) тип, чем указано в generic-параметре.","Относится только к интерфейсам и делегатам.","Ключевые слова `out` (covariance) и `in` (contravariance).","Все вышеперечисленное.","Не поддерживается для классов."],3],["Что такое `IQueryable<T>` и чем он отличается от `IEnumerable<T>`?",["`IQueryable<T>` представляет запрос, который будет выполнен на удаленном источнике данных (например, в SQL), а `IEnumerable<T>` представляет локальную последовательность в памяти.","`IQueryable` позволяет строить дерево выражения, которое может быть транслировано (например, в SQL).","Запросы к `IEnumerable` выполняются в .NET, а к `IQueryable` - на стороне сервера БД.","Все вышеперечисленное.","Нет никакой разницы."],3],["Что такое `[MethodImpl(MethodImplOptions.AggressiveInlining)]`?",["Атрибут, который настоятельно рекомендует JIT-компилятору встроить (inline) данный метод в место вызова.","Гарантирует, что метод будет встроен.","Улучшает производительность для маленьких, часто вызываемых методов.","Может увеличить размер итогового кода.","Все вышеперечисленное."],4],["Что делает `[DefaultValue]`?",["Атрибут, который указывает значение по умолчанию для свойства, в основном для использования в дизайнерах (например, Windows Forms).","Устанавливает значение свойства при создании объекта.","Используется для валидации.","Является заменой для инициализатора свойства.","Требуется для всех свойств."],0],["В чем разница между `Array` и `ArrayList`?",["`Array` имеет фиксированный размер и является строго типизированным.","`ArrayList` имеет динамический размер и хранит элементы как `object` (не является строго типизированным).","`ArrayList` считается устаревшим, следует использовать `List<T>`.","Все вышеперечисленное.","`Array` - это структура, а `ArrayList` - класс."],3],["Что такое `IDispatch`?",["COM-интерфейс, который позволяет реализовать позднее связывание (late binding) и вызывать методы объекта по имени.","Интерфейс для отправки сообщений.","Интерфейс для управления потоками.","Интерфейс из .NET.","Используется для взаимодействия с динамическими языками, такими как VBScript."],0],["Какой метод вызывается для освобождения неуправляемых ресурсов?",["Dispose()","Finalize()","Close()","Free()","Release()"],0],["Что такое 'pattern matching' (сопоставление с образцом)?",["Техника для проверки выражения на соответствие определенному шаблону и извлечения из него данных.","Может использоваться в `is` выражениях и `switch` выражениях.","Поддерживает шаблоны типов, констант, реляционные и логические шаблоны.","Все вышепересисленное.","Появилось в C# 7.0 и расширялось в последующих версиях."],3],["Что делает `[ThreadStatic]` атрибут?",["Указывает, что значение статического поля является уникальным для каждого потока.","Делает статический класс потокобезопасным.","Создает новый поток.","Устанавливает приоритет потока.","Атрибут для методов, а не полей."],0],["Что такое 'tail call' оптимизация?",["Оптимизация, при которой рекурсивный вызов в конце метода заменяется на итерацию (переход), что предотвращает переполнение стека.","В .NET JIT-компилятор может выполнять ее при определенных условиях (например, в 64-битном режиме).","Не гарантируется языком C#.","Все вышеперечисленное.","Требует специального ключевого слова `tailcall`."],3],["Что такое `System.Reflection.Emit`?",["Пространство имен, содержащее классы, которые позволяют генерировать сборки, типы и методы во время выполнения (IL-код).","Используется для создания динамических прокси, ORM и других фреймворков.","Более сложная и низкоуровневая альтернатива деревьям выражений.","Все вышеперечисленное.","Позволяет создавать код, который нельзя написать напрямую на C#."],3],["Что такое 'blittable' тип?",["Тип, который имеет одинаковое представление в управляемой и неуправляемой памяти и не требует преобразования при передаче через P/Invoke.","Например, `byte`, `int`, `float`, массивы blittable типов.","`bool` и `char` не являются blittable.","Все вышеперечисленное.","Строки (`string`) не являются blittable."],3],["Что такое `Activator.CreateInstance<T>()`?",["Метод для создания экземпляра типа `T` с использованием его конструктора без параметров.","Использует рефлексию.","Медленнее, чем прямой вызов `new T()`.","Все вышеперечисленное.","Может создавать экземпляры приватных классов."],3],["Что такое 'side-by-side execution'?",["Возможность запускать несколько версий .NET Framework на одном компьютере.","Запуск двух экземпляров одного приложения.","Выполнение кода на нескольких ядрах процессора.","Устаревшая концепция, не применимая к .NET Core/5+.","В .NET Core/5+ приложения являются самодостаточными или используют framework-dependent развертывание, что решает эту проблему по-другому."],4]];
 
-        document.getElementById('quiz-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            let score = 0;
-            const totalQuestions = Object.keys(correctAnswers).length;
-            
-            document.querySelectorAll('.answer-item label').forEach(label => {
-                label.classList.remove('correct-answer', 'incorrect-answer');
-                const input = label.querySelector('input');
-                if(input) input.disabled = true;
-            });
+const questionTextEl = document.getElementById('question-text');
+const answersContainerEl = document.getElementById('answers-container');
+const feedbackEl = document.getElementById('feedback');
+const nextButton = document.getElementById('next-button');
 
-            for (const qId in correctAnswers) {
-                const correctAnswer = correctAnswers[qId];
-                const selectedAnswer = document.querySelector(`input[name="${qId}"]:checked`);
-                const questionBlock = document.getElementById(qId);
-                
-                if (selectedAnswer) {
-                    const parentLabel = selectedAnswer.parentElement;
-                    if (selectedAnswer.value === correctAnswer) {
-                        score++;
-                        parentLabel.classList.add('correct-answer');
-                    } else {
-                        parentLabel.classList.add('incorrect-answer');
-                        const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
-                        correctLabel.classList.add('correct-answer');
-                    }
-                } else {
-                     const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
-                     correctLabel.classList.add('correct-answer');
-                }
-            }
+let currentQuestionIndex = 0;
+let score = 0;
+let correctAnswerText = '';
 
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = `<h2>Ваш результат: ${score} из ${totalQuestions}</h2>`;
-            resultsDiv.style.display = 'block';
-            this.querySelector('.submit-button').style.display = 'none';
-            resultsDiv.scrollIntoView({ behavior: 'smooth' });
-        });
-    </script>
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 
-</body>
-</html>
+function showQuestion() {
+  feedbackEl.innerHTML = '';
+  nextButton.disabled = true;
+  
+  if (currentQuestionIndex >= questions.length) {
+      const percentage = (score / questions.length) * 100;
+      let message = '';
+      if (percentage >= 95) {
+          message = 'Отлично!';
+      } else if (percentage >= 75) {
+          message = 'Хорошо!';
+      } else if (percentage >= 50) {
+          message = 'Сомнительно, но окей.';
+      } else if (percentage >= 25) {
+          message = 'Пиздец, бро.';
+      } else {
+          message = 'Тебе пизда :)';
+      }
+
+      questionTextEl.textContent = 'Тест завершен!';
+      answersContainerEl.innerHTML = '';
+      feedbackEl.innerHTML = `Вы набрали ${score} из ${questions.length} (${percentage.toFixed(0)}%). ${message}`;
+      nextButton.textContent = 'Начать заново';
+      nextButton.disabled = false;
+      nextButton.onclick = () => location.reload();
+      return;
+  }
+
+  const questionData = questions[currentQuestionIndex];
+  const question = questionData[0];
+  const allAnswers = questionData[1];
+  const correctAnswIndex = questionData[2]
+  correctAnswerText = allAnswers[correctAnswIndex];
+
+  // Get all incorrect answers
+  const incorrectAnswers = allAnswers.filter((_, index) => index !== correctAnswIndex);
+  
+  // Shuffle incorrect answers and pick two
+  shuffleArray(incorrectAnswers);
+  const selectedIncorrectAnswers = incorrectAnswers.slice(0, 2);
+
+  // Create the final list of answers for the user and shuffle it
+  const answersToShow = [correctAnswerText, ...selectedIncorrectAnswers];
+  shuffleArray(answersToShow);
+
+
+  questionTextEl.textContent = `${currentQuestionIndex + 1}. ${question}`;
+  answersContainerEl.innerHTML = '';
+
+  answersToShow.forEach(answer => {
+    const button = document.createElement('button');
+    button.textContent = answer;
+    button.classList.add('answer-btn');
+    button.onclick = () => selectAnswer(button, answer);
+    answersContainerEl.appendChild(button);
+  });
+}
+
+function selectAnswer(selectedButton, selectedAnswer) {
+  const isCorrect = selectedAnswer === correctAnswerText;
+
+  Array.from(answersContainerEl.children).forEach(button => {
+    button.disabled = true;
+    if (button.textContent === correctAnswerText) {
+      button.classList.add('correct');
+      if (button.textContent === selectedButton.textContent) {
+          if (!selectedButton.classList.contains('wrong')) {
+             score++;
+          }
+      }
+    } else if (button === selectedButton) {
+      button.classList.add('wrong');
+    }
+  });
+
+  if (isCorrect) {
+    feedbackEl.textContent = 'Правильно!';
+    feedbackEl.className = 'correct-text';
+  } else {
+    feedbackEl.textContent = 'Неправильно!';
+    feedbackEl.className = 'wrong-text';
+  }
+
+  nextButton.disabled = false;
+}
+
+nextButton.addEventListener('click', () => {
+    currentQuestionIndex++;
+    showQuestion();
+});
+
+// Initial load
+shuffleArray(questions);
+showQuestion();
+</script>
+
+</body></html>

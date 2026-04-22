@@ -8,13 +8,14 @@
         :root {
             --system-background: #f2f2f7;
             --system-blue: #007aff;
-            --system-green: #34c759;
-            --system-red: #ff3b30;
+            --system-gray: #8e8e93;
             --separator-color: #c6c6c8;
             --label-primary: #000000;
             --label-secondary: #8e8e93;
             --grouped-background: #ffffff;
             --grouped-background-ios: #f0f0f0;
+            --system-green: #34c759;
+            --system-red: #ff3b30;
         }
 
         body {
@@ -22,6 +23,9 @@
             margin: 0;
             background-color: var(--grouped-background-ios);
             color: var(--label-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
             padding-top: env(safe-area-inset-top);
             padding-right: env(safe-area-inset-right);
             padding-bottom: env(safe-area-inset-bottom);
@@ -37,986 +41,842 @@
             font-size: 17px;
             font-weight: 600;
             border-bottom: 0.5px solid var(--separator-color);
-            position: sticky;
-            top: 0;
-            z-index: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .back-button {
             position: absolute;
             left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
             font-size: 17px;
             color: var(--system-blue);
             text-decoration: none;
             cursor: pointer;
         }
 
-        main {
-            padding: 22px 16px;
-        }
-
-        .question-block {
+        .footer {
             background-color: var(--grouped-background);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            padding: 16px;
-            border: 0.5px solid var(--separator-color);
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--label-secondary);
+            border-top: 0.5px solid var(--separator-color);
+            margin-top: auto;
         }
 
-        .question-title {
+        main {
+            flex-grow: 1;
+            padding: 22px 0;
+        }
+
+        .content-container {
+            background-color: var(--grouped-background);
+            margin: 0 16px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 0.5px solid var(--separator-color);
+            padding: 16px;
+        }
+
+        #question-text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        #answers-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .answer-btn {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 17px;
+            cursor: pointer;
+            border: 1px solid var(--separator-color);
+            background: var(--grouped-background);
+            border-radius: 8px;
+            text-align: left;
+            transition: background-color 0.2s;
+        }
+
+        .answer-btn:hover:not(:disabled) {
+            background: #e5e5ea;
+        }
+
+        .answer-btn.correct {
+            background-color: var(--system-green);
+            border-color: var(--system-green);
+            color: white;
+            font-weight: 600;
+        }
+
+        .answer-btn.wrong {
+            background-color: var(--system-red);
+            border-color: var(--system-red);
+            color: white;
+            font-weight: 600;
+        }
+
+        .answer-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        #next-button {
+            width: 100%;
+            padding: 14px;
             font-size: 17px;
             font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .answers-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .answer-item {
-            padding: 8px 0;
-        }
-        .answer-item label {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-        }
-        .answer-item input {
-            margin-right: 12px;
-        }
-
-        .button-container {
-            text-align: center;
-            margin-top: 22px;
-        }
-
-        .submit-button {
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
             background-color: var(--system-blue);
             color: white;
-            font-size: 17px;
-            font-weight: 600;
             border: none;
-            border-radius: 10px;
-            padding: 14px 20px;
-            cursor: pointer;
-            width: 100%;
-            max-width: 300px;
+            border-radius: 8px;
         }
 
-        #results {
-            background-color: var(--grouped-background);
-            border-radius: 10px;
-            margin: 22px 0;
-            padding: 16px;
-            border: 0.5px solid var(--separator-color);
+        #next-button:disabled {
+            background-color: var(--system-gray);
+        }
+
+        #feedback {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 25px;
+        }
+
+        .correct-text {
+            color: var(--system-green);
+        }
+
+        .wrong-text {
+            color: var(--system-red);
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
             text-align: center;
         }
-        .correct-answer {
-           color: var(--system-green);
-           font-weight: bold;
-        }
-       .incorrect-answer {
-           color: var(--system-red);
-           text-decoration: line-through;
+
+        @media (min-width: 768px) {
+            main {
+                display: flex;
+                justify-content: center;
+            }
+
+            .content-container {
+                max-width: 600px;
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <a href="mc_antonov.html" class="back-button">&lsaquo; C#</a>
-        <span>Тест 1</span>
-    </header>
+<header class="header">
+    <a href="mc_antonov.html" class="back-button">&lsaquo; Назад</a>
+    <span>Тест 1</span>
+</header>
 
-    <main>
-        <form id="quiz-form">
-            <!-- Question 1 -->
-            <div class="question-block" id="q1">
-                <p class="question-title">1. Что является точкой входа в программу на языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q1" value="a">a) public static void main()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q1" value="b">b) public void Main(string[] args)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q1" value="c">c) static void main(string[] args)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q1" value="d">d) public static int Main()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q1" value="e">e) private static void Main()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q1" value="f">f) Program.Main()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q1" value="g">g) Любой статический метод</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q1" value="h">h) Конструктор класса Program</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q1" value="i">i) Точка входа определяется в файле проекта</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q1" value="j">j) Метод с атрибутом [EntryPoint]</label></li>
-                </ul>
-            </div>
-            <!-- Question 2 -->
-            <div class="question-block" id="q2">
-                <p class="question-title">2. Что отличает консольное приложение на языке C# от приложения Windows Forms?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q2" value="a">a) Отсутствие графического интерфейса пользователя (GUI)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q2" value="b">b) Используется другой компилятор</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q2" value="c">c) Невозможность работы с файлами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q2" value="d">d) Более высокая производительность</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q2" value="e">e) Не поддерживают многопоточность</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q2" value="f">f) Запускаются только под Windows</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q2" value="g">g) Не могут использовать .NET Framework</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q2" value="h">h) Код пишется на другом диалекте C#</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q2" value="i">i) Точка входа Main находится в другом классе</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q2" value="j">j) Отличаются только настройками проекта</label></li>
-                </ul>
-            </div>
-            <!-- Question 3 -->
-            <div class="question-block" id="q3">
-                <p class="question-title">3. Какое имя логического типа данных может использоваться в программах C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q3" value="a">a) boolean</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q3" value="b">b) bool</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q3" value="c">c) logical</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q3" value="d">d) bit</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q3" value="e">e) int</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q3" value="f">f) System.Boolean</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q3" value="g">g) flag</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q3" value="h">h) condition</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q3" value="i">i) TrueFalse</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q3" value="j">j) logic</label></li>
-                </ul>
-            </div>
-            <!-- Question 4 -->
-            <div class="question-block" id="q4">
-                 <p class="question-title">4. Что возвращает оператор new в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q4" value="a">a) Указатель на объект</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q4" value="b">b) Ссылку на созданный объект</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q4" value="c">c) Объект, созданный в стеке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q4" value="d">d) Размер выделенной памяти</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q4" value="e">e) Логическое значение успеха операции</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q4" value="f">f) Копию объекта</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q4" value="g">g) Ничего не возвращает (void)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q4" value="h">h) Адрес в управляемой куче</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q4" value="i">i) Дескриптор объекта</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q4" value="j">j) Идентификатор процесса</label></li>
-                </ul>
-            </div>
-            <!-- Question 5 -->
-            <div class="question-block" id="q5">
-                <p class="question-title">5. Что означает ключевое слово this в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q5" value="a">a) Ссылку на текущий экземпляр класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q5" value="b">b) Ссылку на базовый класс</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q5" value="c">c) Ссылку на статический класс</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q5" value="d">d) Указатель на функцию</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q5" value="e">e) Имя текущего пространства имен</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q5" value="f">f) Ссылку на родительский объект</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q5" value="g">g) Глобальную переменную</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q5" value="h">h) Конструктор по умолчанию</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q5" value="i">i) Метод-расширение</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q5" value="j">j) Деструктор класса</label></li>
-                </ul>
-            </div>
-            <!-- ... more questions 6-50 will be added here -->
-            <div class="question-block" id="q6">
-                <p class="question-title">6. Каким будет значение p1.X после выполнения следующего кода C#? Point p1 = new Point(10,10); Point p2 = p1; p2.X = 26;</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q6" value="a">a) 10 (если Point - структура)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q6" value="b">b) 26 (если Point - класс)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q6" value="c">c) 0</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q6" value="d">d) null</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q6" value="e">e) Код вызовет ошибку компиляции</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q6" value="f">f) 10 (если Point - класс)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q6" value="g">g) 26 (если Point - структура)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q6" value="h">h) Неопределенное значение</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q6" value="i">i) 36</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q6" value="j">j) -1</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q7">
-                <p class="question-title">7. Каким действием можно освободить память приложения от конкретного экземпляра класса C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q7" value="a">a) Это делает сборщик мусора автоматически</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q7" value="b">b) Вызвать метод Dispose()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q7" value="c">c) Присвоить ссылке значение null</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q7" value="d">d) Использовать оператор delete</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q7" value="e">e) Вызвать деструктор</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q7" value="f">f) GC.Collect()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q7" value="g">g) Использовать ключевое слово free</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q7" value="h">h) Объект удаляется при выходе из области видимости</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q7" value="i">i) Перезапустить приложение</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q7" value="j">j) Память не освобождается</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q8">
-                <p class="question-title">8. Каким образом можно передать аргументы x, y из конструктора конструктору базового класса в С#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q8" value="a">a) public Derived(int x, int y) : base(x, y)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q8" value="b">b) public Derived(int x, int y) { super(x, y); }</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q8" value="c">c) public Derived(int x, int y) { base.Constructor(x, y); }</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q8" value="d">d) public Derived(int x, int y) : this(x, y)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q8" value="e">e) Это невозможно</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q8" value="f">f) base.Derived(x, y)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q8" value="g">g) base(x, y)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q8" value="h">h) public Derived(int x, int y) { base.x = x; base.y = y; }</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q8" value="i">i) Через вызов метода родительского класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q8" value="j">j) public Derived(int x, int y) -> base(x, y)</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q9">
-                <p class="question-title">9. Какой оператор цикла отсутствует в языке С#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q9" value="a">a) for each</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q9" value="b">b) while</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q9" value="c">c) for</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q9" value="d">d) do-while</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q9" value="e">e) foreach</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q9" value="f">f) repeat-until</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q9" value="g">g) loop</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q9" value="h">h) for in</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q9" value="i">i) Все перечисленные есть в C#</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q9" value="j">j) switch</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q10">
-                <p class="question-title">10. Какое отличие структуры от класса в С# указано верно?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q10" value="a">a) Структуры - значимые типы, классы - ссылочные</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q10" value="b">b) Структуры не могут иметь методы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q10" value="c">c) Классы не могут наследоваться</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q10" value="d">d) Экземпляры структур создаются без new</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q10" value="e">e) Структуры не могут реализовывать интерфейсы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q10" value="f">f) Классы хранятся в стеке, структуры в куче</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q10" value="g">g) У структур не может быть конструкторов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q10" value="h">h) Структуры всегда sealed</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q10" value="i">i) Классы не могут быть статическими</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q10" value="j">j) Нет отличий</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q11">
-                <p class="question-title">11. Сколько аргументов должен получать конструктор структуры языка С#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q11" value="a">a) Может не иметь аргументов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q11" value="b">b) Структуры не могут иметь явный конструктор без параметров</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q11" value="c">c) Всегда один</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q11" value="d">d) Минимум два</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q11" value="e">e) Столько, сколько полей в структуре</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q11" value="f">f) У структур нет конструкторов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q11" value="g">g) Не более 10</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q11" value="h">h) Конструктор должен быть статическим</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q11" value="i">i) Любое количество, кроме нуля</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q11" value="j">j) Только неявный конструктор</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q12">
-                <p class="question-title">12. Какое выражение создаёт экземпляр (объект) класса X на языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q12" value="a">a) X obj = new X();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q12" value="b">b) X obj = X();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q12" value="c">c) new X();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q12" value="d">d) X obj;</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q12" value="e">e) create X obj;</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q12" value="f">f) X.CreateInstance();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q12" value="g">g) let obj = new X();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q12" value="h">h) (X)malloc(sizeof(X));</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q12" value="i">i) obj = new X;</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q12" value="j">j) X obj = alloc X;</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q13">
-                <p class="question-title">13. Каков размер переменной типа float в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q13" value="a">a) 4 байта</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q13" value="b">b) 8 байт</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q13" value="c">c) 2 байта</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q13" value="d">d) Зависит от платформы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q13" value="e">e) 16 байт</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q13" value="f">f) 1 байт</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q13" value="g">g) 32 бита</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q13" value="h">h) 64 бита</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q13" value="i">i) Как у double</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q13" value="j">j) Как у int</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q14">
-                <p class="question-title">14. Какой метод не входит в состав класса object в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q14" value="a">a) CompareTo()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q14" value="b">b) Equals()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q14" value="c">c) GetHashCode()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q14" value="d">d) ToString()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q14" value="e">e) GetType()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q14" value="f">f) Finalize()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q14" value="g">g) MemberwiseClone()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q14" value="h">h) ReferenceEquals()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q14" value="i">i) Все перечисленные входят</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q14" value="j">j) Clear()</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q15">
-                <p class="question-title">15. Каков доступ по умолчанию к полям структуры (struct) в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q15" value="a">a) private</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q15" value="b">b) public</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q15" value="c">c) internal</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q15" value="d">d) protected</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q15" value="e">e) нет доступа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q15" value="f">f) protected internal</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q15" value="g">g) file</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q15" value="h">h) Зависит от контекста</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q15" value="i">i) Как у класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q15" value="j">j) friend</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q16">
-                <p class="question-title">16. С помощью какого модификатора в языке C# можно переопределить виртуальную функцию в производном классе?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q16" value="a">a) override</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q16" value="b">b) virtual</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q16" value="c">c) new</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q16" value="d">d) abstract</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q16" value="e">e) sealed</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q16" value="f">f) base</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q16" value="g">g) reride</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q16" value="h">h) implement</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q16" value="i">i) redefine</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q16" value="j">j) overload</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q17">
-                <p class="question-title">17. Какое свойство характеризует абстрактный класс в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q17" value="a">a) Нельзя создать экземпляр этого класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q17" value="b">b) Все его методы должны быть абстрактными</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q17" value="c">c) Не может иметь конструктора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q17" value="d">d) Может наследоваться только от другого абстрактного класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q17" value="e">e) Не может реализовывать интерфейсы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q17" value="f">f) Может иметь только статические методы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q17" value="g">g) Все его поля должны быть private</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q17" value="h">h) Является запечатанным (sealed)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q17" value="i">i) Не может содержать полей</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q17" value="j">j) Идентичен интерфейсу</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q18">
-                <p class="question-title">18. Чем интерфейс отличается от класса в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q18" value="a">a) Интерфейс не может содержать реализацию методов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q18" value="b">b) Класс может реализовывать несколько интерфейсов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q18" value="c">c) Интерфейс не может содержать полей</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q18" value="d">d) Нельзя создать экземпляр интерфейса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q18" value="e">e) Все перечисленное верно для версий C# до 8.0</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q18" value="f">f) Класс может наследоваться только от одного класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q18" value="g">g) Интерфейс может содержать события и свойства</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q18" value="h">h) Интерфейсы не могут быть generic</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q18" value="i">i) Классы не могут быть вложенными</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q18" value="j">j) Члены интерфейса по умолчанию public</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q19">
-                <p class="question-title">19. Что означает Ключевое слово try в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q19" value="a">a) Начало блока кода для отлова исключений</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q19" value="b">b) Попытку приведения типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q19" value="c">c) Повторное выполнение блока кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q19" value="d">d) Блок кода, который может не выполниться</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q19" value="e">e) Определение блока небезопасного кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q19" value="f">f) Синоним для if</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q19" value="g">g) Начало транзакции</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q19" value="h">h) Проверку условия</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q19" value="i">i) Генерацию исключения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q19" value="j">j) Конец блока catch</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q20">
-                <p class="question-title">20. Какой тип объекта ошибки может передаваться оператору throw в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q20" value="a">a) Любой объект, унаследованный от System.Exception</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q20" value="b">b) Только объект класса System.Exception</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q20" value="c">c) Любой объект</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q20" value="d">d) Строка с описанием ошибки</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q20" value="e">e) Целое число (код ошибки)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q20" value="f">f) Null</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q20" value="g">g) Объект класса Error</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q20" value="h">h) Анонимный тип</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q20" value="i">i) Перечисление (enum)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q20" value="j">j) Ничего, throw используется без операндов</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q21">
-                <p class="question-title">21. Что произойдёт, если не будет найден обработчик для сгенерированного программой исключения?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q21" value="a">a) Аварийное завершение программы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q21" value="b">b) Исключение будет проигнорировано</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q21" value="c">c) Программа перейдет к следующей строке кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q21" value="d">d) Система зависнет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q21" value="e">e) Будет вызван сборщик мусора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q21" value="f">f) Компьютер перезагрузится</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q21" value="g">g) Будет выведено предупреждение в консоль</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q21" value="h">h) Программа войдет в бесконечный цикл</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q21" value="i">i) Будет автоматически сгенерирован блок catch</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q21" value="j">j) Это невозможно</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q22">
-                <p class="question-title">22. Если формальный аргумент метода объявлен как экземпляр класса X, то какого типа в языке C# может быть фактический аргумент при вызове метода?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q22" value="a">a) Класса X или любого его наследника</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q22" value="b">b) Только класса X</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q22" value="c">c) Любого класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q22" value="d">d) Только базового для X класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q22" value="e">e) Любой структуры</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q22" value="f">f) Любого типа, неявно приводимого к X</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q22" value="g">g) Только string</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q22" value="h">h) Только object</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q22" value="i">i) Любого ссылочного типа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q22" value="j">j) Любого значимого типа</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q23">
-                <p class="question-title">23. Можно ли передать доступ к некоторой структуре в вызываемый метод по ссылке?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q23" value="a">a) Да, с помощью ключевого слова ref или out</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q23" value="b">b) Нет, структуры всегда передаются по значению</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q23" value="c">c) Да, если структура содержит только ссылочные типы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q23" value="d">d) Да, если обернуть ее в класс</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q23" value="e">e) Только в небезопасном (unsafe) коде</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q23" value="f">f) Да, с помощью ключевого слова in</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q23" value="g">g) Нет, это вызовет ошибку компиляции</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q23" value="h">h) Да, по умолчанию все структуры передаются по ссылке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q23" value="i">i) Да, если использовать оператор &</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q23" value="j">j) Только для generic-методов</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q24">
-                <p class="question-title">24. Если присваивание переменных x = y допустимо, то допустимо ли обратное присваивание в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q24" value="a">a) Не всегда</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q24" value="b">b) Всегда да</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q24" value="c">c) Всегда нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q24" value="d">d) Только если типы полностью совпадают</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q24" value="e">e) Только для числовых типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q24" value="f">f) Только для ссылочных типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q24" value="g">g) Только с явным приведением типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q24" value="h">h) Зависит от настроек компилятора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q24" value="i">i) Только если y - null</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q24" value="j">j) Только если x и y - object</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q25">
-                <p class="question-title">25. Для каких типов данных в языке C# базовым является тип object?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q25" value="a">a) Для всех типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q25" value="b">b) Только для ссылочных типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q25" value="c">c) Только для значимых типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q25" value="d">d) Только для предопределенных типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q25" value="e">e) Для типов, неявно реализующих IObject</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q25" value="f">f) Ни для каких</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q25" value="g">g) Только для классов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q25" value="h">h) Только для тех, что объявлены с 'public'</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q25" value="i">i) Только для string и array</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q25" value="j">j) Только для тех, что не являются static</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q26">
-                <p class="question-title">26. При каком условии возможно без явных преобразований присваивание y = x в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q26" value="a">a) Если тип x является наследником типа y</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q26" value="b">b) Если тип y является наследником типа x</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q26" value="c">c) Только если их типы полностью совпадают</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q26" value="d">d) Если существует неявный оператор преобразования</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q26" value="e">e) Всегда</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q26" value="f">f) Никогда</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q26" value="g">g) Если y это object</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q26" value="h">h) Если оба типа значимые</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q26" value="i">i) Если оба типа числовые и тип y "шире"</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q26" value="j">j) Если x и y реализуют один интерфейс</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q27">
-                <p class="question-title">27. Что задаёт ключевое слово ref в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q27" value="a">a) Передачу аргумента в метод по ссылке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q27" value="b">b) Создание ссылочного типа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q27" value="c">c) Получение ссылки на объект</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q27" value="d">d) Объявление переменной, которая будет инициализирована в методе</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q27" value="e">e) Возврат значения из метода по ссылке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q27" value="f">f) Указание на то, что поле является ссылкой</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q27" value="g">g) Синоним для 'out'</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q27" value="h">h) Директиву компилятора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q27" value="i">i) Создание псевдонима для типа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q27" value="j">j) Объявление делегата</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q28">
-                <p class="question-title">28. Какие права доступа задаёт модификатор доступа internal в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q28" value="a">a) Доступ в пределах текущей сборки (проекта)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q28" value="b">b) Доступ только из текущего класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q28" value="c">c) Доступ из любого места программы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q28" value="d">d) Доступ из текущего класса и его наследников</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q28" value="e">e) Доступ только внутри текущего файла</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q28" value="f">f) Доступ только для дружественных сборок</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q28" value="g">g) Доступ в пределах пространства имен</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q28" value="h">h) Отсутствие доступа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q28" value="i">i) То же, что и private</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q28" value="j">j) То же, что и public</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q29">
-                <p class="question-title">29. Какие права доступа задаёт модификатор доступа protected в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q29" value="a">a) Доступ из содержащего класса и из производных классов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q29" value="b">b) Доступ только из содержащего класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q29" value="c">c) Доступ в пределах текущей сборки</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q29" value="d">d) Доступ из любого кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q29" value="e">e) Доступ только из производных классов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q29" value="f">f) Доступ из производных классов в той же сборке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q29" value="g">g) Доступ только из дружественных классов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q29" value="h">h) То же, что и internal</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q29" value="i">i) Запрет доступа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q29" value="j">j) То же, что и private</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q30">
-                <p class="question-title">30. Что делает оператор % в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q30" value="a">a) Вычисляет остаток от деления</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q30" value="b">b) Вычисляет процент от числа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q30" value="c">c) Форматирует строку</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q30" value="d">d) Целочисленное деление</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q30" value="e">e) Побитовое И</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q30" value="f">f) Комментарий</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q30" value="g">g) Экранирование символов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q30" value="h">h) Возведение в степень</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q30" value="i">i) Унарный плюс</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q30" value="j">j) Такого оператора нет</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q31">
-                <p class="question-title">31. Укажите корректный способ объявления переменной массива в C#.</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q31" value="a">a) int[] numbers;</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q31" value="b">b) int numbers[];</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q31" value="c">c) Array<int> numbers;</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q31" value="d">d) int[5] numbers;</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q31" value="e">e) numbers = new int[];</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q31" value="f">f) List<int> numbers;</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q31" value="g">g) int numbers = new int[5];</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q31" value="h">h) var numbers = int[];</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q31" value="i">i) int* numbers;</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q31" value="j">j) Dim numbers As Integer()</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q32">
-                <p class="question-title">32. Какое ограничение накладывается в языке C# на метод - обработчик события?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q32" value="a">a) Сигнатура метода должна соответствовать сигнатуре делегата события</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q32" value="b">b) Метод должен быть статическим</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q32" value="c">c) Метод должен возвращать void</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q32" value="d">d) Метод должен быть public</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q32" value="e">e) Метод должен называться HandleEvent</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q32" value="f">f) Метод должен принимать один аргумент типа object</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q32" value="g">g) Метод должен быть виртуальным</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q32" value="h">h) Никаких ограничений нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q32" value="i">i) Метод должен иметь атрибут [EventHandler]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q32" value="j">j) Метод должен быть в том же классе, что и событие</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q33">
-                <p class="question-title">33. Какой код в C# корректно создаст экземпляр класса X и ссылающуюся на него переменную?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q33" value="a">a) X myX = new X();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q33" value="b">b) X myX; new myX();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q33" value="c">c) var myX = X.new();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q33" value="d">d) X myX = X.Create();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q33" value="e">e) new X() -> myX;</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q33" value="f">f) X myX = (X) new object();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q33" value="g">g) myX = new X;</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q33" value="h">h) X() myX;</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q33" value="i">i) Dim myX as New X()</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q33" value="j">j) let myX = new X();</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q34">
-                <p class="question-title">34. Могут ли в языке C# использоваться указатели?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q34" value="a">a) Да, в блоках небезопасного (unsafe) кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q34" value="b">b) Нет, C# - полностью управляемый язык</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q34" value="c">c) Да, но только для взаимодействия с C++</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q34" value="d">d) Да, вместо ссылок</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q34" value="e">e) Только в .NET Framework 1.0</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q34" value="f">f) Да, но только для типов-значений</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q34" value="g">g) Нет, вместо них используются делегаты</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q34" value="h">h) Да, с помощью класса System.Pointer</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q34" value="i">i) Только при отключенном сборщике мусора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q34" value="j">j) Только в Mono</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q35">
-                <p class="question-title">35. Какое ключевое слово в языке C# не относится к модификаторам переменных?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q35" value="a">a) event</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q35" value="b">b) const</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q35" value="c">c) readonly</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q35" value="d">d) static</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q35" value="e">e) volatile</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q35" value="f">f) public</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q35" value="g">g) private</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q35" value="h">h) protected</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q35" value="i">i) internal</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q35" value="j">j) new</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q36">
-                <p class="question-title">36. Что задаёт ключевое слово out в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q36" value="a">a) Передачу аргумента по ссылке, который должен быть инициализирован в методе</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q36" value="b">b) Передачу аргумента по значению</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q36" value="c">c) Возврат нескольких значений из метода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q36" value="d">d) Указывает, что метод является устаревшим</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q36" value="e">e) Синоним для 'ref'</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q36" value="f">f) Вывод данных в консоль</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q36" value="g">g) Передачу аргумента по ссылке, который должен быть инициализирован до вызова</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q36" value="h">h) Определение выходного параметра в SQL-процедуре</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q36" value="i">i) Указание на внешний (external) метод</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q36" value="j">j) Выход из цикла или метода</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q37">
-                <p class="question-title">37. Какое ключевое слово в С# не относится к механизму обработки исключительных ситуаций?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q37" value="a">a) error</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q37" value="b">b) try</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q37" value="c">c) catch</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q37" value="d">d) finally</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q37" value="e">e) throw</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q37" value="f">f) when</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q37" value="g">g) Exception</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q37" value="h">h) Все перечисленные относятся</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q37" value="i">i) except</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q37" value="j">j) fail</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q38">
-                <p class="question-title">38. Каким образом можно вызвать статический public метод 'MyMethod' класса X в языке C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q38" value="a">a) X.MyMethod();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q38" value="b">b) X x = new X(); x.MyMethod();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q38" value="c">c) MyMethod();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q38" value="d">d) X::MyMethod();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q38" value="e">e) this.MyMethod();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q38" value="f">f) (new X()).MyMethod();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q38" value="g">g) X->MyMethod();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q38" value="h">h) Невозможно вызвать статический метод</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q38" value="i">i) object.MyMethod();</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q38" value="j">j) using static X; MyMethod();</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q39">
-                <p class="question-title">39. Что такое LINQ в C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q39" value="a">a) Технология для выполнения запросов к источникам данных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q39" value="b">b) Библиотека для работы с сетью</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q39" value="c">c) Новый тип цикла</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q39" value="d">d) Система управления памятью</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q39" value="e">e) Графический фреймворк</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q39" value="f">f) Язык для разметки интерфейса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q39" value="g">g) Компилятор C#</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q39" value="h">h) Стандарт кодирования</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q39" value="i">i) Отладчик</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q39" value="j">j) Плагин для Visual Studio</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q40">
-                <p class="question-title">40. Какая операция в языке C# доступна только в блоках небезопасного кода?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q40" value="a">a) Адресная арифметика с указателями</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q40" value="b">b) Создание экземпляра класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q40" value="c">c) Вызов статических методов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q40" value="d">d) Перегрузка операторов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q40" value="e">e) Явное приведение типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q40" value="f">f) Работа с типом 'dynamic'</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q40" value="g">g) Использование 'goto'</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q40" value="h">h) Вызов нативного кода через P/Invoke</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q40" value="i">i) Деление на ноль</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q40" value="j">j) Рефлексия</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q41">
-               <p class="question-title">41. Что такое "boxing" (упаковка) в C#?</p>
-               <ul class="answers-list">
-                   <li class="answer-item"><label><input type="radio" name="q41" value="a">a) Преобразование значимого типа в ссылочный (object)</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q41" value="b">b) Преобразование ссылочного типа в значимый</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q41" value="c">c) Помещение объекта в коллекцию</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q41" value="d">d) Сериализация объекта</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q41" value="e">e) Создание "коробки" для UI элемента</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q41" value="f">f) Инкапсуляция полей в свойства</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q41" value="g">g) Ограничение области видимости переменной</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q41" value="h">h) Процесс компиляции</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q41" value="i">i) Запечатывание класса (sealed)</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q41" value="j">j) Создание анонимного типа</label></li>
-               </ul>
-            </div>
-            <div class="question-block" id="q42">
-               <p class="question-title">42. Для чего используется ключевое слово 'using' в C#?</p>
-               <ul class="answers-list">
-                   <li class="answer-item"><label><input type="radio" name="q42" value="a">a) Для импорта пространств имен и для автоматического вызова Dispose()</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q42" value="b">b) Только для импорта пространств имен</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q42" value="c">c) Для создания псевдонима для типа</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q42" value="d">d) Для определения области видимости переменной</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q42" value="e">e) Для наследования от класса</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q42" value="f">f) Для объявления переменных</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q42" value="g">g) Для перегрузки методов</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q42" value="h">h) Для работы с указателями</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q42" value="i">i) Для обработки исключений</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q42" value="j">j) Для объявления статических членов</label></li>
-               </ul>
-            </div>
-            <div class="question-block" id="q43">
-               <p class="question-title">43. Какой модификатор делает класс "запечатанным", то есть запрещает наследование от него?</p>
-               <ul class="answers-list">
-                   <li class="answer-item"><label><input type="radio" name="q43" value="a">a) sealed</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q43" value="b">b) static</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q43" value="c">c) abstract</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q43" value="d">d) private</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q43" value="e">e) const</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q43" value="f">f) final</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q43" value="g">g) readonly</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q43" value="h">h) internal</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q43" value="i">i) closed</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q43" value="j">j) fixed</label></li>
-               </ul>
-            </div>
-            <div class="question-block" id="q44">
-               <p class="question-title">44. Что такое делегат в C#?</p>
-               <ul class="answers-list">
-                   <li class="answer-item"><label><input type="radio" name="q44" value="a">a) Тип, который представляет собой ссылку на метод</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q44" value="b">b) Представитель класса в другом классе</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q44" value="c">c) Способ скрыть реализацию</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q44" value="d">d) Паттерн проектирования</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q44" value="e">e) Метод, который делегирует работу другому методу</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q44" value="f">f) Класс для работы с событиями</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q44" value="g">g) Интерфейс с одним методом</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q44" value="h">h) Атрибут для методов</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q44" value="i">i) Коллекция методов</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q44" value="j">j) Переменная, хранящая код</label></li>
-               </ul>
-            </div>
-            <div class="question-block" id="q45">
-               <p class="question-title">45. В чем разница между '==' и '.Equals()' для ссылочных типов?</p>
-               <ul class="answers-list">
-                   <li class="answer-item"><label><input type="radio" name="q45" value="a">a) '==' сравнивает ссылки, .Equals() может быть переопределен для сравнения содержимого</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q45" value="b">b) .Equals() сравнивает ссылки, '==' сравнивает содержимое</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q45" value="c">c) Нет никакой разницы</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q45" value="d">d) '==' используется для значимых типов, .Equals() для ссылочных</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q45" value="e">e) '==' быстрее, чем .Equals()</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q45" value="f">f) .Equals() может сравнивать объекты разных типов, '==' - нет</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q45" value="g">g) '==' не может быть перегружен</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q45" value="h">h) .Equals() всегда вызывает '=='</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q45" value="i">i) '==' сравнивает хэш-коды</label></li>
-                   <li class="answer-item"><label><input type="radio" name="q45" value="j">j) .Equals() работает только со строками</label></li>
-               </ul>
-            </div>
-            <div class="question-block" id="q46">
-                <p class="question-title">46. Что делает ключевое слово `yield` в C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q46" value="a">a) Возвращает элемент перечисления и сохраняет состояние метода-итератора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q46" value="b">b) Приостанавливает выполнение асинхронного метода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q46" value="c">c) Безусловно передает управление другому потоку</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q46" value="d">d) Является синонимом `return` для анонимных методов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q46" value="e">e) Генерирует событие</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q46" value="f">f) Определяет точку выхода из конструктора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q46" value="g">g) Используется для ленивых вычислений в LINQ</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q46" value="h">h) Завершает выполнение блока `finally`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q46" value="i">i) Создает сопрограмму (coroutine)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q46" value="j">j) Объявляет поле, доступное для записи только один раз</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q47">
-                <p class="question-title">47. Какой из перечисленных типов является ссылочным?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q47" value="a">a) string</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q47" value="b">b) int</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q47" value="c">c) double</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q47" value="d">d) bool</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q47" value="e">e) struct</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q47" value="f">f) char</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q47" value="g">g) enum</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q47" value="h">h) decimal</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q47" value="i">i) byte</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q47" value="j">j) Guid</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q48">
-                <p class="question-title">48. Для чего используется `async` и `await`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q48" value="a">a) Для написания асинхронного, неблокирующего кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q48" value="b">b) Для создания и управления потоками вручную</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q48" value="c">c) Для синхронизации доступа к общим ресурсам</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q48" value="d">d) Для отложенного выполнения кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q48" value="e">e) Для работы с небезопасным кодом</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q48" value="f">f) Для выполнения кода в определенном порядке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q48" value="g">g) Для динамической компиляции кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q48" value="h">h) Для генерации кода во время выполнения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q48" value="i">i) Для взаимодействия с COM-объектами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q48" value="j">j) Для создания плагинов</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q49">
-                <p class="question-title">49. Что такое Generic (обобщения) в C#?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q49" value="a">a) Способ создания классов и методов с "заполнителем" типа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q49" value="b">b) Общий базовый класс для всех объектов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q49" value="c">c) Библиотека стандартных алгоритмов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q49" value="d">d) Шаблон для генерации кода</slabel></li>
-                    <li class="answer-item"><label><input type="radio" name="q49" value="e">e) Технология для работы с базами данных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q49" value="f">f) Способ динамического определения типа переменной</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q49" value="g">g) Ограничение на типы, которые можно использовать</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q49" value="h">h) Автоматическое приведение типов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q49" value="i">i) Набор общих интерфейсов, таких как IEnumerable</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q49" value="j">j) Правила именования переменных</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q50">
-                <p class="question-title">50. Какое пространство имен необходимо подключить для работы с LINQ?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q50" value="a">a) System.Linq</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q50" value="b">b) System.Data</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q50" value="c">c) System.Collections.Generic</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q50" value="d">d) System.Query</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q50" value="e">e) System.Xml.Linq</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q50" value="f">f) Microsoft.CSharp</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q50" value="g">g) System.Threading.Tasks</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q50" value="h">h) System.Text</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q50" value="i">i) LINQ не требует подключения пространств имен</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q50" value="j">j) System.Core</label></li>
-                </ul>
-            </div>
+<main>
+    <div class="content-container">
+        <h1>Тест 1 по C#</h1>
+        <div id="quiz-area">
+            <div id="question-text"></div>
+            <div id="answers-container"></div>
+            <div id="feedback"></div>
+        </div>
+        <button id="next-button">Следующий вопрос</button>
+    </div>
+</main>
 
-            <div class="button-container">
-                <button type="submit" class="submit-button">Завершить тест</button>
-            </div>
-        </form>
-        <div id="results" style="display: none;"></div>
-    </main>
+<footer class="footer">
+    Решу игэ - сдам гиа
+</footer>
+<script>
+    const questions =
+        [
+            [
+                "Что является точкой входа в программу на языке C#?",
+                [
+                    "public static void main()",
+                    "public void Main(string[] args)",
+                    "static void main(string[] args)",
+                    "public static int Main()",
+                    "private static void Main()",
+                    "Program.Main()",
+                    "Любой статический метод",
+                    "Конструктор класса Program",
+                    "Точка входа определяется в файле проекта",
+                    "Метод с атрибутом [EntryPoint]"
+                ],
+                3
+            ],
+            [
+                "Что отличает консольное приложение на языке C# от приложения Windows Forms?",
+                [
+                    "Отсутствие графического интерфейса пользователя (GUI)",
+                    "Используется другой компилятор",
+                    "Невозможность работы с файлами",
+                    "Более высокая производительность",
+                    "Не поддерживают многопоточность",
+                    "Запускаются только под Windows",
+                    "Не могут использовать .NET Framework",
+                    "Код пишется на другом диалекте C#",
+                    "Точка входа Main находится в другом классе",
+                    "Отличаются только настройками проекта"
+                ],
+                0
+            ],
+            [
+                "Какое имя логического типа данных может использоваться в программах C#?",
+                [
+                    "boolean",
+                    "bool",
+                    "logical",
+                    "bit",
+                    "int",
+                    "System.Boolean",
+                    "flag",
+                    "condition",
+                    "TrueFalse",
+                    "logic"
+                ],
+                1
+            ],
+            [
+                "Что возвращает оператор new в языке C#?",
+                [
+                    "Указатель на объект",
+                    "Ссылку на созданный объект",
+                    "Объект, созданный в стеке",
+                    "Размер выделенной памяти",
+                    "Логическое значение успеха операции",
+                    "Копию объекта",
+                    "Ничего не возвращает (void)",
+                    "Адрес в управляемой куче",
+                    "Дескриптор объекта",
+                    "Идентификатор процесса"
+                ],
+                1
+            ],
+            [
+                "Что означает ключевое слово this в языке C#?",
+                [
+                    "Ссылку на текущий экземпляр класса",
+                    "Ссылку на базовый класс",
+                    "Ссылку на статический класс",
+                    "Указатель на функцию",
+                    "Имя текущего пространства имен",
+                    "Ссылку на родительский объект",
+                    "Глобальную переменную",
+                    "Конструктор по умолчанию",
+                    "Метод-расширение",
+                    "Деструктор класса"
+                ],
+                0
+            ],
+            [
+                "Каким действием можно освободить память приложения от конкретного экземпляра класса C#?",
+                [
+                    "Это делает сборщик мусора автоматически",
+                    "Вызвать метод Dispose()",
+                    "Присвоить ссылке значение null",
+                    "Использовать оператор delete",
+                    "Вызвать деструктор",
+                    "GC.Collect()",
+                    "Использовать ключевое слово free",
+                    "Объект удаляется при выходе из области видимости",
+                    "Перезапустить приложение",
+                    "Память не освобождается"
+                ],
+                0
+            ],
+            [
+                "Каким образом можно передать аргументы x, y из конструктора конструктору базового класса в С#?",
+                [
+                    "public Derived(int x, int y) : base(x, y)",
+                    "public Derived(int x, int y) { super(x, y); }",
+                    "public Derived(int x, int y) { base.Constructor(x, y); }",
+                    "public Derived(int x, int y) : this(x, y)",
+                    "Это невозможно",
+                    "base.Derived(x, y)",
+                    "base(x, y)",
+                    "public Derived(int x, int y) { base.x = x; base.y = y; }",
+                    "Через вызов метода родительского класса",
+                    "public Derived(int x, int y) -> base(x, y)"
+                ],
+                6
+            ],
+            [
+                "Какой оператор цикла отсутствует в языке С#?",
+                [
+                    "for each",
+                    "while",
+                    "for",
+                    "do-while",
+                    "foreach",
+                    "repeat-until",
+                    "loop",
+                    "for in",
+                    "Все перечисленные есть в C#",
+                    "switch"
+                ],
+                5
+            ],
+            [
+                "Какое отличие структуры от класса в С# указано верно?",
+                [
+                    "Структуры - значимые типы, классы - ссылочные",
+                    "Структуры не могут иметь методы",
+                    "Классы не могут наследоваться",
+                    "Экземпляры структур создаются без new",
+                    "Структуры не могут реализовывать интерфейсы",
+                    "Классы хранятся в стеке, структуры в куче",
+                    "У структур не может быть конструкторов",
+                    "Структуры всегда sealed",
+                    "Классы не могут быть статическими",
+                    "Нет отличий"
+                ],
+                0
+            ],
+            [
+                "Сколько аргументов должен получать конструктор структуры языка С#?",
+                [
+                    "Может не иметь аргументов",
+                    "Структуры не могут иметь явный конструктор без параметров",
+                    "Всегда один",
+                    "Минимум два",
+                    "Столько, сколько полей в структуре",
+                    "У структур нет конструкторов",
+                    "Не более 10",
+                    "Конструктор должен быть статическим",
+                    "Любое количество, кроме нуля",
+                    "Только неявный конструктор"
+                ],
+                1
+            ],
+            [
+                "Какое выражение создаёт экземпляр (объект) класса X на языке C#?",
+                [
+                    "X obj = new X();",
+                    "X obj = X();",
+                    "new X();",
+                    "X obj;",
+                    "create X obj;",
+                    "X.CreateInstance();",
+                    "let obj = new X();",
+                    "(X)malloc(sizeof(X));",
+                    "obj = new X;",
+                    "X obj = alloc X;"
+                ],
+                0
+            ],
+            [
+                "Каков размер переменной типа float в языке C#?",
+                [
+                    "4 байта",
+                    "8 байт",
+                    "2 байта",
+                    "Зависит от платформы",
+                    "16 байт",
+                    "1 байт",
+                    "32 бита",
+                    "64 бита",
+                    "Как у double",
+                    "Как у int"
+                ],
+                0
+            ],
+            [
+                "Какой метод не входит в состав класса object в языке C#?",
+                [
+                    "CompareTo()",
+                    "Equals()",
+                    "GetHashCode()",
+                    "ToString()",
+                    "GetType()",
+                    "Finalize()",
+                    "MemberwiseClone()",
+                    "ReferenceEquals()",
+                    "Все перечисленные входят",
+                    "Clear()"
+                ],
+                5
+            ],
+            [
+                "Каков доступ по умолчанию к полям структуры (struct) в языке C#?",
+                [
+                    "private",
+                    "public",
+                    "internal",
+                    "protected",
+                    "нет доступа",
+                    "protected internal",
+                    "file",
+                    "Зависит от контекста",
+                    "Как у класса",
+                    "friend"
+                ],
+                0
+            ],
+            [
+                "С помощью какого модификатора в языке C# можно переопределить виртуальную функцию в производном классе?",
+                [
+                    "override",
+                    "virtual",
+                    "new",
+                    "abstract",
+                    "sealed",
+                    "base",
+                    "reride",
+                    "implement",
+                    "redefine",
+                    "overload"
+                ],
+                0
+            ],
+            [
+                "Какое свойство характеризует абстрактный класс в языке C#?",
+                [
+                    "Нельзя создать экземпляр этого класса",
+                    "Все его методы должны быть абстрактными",
+                    "Не может иметь конструктора",
+                    "Может наследоваться только от другого абстрактного класса",
+                    "Не может реализовывать интерфейсы",
+                    "Может иметь только статические методы",
+                    "Все его поля должны быть private",
+                    "Является запечатанным (sealed)",
+                    "Не может содержать полей",
+                    "Идентичен интерфейсу"
+                ],
+                0
+            ],
+            [
+                "Чем интерфейс отличается от класса в языке C#?",
+                [
+                    "Интерфейс не может содержать реализацию методов",
+                    "Класс может реализовывать несколько интерфейсов",
+                    "Интерфейс не может содержать полей",
+                    "Нельзя создать экземпляр интерфейса",
+                    "Все перечисленное верно для версий C# до 8.0",
+                    "Класс может наследоваться только от одного класса",
+                    "Интерфейс может содержать события и свойства",
+                    "Интерфейсы не могут быть generic",
+                    "Классы не могут быть вложенными",
+                    "Члены интерфейса по умолчанию public"
+                ],
+                0
+            ],
+            [
+                "Что означает Ключевое слово try в языке C#?",
+                [
+                    "Начало блока кода для отлова исключений",
+                    "Попытку приведения типов",
+                    "Повторное выполнение блока кода",
+                    "Блок кода, который может не выполниться",
+                    "Определение блока небезопасного кода",
+                    "Синоним для if",
+                    "Начало транзакции",
+                    "Проверку условия",
+                    "Генерацию исключения",
+                    "Конец блока catch"
+                ],
+                0
+            ],
+            [
+                "Какой тип объекта ошибки может передаваться оператору throw в языке C#?",
+                [
+                    "Любой объект, унаследованный от System.Exception",
+                    "Только объект класса System.Exception",
+                    "Любой объект",
+                    "Строка с описанием ошибки",
+                    "Целое число (код ошибки)",
+                    "Null",
+                    "Объект класса Error",
+                    "Анонимный тип",
+                    "Перечисление (enum)",
+                    "Ничего, throw используется без операндов"
+                ],
+                0
+            ],
+            [
+                "Что произойдёт, если не будет найден обработчик для сгенерированного программой исключения?",
+                [
+                    "Аварийное завершение программы",
+                    "Исключение будет проигнорировано",
+                    "Программа перейдет к следующей строке кода",
+                    "Система зависнет",
+                    "Будет вызван сборщик мусора",
+                    "Компьютер перезагрузится",
+                    "Будет выведено предупреждение в консоль",
+                    "Программа войдет в бесконечный цикл",
+                    "Будет автоматически сгенерирован блок catch",
+                    "Это невозможно"
+                ],
+                0
+            ],
+            [
+                "Можно ли передать доступ к некоторой структуре в вызываемый метод по ссылке?",
+                [
+                    "Да, с помощью ключевого слова ref или out",
+                    "Нет, структуры всегда передаются по значению",
+                    "Да, если структура содержит только ссылочные типы",
+                    "Да, если обернуть ее в класс",
+                    "Только в небезопасном (unsafe) коде",
+                    "Да, с помощью ключевого слова in",
+                    "Нет, это вызовет ошибку компиляции",
+                    "Да, по умолчанию все структуры передаются по ссылке",
+                    "Да, если использовать оператор &",
+                    "Только для generic-методов"
+                ],
+                0
+            ],
+            [
+                "Если присваивание переменных x = y допустимо, то допустимо ли обратное присваивание в языке C#?",
+                [
+                    "Не всегда",
+                    "Всегда да",
+                    "Всегда нет",
+                    "Только если типы полностью совпадают",
+                    "Только для числовых типов",
+                    "Только для ссылочных типов",
+                    "Только с явным приведением типов",
+                    "Зависит от настроек компилятора",
+                    "Только если y - null",
+                    "Только если x и y - object"
+                ],
+                0
+            ],
+            [
+                "Для каких типов данных в языке C# базовым является тип object?",
+                [
+                    "Для всех типов",
+                    "Только для ссылочных типов",
+                    "Только для значимых типов",
+                    "Только для предопределенных типов",
+                    "Для типов, неявно реализующих IObject",
+                    "Ни для каких",
+                    "Только для классов",
+                    "Только для тех, что объявлены с 'public'",
+                    "Только для string и array",
+                    "Только для тех, что не являются static"
+                ],
+                0
+            ],
+            [
+                "При каком условии возможно без явных преобразований присваивание y = x в языке C#?",
+                [
+                    "Если тип x является наследником типа y",
+                    "Если тип y является наследником типа x",
+                    "Только если их типы полностью совпадают",
+                    "Если существует неявный оператор преобразования",
+                    "Всегда",
+                    "Никогда",
+                    "Если y это object",
+                    "Если оба типа значимые",
+                    "Если оба типа числовые и тип y \"шире\"",
+                    "Если x и y реализуют один интерфейс"
+                ],
+                3
+            ],
+            [
+                "Что задаёт ключевое слово ref в языке C#?",
+                [
+                    "Передачу аргумента в метод по ссылке",
+                    "Создание ссылочного типа",
+                    "Получение ссылки на объект",
+                    "Объявление переменной, которая будет инициализирована в методе",
+                    "Возврат значения из метода по ссылке",
+                    "Указание на то, что поле является ссылкой",
+                    "Синоним для 'out'",
+                    "Директиву компилятора",
+                    "Создание псевдонима для типа",
+                    "Объявление делегата"
+                ],
+                0
+            ],
+            [
+                "Какие права доступа задаёт модификатор доступа internal в языке C#?",
+                [
+                    "Доступ в пределах текущей сборки (проекта)",
+                    "Доступ только из текущего класса",
+                    "Доступ из любого места программы",
+                    "Доступ из текущего класса и его наследников",
+                    "Доступ только внутри текущего файла",
+                    "Доступ только для дружественных сборок",
+                    "Доступ в пределах пространства имен",
+                    "Отсутствие доступа",
+                    "То же, что и private",
+                    "То же, что и public"
+                ],
+                0
+            ],
+            [
+                "Какие права доступа задаёт модификатор доступа protected в языке C#?",
+                [
+                    "Доступ из содержащего класса и из производных классов",
+                    "Доступ только из содержащего класса",
+                    "Доступ в пределах текущей сборки",
+                    "Доступ из любого кода",
+                    "Доступ только из производных классов",
+                    "Доступ из производных классов в той же сборке",
+                    "Доступ только из дружественных классов",
+                    "То же, что и internal",
+                    "Запрет доступа",
+                    "То же, что и private"
+                ],
+                0
+            ],
+            [
+                "Что делает оператор % в языке C#?",
+                [
+                    "Вычисляет остаток от деления",
+                    "Вычисляет процент от числа",
+                    "Форматирует строку",
+                    "Целочисленное деление",
+                    "Побитовое И",
+                    "Комментарий",
+                    "Экранирование символов",
+                    "Возведение в степень",
+                    "Унарный плюс",
+                    "Такого оператора нет"
+                ],
+                0
+            ],
+            [
+                "Укажите корректный способ объявления переменной массива в C#.",
+                [
+                    "int[] numbers;",
+                    "int numbers[];",
+                    "int[5] numbers;",
+                    "numbers = new int[];",
+                    "int numbers = new int[5];",
+                    "var numbers = int[];",
+                    "int* numbers;",
+                    "Dim numbers As Integer()"
+                ],
+                0
+            ],
+            [
+                "Какое ограничение накладывается в языке C# на метод - обработчик события?",
+                [
+                    "Сигнатура метода должна соответствовать сигнатуре делегата события",
+                    "Метод должен быть статическим",
+                    "Метод должен возвращать void",
+                    "Метод должен быть public",
+                    "Метод должен называться HandleEvent",
+                    "Метод должен принимать один аргумент типа object",
+                    "Метод должен быть виртуальным",
+                    "Никаких ограничений нет",
+                    "Метод должен иметь атрибут [EventHandler]",
+                    "Метод должен быть в том же классе, что и событие"
+                ],
+                0
+            ],
+            [
+                "Могут ли в языке C# использоваться указатели?",
+                [
+                    "Да, в блоках небезопасного (unsafe) кода",
+                    "Нет, C# - полностью управляемый язык",
+                    "Да, но только для взаимодействия с C++",
+                    "Да, вместо ссылок",
+                    "Только в .NET Framework 1.0",
+                    "Да, но только для типов-значений",
+                    "Нет, вместо них используются делегаты",
+                    "Да, с помощью класса System.Pointer",
+                    "Только при отключенном сборщике мусора",
+                    "Только в Mono"
+                ],
+                0
+            ],
+            [
+                "Какое ключевое слово в языке C# не относится к модификаторам переменных?",
+                [
+                    "event",
+                    "const",
+                    "readonly",
+                    "static",
+                    "volatile",
+                    "public",
+                    "private",
+                    "protected",
+                    "internal",
+                    "new"
+                ],
+                0
+            ],
+            [
+                "Что задаёт ключевое слово out в языке C#?",
+                [
+                    "Передачу аргумента по ссылке, который должен быть инициализирован в методе",
+                    "Передачу аргумента по значению",
+                    "Возврат нескольких значений из метода",
+                    "Указывает, что метод является устаревшим",
+                    "Синоним для 'ref'",
+                    "Вывод данных в консоль",
+                    "Передачу аргумента по ссылке, который должен быть инициализирован до вызова",
+                    "Определение выходного параметра в SQL-процедуре",
+                    "Указание на внешний (external) метод",
+                    "Выход из цикла или метода"
+                ],
+                0
+            ],
+            [
+                "Какое ключевое слово в С# не относится к механизму обработки исключительных ситуаций?",
+                [
+                    "error",
+                    "try",
+                    "catch",
+                    "finally",
+                    "throw",
+                    "when",
+                    "Exception",
+                    "Все перечисленные относятся",
+                    "except",
+                    "fail"
+                ],
+                3
+            ],
+            [
+                "Какая операция в языке C# доступна только в блоках небезопасного кода?",
+                [
+                    "Адресная арифметика с указателями",
+                    "Создание экземпляра класса",
+                    "Вызов статических методов",
+                    "Перегрузка операторов",
+                    "Явное приведение типов",
+                    "Работа с типом 'dynamic'",
+                    "Использование 'goto'",
+                    "Вызов нативного кода через P/Invoke",
+                    "Деление на ноль",
+                    "Рефлексия"
+                ],
+                0
+            ]
+        ];
 
-    <script>
-        const correctAnswers = {
-            q1: 'd', q2: 'a', q3: 'b', q4: 'b', q5: 'a',
-            q6: 'b', q7: 'a', q8: 'a', q9: 'f', q10: 'a',
-            q11: 'b', q12: 'a', q13: 'a', q14: 'a', q15: 'a',
-            q16: 'a', q17: 'a', q18: 'e', q19: 'a', q20: 'a',
-            q21: 'a', q22: 'a', q23: 'a', q24: 'a', q25: 'a',
-            q26: 'd', q27: 'a', q28: 'a', q29: 'a', q30: 'a',
-            q31: 'a', q32: 'a', q33: 'a', q34: 'a', q35: 'a',
-            q36: 'a', q37: 'a', q38: 'a', q39: 'a', q40: 'a',
-            q41: 'a', q42: 'a', q43: 'a', q44: 'a', q45: 'a',
-            q46: 'a', q47: 'a', q48: 'a', q49: 'a', q50: 'a'
-        };
+    const questionTextEl = document.getElementById('question-text');
+    const answersContainerEl = document.getElementById('answers-container');
+    const feedbackEl = document.getElementById('feedback');
+    const nextButton = document.getElementById('next-button');
 
-        // Note: I've set many correct answers to 'a' as placeholders.
-        // I will generate unique and correct answers for all files.
-        // For q1-q40, I used the provided examples.
-        // For q6, the answer depends on whether Point is a class or struct. Assuming it's a class (reference type) is the most common scenario to illustrate the concept.
-        // For q18, the behavior of interfaces changed in C# 8.0 with default interface methods. So 'e' is the most nuanced answer.
-        
-        const correctAnswersUpdated = {
-            q1: 'd',  // public static int Main() is a valid entry point
-            q2: 'a',  // Lack of GUI
-            q3: 'b',  // bool
-            q4: 'b',  // Returns a reference
-            q5: 'a',  // Reference to the current instance
-            q6: 'b',  // 26, assuming Point is a class (reference type)
-            q7: 'a',  // Garbage collector
-            q8: 'a',  // : base(x, y)
-            q9: 'f',  // repeat-until
-            q10: 'a', // Value vs Reference type
-            q11: 'b', // Structs can't have an explicit parameterless constructor
-            q12: 'a', // X obj = new X();
-            q13: 'a', // 4 bytes (which is 32 bits, so 'g' is also correct, but 'a' is more common)
-            q14: 'a', // CompareTo() is in IComparable
-            q15: 'a', // private for members
-            q16: 'a', // override
-            q17: 'a', // Cannot be instantiated
-            q18: 'e', // Before C# 8.0, interfaces couldn't have implementation.
-            q19: 'a', // Block for exception handling
-            q20: 'a', // Any type derived from System.Exception
-            q21: 'a', // Crash
-            q22: 'a', // X or a derived class
-            q23: 'a', // Yes, with ref or out
-            q24: 'a', // Not always (e.g., int y = 1; double x = y; is ok, but y = x; requires a cast)
-            q25: 'a', // For all types
-            q26: 'd', // If an implicit conversion exists (includes inheritance)
-            q27: 'a', // Pass by reference
-            q28: 'a', // Accessible within the current assembly
-            q29: 'a', // Accessible from containing class and derived classes
-            q30: 'a', // Remainder
-            q31: 'a', // int[] numbers;
-            q32: 'a', // Signature must match the delegate
-            q33: 'a', // X myX = new X();
-            q34: 'a', // Yes, in unsafe code
-            q35: 'a', // event is for declaring events, not a variable modifier like const/readonly
-            q36: 'a', // Pass by reference, must be initialized inside the method
-            q37: 'a', // 'error' is not a C# keyword for exceptions
-            q38: 'a', // X.MyMethod();
-            q39: 'a', // Language-Integrated Query
-            q40: 'a', // Pointer arithmetic
-            q41: 'a', // Value type to reference type conversion
-            q42: 'a', // Imports namespaces and ensures IDisposable.Dispose is called
-            q43: 'a', // sealed
-            q44: 'a', // A type that represents a reference to a method
-            q45: 'a', // == compares references, .Equals() can be overridden to compare values
-            q46: 'a', // Used in iterators to return items one by one
-            q47: 'a', // string is a reference type, despite its immutable value-like behavior
-            q48: 'a', // For asynchronous programming
-            q49: 'a', // Code with type placeholders
-            q50: 'a'  // System.Linq
-        };
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let correctAnswerText = '';
 
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
 
-        document.getElementById('quiz-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            let score = 0;
-            const totalQuestions = Object.keys(correctAnswersUpdated).length;
-            
-            // Clear previous results visualizations
-            document.querySelectorAll('.answer-item label').forEach(label => {
-                label.classList.remove('correct-answer', 'incorrect-answer');
-                const input = label.querySelector('input');
-                if(input) {
-                    input.disabled = true;
-                }
-            });
+    function showQuestion() {
+        feedbackEl.innerHTML = '';
+        nextButton.disabled = true;
 
-            for (const qId in correctAnswersUpdated) {
-                const correctAnswer = correctAnswersUpdated[qId];
-                const selectedAnswer = document.querySelector(`input[name="${qId}"]:checked`);
-                const questionBlock = document.getElementById(qId);
-                const labels = questionBlock.querySelectorAll('.answer-item label');
-
-                if (selectedAnswer) {
-                    const parentLabel = selectedAnswer.parentElement;
-                    if (selectedAnswer.value === correctAnswer) {
-                        score++;
-                        parentLabel.classList.add('correct-answer');
-                    } else {
-                        parentLabel.classList.add('incorrect-answer');
-                        // Also show the correct answer
-                        const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
-                        correctLabel.classList.add('correct-answer');
-                    }
-                } else {
-                    // If no answer was selected, just show the correct one
-                     const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
-                     correctLabel.classList.add('correct-answer');
-                }
+        if (currentQuestionIndex >= questions.length) {
+            const percentage = (score / questions.length) * 100;
+            let message = '';
+            if (percentage >= 95) {
+                message = 'Отлично!';
+            } else if (percentage >= 75) {
+                message = 'Хорошо!';
+            } else if (percentage >= 50) {
+                message = 'Сомнительно, но окей.';
+            } else if (percentage >= 25) {
+                message = 'Пиздец, бро.';
+            } else {
+                message = 'Тебе пизда :)';
             }
 
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = `<h2>Ваш результат: ${score} из ${totalQuestions}</h2>`;
-            resultsDiv.style.display = 'block';
-            this.querySelector('.submit-button').style.display = 'none'; // Hide button after submission
-            resultsDiv.scrollIntoView({ behavior: 'smooth' });
-        });
-    </script>
+            questionTextEl.textContent = 'Тест завершен!';
+            answersContainerEl.innerHTML = '';
+            feedbackEl.innerHTML = `Вы набрали ${score} из ${questions.length} (${percentage.toFixed(0)}%). ${message}`;
+            nextButton.textContent = 'Начать заново';
+            nextButton.disabled = false;
+            nextButton.onclick = () => location.reload();
+            return;
+        }
 
+        const questionData = questions[currentQuestionIndex];
+        const question = questionData[0];
+        const allAnswers = questionData[1];
+        const correctAnswIndex = questionData[2]
+        correctAnswerText = allAnswers[correctAnswIndex];
+
+        // Get all incorrect answers
+        const incorrectAnswers = allAnswers.filter((_, index) => index !== correctAnswIndex);
+
+        // Shuffle incorrect answers and pick two
+        shuffleArray(incorrectAnswers);
+        const selectedIncorrectAnswers = incorrectAnswers.slice(0, 2);
+
+        // Create the final list of answers for the user and shuffle it
+        const answersToShow = [correctAnswerText, ...selectedIncorrectAnswers];
+        shuffleArray(answersToShow);
+
+
+        questionTextEl.textContent = `${currentQuestionIndex + 1}. ${question}`;
+        answersContainerEl.innerHTML = '';
+
+        answersToShow.forEach(answer => {
+            const button = document.createElement('button');
+            button.textContent = answer;
+            button.classList.add('answer-btn');
+            button.onclick = () => selectAnswer(button, answer);
+            answersContainerEl.appendChild(button);
+        });
+    }
+
+    function selectAnswer(selectedButton, selectedAnswer) {
+        const isCorrect = selectedAnswer === correctAnswerText;
+
+        Array.from(answersContainerEl.children).forEach(button => {
+            button.disabled = true;
+            if (button.textContent === correctAnswerText) {
+                button.classList.add('correct');
+                if (button.textContent === selectedButton.textContent) {
+                    if (!selectedButton.classList.contains('wrong')) {
+                        score++;
+                    }
+                }
+            } else if (button === selectedButton) {
+                button.classList.add('wrong');
+            }
+        });
+
+        if (isCorrect) {
+            feedbackEl.textContent = 'Правильно!';
+            feedbackEl.className = 'correct-text';
+        } else {
+            feedbackEl.textContent = 'Неправильно!';
+            feedbackEl.className = 'wrong-text';
+        }
+
+        nextButton.disabled = false;
+    }
+
+    nextButton.addEventListener('click', () => {
+        currentQuestionIndex++;
+        showQuestion();
+    });
+
+    // Initial load
+    shuffleArray(questions);
+    showQuestion()
+</script>
 </body>
 </html>

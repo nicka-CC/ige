@@ -1,0 +1,828 @@
+
+import json
+import re
+from bs4 import BeautifulSoup
+
+original_html = """
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Тест 4 по Информационной Безопасности</title>
+    <style>
+        :root {
+            --system-background: #f2f2f7;
+            --system-blue: #007aff;
+            --system-green: #34c759;
+            --system-red: #ff3b30;
+            --separator-color: #c6c6c8;
+            --label-primary: #000000;
+            --label-secondary: #8e8e93;
+            --grouped-background: #ffffff;
+            --grouped-background-ios: #f0f0f0;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif; margin: 0; background-color: var(--grouped-background-ios); color: var(--label-primary); padding-top: env(safe-area-inset-top); padding-right: env(safe-area-inset-right); padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        .header { background-color: var(--grouped-background); padding: 12px 10px; text-align: center; font-size: 17px; font-weight: 600; border-bottom: 0.5px solid var(--separator-color); position: sticky; top: 0; z-index: 1; }
+        .back-button { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 17px; color: var(--system-blue); text-decoration: none; cursor: pointer; }
+        main { padding: 22px 16px; }
+        .question-block { background-color: var(--grouped-background); border-radius: 10px; margin-bottom: 20px; padding: 16px; border: 0.5px solid var(--separator-color); }
+        .question-title { font-size: 17px; font-weight: 600; margin-bottom: 12px; }
+        .answers-list { list-style: none; padding: 0; margin: 0; }
+        .answer-item { padding: 8px 0; }
+        .answer-item label { display: flex; align-items: center; font-size: 16px; }
+        .answer-item input { margin-right: 12px; }
+        .button-container { text-align: center; margin-top: 22px; }
+        .submit-button { background-color: var(--system-blue); color: white; font-size: 17px; font-weight: 600; border: none; border-radius: 10px; padding: 14px 20px; cursor: pointer; width: 100%; max-width: 300px; }
+        #results { background-color: var(--grouped-background); border-radius: 10px; margin: 22px 0; padding: 16px; border: 0.5px solid var(--separator-color); text-align: center; }
+        .correct-answer { color: var(--system-green); font-weight: bold; }
+        .incorrect-answer { color: var(--system-red); text-decoration: line-through; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="mc_longdickoff.html" class="back-button">&lsaquo; ИБ</a>
+        <span>Тест 4</span>
+    </header>
+
+    <main>
+        <form id="quiz-form">
+            <!-- Questions 151-200 -->
+            <div class="question-block" id="q151"><p class="question-title">151. Какова цель Threat Intelligence (анализа угроз)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q151" value="a">a) Сбор и анализ информации об угрозах для принятия обоснованных решений по защите.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q151" value="b">b) Предсказание будущих атак.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q151" value="c">c) Изучение тактик, техник и процедур (TTPs) злоумышленников.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q151" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q151" value="e">e) Стратегический, тактический и операционный анализ.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q151" value="f">f) Только для государственных организаций.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q151" value="g">g) Сбор индикаторов компрометации (IoC).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q151" value="h">h) Анализ даркнета.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q151" value="i">i) Расследование инцидентов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q151" value="j">j) Прогнозирование погоды.</label></li>
+            </ul></div>
+            <div class="question-block" id="q152"><p class="question-title">152. Что такое "цифровая тень" (digital shadow)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q152" value="a">a) Вся информация об организации, доступная в открытых источниках.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q152" value="b">b) То же, что и цифровой след.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q152" value="c">c) Данные, которые могут быть использованы для OSINT.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q152" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q152" value="e">e) Утечки данных, попавшие в сеть.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q152" value="f">f) Информация из соцсетей сотрудников.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q152" value="g">g) Только негативная информация.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q152" value="h">h) Данные о структуре компании.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q152" value="i">i) Информация, которую невозможно контролировать.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q152" value="j">j) Резервная копия сайта.</label></li>
+            </ul></div>
+            <div class="question-block" id="q153"><p class="question-title">153. Что такое OSINT (Open-source intelligence)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q153" value="a">a) Разведка на основе открытых источников.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q153" value="b">b) Сбор и анализ данных из общедоступных источников.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q153" value="c">c) Используется как злоумышленниками, так и специалистами по ИБ.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q153" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q153" value="e">e) Анализ социальных сетей, сайтов, форумов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q153" value="f">f) Требует специальных инструментов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q153" value="g">g) Легальный способ сбора информации.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q153" value="h">h) Только для поиска людей.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q153" value="i">i) Взлом систем.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q153" value="j">j) Анализ исходного кода открытого ПО.</label></li>
+            </ul></div>
+            <div class="question-block" id="q154"><p class="question-title">154. Что такое "управление жизненным циклом идентификаторов"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q154" value="a">a) Процесс создания, использования и удаления учетных записей.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q154" value="b">b) Provisioning и deprovisioning.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q154" value="c">c) Важная часть IAM.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q154" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q154" value="e">e) Своевременное удаление учетных записей уволенных сотрудников.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q154" value="f">f) Только создание паролей.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q154" value="g">g) Только управление правами.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q154" value="h">h) Процесс аудита.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q154" value="i">i) Только для облачных сервисов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q154" value="j">j) Управление ключами шифрования.</label></li>
+            </ul></div>
+            <div class="question-block" id="q155"><p class="question-title">155. Что такое "шифрование на уровне файловой системы" (EFS)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q155" value="a">a) Шифрование отдельных файлов и папок.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q155" value="b">b) Встроенная функция в Windows.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q155" value="c">c) Файлы шифруются с помощью ключа пользователя.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q155" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q155" value="e">e) Отличается от полнодискового шифрования (BitLocker).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q155" value="f">f) Защищает данные, даже если диск украден.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q155" value="g">g) Только для NTFS.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q155" value="h">h) Не защищает от администратора системы.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q155" value="i">i) Устаревшая технология.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q155" value="j">j) Полнодисковое шифрование.</label></li>
+            </ul></div>
+            <div class="question-block" id="q156"><p class="question-title">156. Что такое "криптоконтейнер"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q156" value="a">a) Зашифрованный файл-контейнер, который монтируется как виртуальный диск.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q156" value="b">b) VeraCrypt, TrueCrypt.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q156" value="c">c) Позволяет хранить файлы в зашифрованном виде.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q156" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q156" value="e">e) Может использоваться для создания скрытых томов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q156" value="f">f) Контейнер Docker.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q156" value="g">g) Аппаратный токен.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q156" value="h">h) Только для хранения ключей.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q156" value="i">i) Устаревшая технология.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q156" value="j">j) Защищенная флешка.</label></li>
+            </ul></div>
+            <div class="question-block" id="q157"><p class="question-title">157. Что такое "безопасность по умолчанию" (secure by default)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q157" value="a">a) Принцип, по которому система поставляется с максимально безопасными настройками.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q157" value="b">b) Противоположность "insecure by default".</label></li>
+                <li class="answer-item"><label><input type="radio" name="q157" value="c">c) Пользователь должен сознательно ослаблять безопасность, если это необходимо.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q157" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q157" value="e">e) Пример: файрвол включен по умолчанию.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q157" value="f">f) Все порты закрыты по умолчанию.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q157" value="g">g) Минимальные права для пользователей по умолчанию.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q157" value="h">h) Редкость на практике.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q157" value="i">i) Неудобно для пользователя.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q157" value="j">j) Только для платного ПО.</label></li>
+            </ul></div>
+            <div class="question-block" id="q158"><p class="question-title">158. Что такое "безопасность в проектировании" (security by design)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q158" value="a">a) Подход, при котором безопасность закладывается в архитектуру системы с самого начала.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q158" value="b">b) Безопасность не является "навесной" функцией.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q158" value="c">c) Часть SSDLC.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q158" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q158" value="e">e) Моделирование угроз на этапе проектирования.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q158" value="f">f) Более эффективно и дешево, чем исправлять уязвимости позже.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q158" value="g">g) Противоположность "security through obscurity".</label></li>
+                <li class="answer-item"><label><input type="radio" name="q158" value="h">h) Только для военных систем.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q158" value="i">i) Замедляет разработку.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q158" value="j">j) Требует высокой квалификации.</label></li>
+            </ul></div>
+            <div class="question-block" id="q159"><p class="question-title">159. Что такое "криптографическая соль"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q159" value="a">a) Случайные данные, добавляемые к паролю перед хэшированием.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q159" value="b">b) Защищает от атак по радужным таблицам.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q159" value="c">c) Делает хэши одинаковых паролей уникальными.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q159" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q159" value="e">e) Поваренная соль.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q159" value="f">f) То же, что и ключ шифрования.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q159" value="g">g) Хранится вместе с хэшем пароля.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q159" value="h">h) Устаревший метод.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q159" value="i">i) То же, что и "перец".</label></li>
+                <li class="answer-item"><label><input type="radio" name="q159" value="j">j) Не обязательна к использованию.</label></li>
+            </ul></div>
+            <div class="question-block" id="q160"><p class="question-title">160. Что такое "управление секретами"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q160" value="a">a) Безопасное хранение, управление и доступ к токенам, паролям, ключам API.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q160" value="b">b) Использование специализированных хранилищ (Vaults).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q160" value="c">c) HashiCorp Vault, Azure Key Vault.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q160" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q160" value="e">e) Избегание хранения секретов в коде или файлах конфигурации.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q160" value="f">f) Ротация секретов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q160" value="g">g) Аудит доступа к секретам.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q160" value="h">h) Только для облачных приложений.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q160" value="i">i) Хранение паролей в текстовом файле.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q160" value="j">j) Управление государственной тайной.</label></li>
+            </ul></div>
+            <div class="question-block" id="q161"><p class="question-title">161. Какой протокол считается небезопасным для передачи паролей?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q161" value="a">a) Telnet</label></li>
+                <li class="answer-item"><label><input type="radio" name="q161" value="b">b) FTP</label></li>
+                <li class="answer-item"><label><input type="radio" name="q161" value="c">c) HTTP</label></li>
+                <li class="answer-item"><label><input type="radio" name="q161" value="d">d) Все вышеперечисленные</label></li>
+                <li class="answer-item"><label><input type="radio" name="q161" value="e">e) SSH</label></li>
+                <li class="answer-item"><label><input type="radio" name="q161" value="f">f) HTTPS</label></li>
+                <li class="answer-item"><label><input type="radio" name="q161" value="g">g) SFTP</label></li>
+                <li class="answer-item"><label><input type="radio" name="q161" value="h">h) TLS</label></li>
+                <li class="answer-item"><label><input type="radio" name="q161" value="i">i) POP3 (без шифрования)</label></li>
+                <li class="answer-item"><label><input type="radio" name="q161" value="j">j) IMAP (без шифрования)</label></li>
+            </ul></div>
+            <div class="question-block" id="q162"><p class="question-title">162. Что такое "ботнет"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q162" value="a">a) Сеть зараженных компьютеров (ботов), управляемых злоумышленником.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q162" value="b">b) Используется для DDoS-атак, рассылки спама, майнинга.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q162" value="c">c) Управляется через командный центр (C&C).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q162" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q162" value="e">e) Роботизированная сеть.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q162" value="f">f) Чат-бот.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q162" value="g">g) Только для компьютеров с Windows.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q162" value="h">h) Устаревшая угроза.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q162" value="i">i) Легальная сеть.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q162" value="j">j) Сеть для научных вычислений.</label></li>
+            </ul></div>
+            <div class="question-block" id="q163"><p class="question-title">163. Что такое "шифрование"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q163" value="a">a) Процесс преобразования информации для скрытия ее содержания.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q163" value="b">b) Обратимый процесс (при наличии ключа).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q163" value="c">c) Основной метод обеспечения конфиденциальности.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q163" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q163" value="e">e) Кодирование.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q163" value="f">f) То же, что и хэширование.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q163" value="g">g) Только для текста.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q163" value="h">h) Симметричное и асимметричное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q163" value="i">i) Сжатие данных.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q163" value="j">j) Стеганография.</label></li>
+            </ul></div>
+            <div class="question-block" id="q164"><p class="question-title">164. Что такое "дешифрование"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q164" value="a">a) Процесс преобразования зашифрованных данных в исходную форму.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q164" value="b">b) Требует наличия ключа.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q164" value="c">c) Обратный шифрованию процесс.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q164" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q164" value="e">e) Декодирование.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q164" value="f">f) То же, что и криптоанализ.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q164" value="g">g) Взлом шифра.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q164" value="h">h) Распаковка архива.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q164" value="i">i) Процесс, выполняемый получателем.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q164" value="j">j) Не требует ключа.</label></li>
+            </ul></div>
+            <div class="question-block" id="q165"><p class="question-title">165. Что такое "план непрерывности деятельности"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q165" value="a">a) BCP (Business Continuity Plan).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q165" value="b">b) План восстановления после сбоев.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q165" value="c">c) План реагирования на инциденты.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q165" value="d">d) План по обеспечению бесперебойной работы критичных бизнес-процессов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q165" value="e">e) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q165" value="f">f) Только для ИТ.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q165" value="g">g) Только для стихийных бедствий.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q165" value="h">h) Регламент.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q165" value="i">i) Политика безопасности.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q165" value="j">j) Инструкция.</label></li>
+            </ul></div>
+            <div class="question-block" id="q166"><p class="question-title">166. Какой из следующих является фактором аутентификации "знание"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q166" value="a">a) Пароль.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q166" value="b">b) ПИН-код.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q166" value="c">c) Секретный вопрос.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q166" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q166" value="e">e) Отпечаток пальца.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q166" value="f">f) Смарт-карта.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q166" value="g">g) SMS-код.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q166" value="h">h) Токен.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q166" value="i">i) Распознавание лица.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q166" value="j">j) Местоположение.</label></li>
+            </ul></div>
+            <div class="question-block" id="q167"><p class="question-title">167. Какой из следующих является фактором аутентификации "владение"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q167" value="a">a) Смарт-карта.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q167" value="b">b) USB-токен.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q167" value="c">c) Мобильный телефон (для получения SMS).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q167" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q167" value="e">e) Пароль.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q167" value="f">f) Отпечаток пальца.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q167" value="g">g) ПИН-код.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q167" value="h">h) Секретный вопрос.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q167" value="i">i) Распознавание лица.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q167" value="j">j) Знание.</label></li>
+            </ul></div>
+            <div class="question-block" id="q168"><p class="question-title">168. Что такое "физическая изоляция" (air gap)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q168" value="a">a) Полная изоляция компьютера или сети от небезопасных сетей, включая интернет.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q168" value="b">b) Отсутствие физического соединения.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q168" value="c">c) Считается одной из самых надежных мер защиты.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q168" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q168" value="e">e) Используется для критически важных систем.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q168" value="f">f) Не дает 100% гарантии (например, атаки через USB, ПЭМИН).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q168" value="g">g) Изоляция на уровне файрвола.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q168" value="h">h) Виртуальная изоляция.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q168" value="i">i) Запрет на Wi-Fi.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q168" value="j">j) Только для военных.</label></li>
+            </ul></div>
+            <div class="question-block" id="q169"><p class="question-title">169. Что такое "белый список" приложений (whitelisting)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q169" value="a">a) Подход, при котором разрешен запуск только доверенных приложений из списка.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q169" value="b">b) Противоположность "черному списку".</label></li>
+                <li class="answer-item"><label><input type="radio" name="q169" value="c">c) Более безопасный, но менее гибкий подход.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q169" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q169" value="e">e) Запрещает запуск всего, что не разрешено.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q169" value="f">f) Список разрешенных IP-адресов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q169" value="g">g) Список разрешенных сайтов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q169" value="h">h) Список вредоносных программ.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q169" value="i">i) Устаревший подход.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q169" value="j">j) AppLocker в Windows.</label></li>
+            </ul></div>
+            <div class="question-block" id="q170"><p class="question-title">170. Что такое "черный список" (blacklisting)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q170" value="a">a) Подход, при котором запрещен запуск известных вредоносных приложений.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q170" value="b">b) Противоположность "белому списку".</label></li>
+                <li class="answer-item"><label><input type="radio" name="q170" value="c">c) Менее безопасный, так как не защищает от новых угроз.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q170" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q170" value="e">e) Разрешает запуск всего, что не запрещено.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q170" value="f">f) Основа работы традиционных антивирусов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q170" value="g">g) Список запрещенных IP-адресов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q170" value="h">h) Список доверенных приложений.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q170" value="i">i) Самый надежный подход.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q170" value="j">j) Список разрешенных сайтов.</label></li>
+            </ul></div>
+            <div class="question-block" id="q171"><p class="question-title">171. Что такое "физический токен"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q171" value="a">a) Небольшое аппаратное устройство для аутентификации.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q171" value="b">b) USB-ключ (YubiKey).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q171" value="c">c) Смарт-карта.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q171" value="d">d) Генератор одноразовых паролей (OTP).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q171" value="e">e) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q171" value="f">f) Фактор "владение".</label></li>
+                <li class="answer-item"><label><input type="radio" name="q171" value="g">g) Виртуальный токен.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q171" value="h">h) Пароль.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q171" value="i">i) Биометрический сканер.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q171" value="j">j) Программный токен (Google Authenticator).</label></li>
+            </ul></div>
+            <div class="question-block" id="q172"><p class="question-title">172. Какой из этих алгоритмов является асимметричным?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q172" value="a">a) RSA.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q172" value="b">b) AES.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q172" value="c">c) DES.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q172" value="d">d) 3DES.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q172" value="e">e) Blowfish.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q172" value="f">f) RC4.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q172" value="g">g) ГОСТ 28147-89.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q172" value="h">h) Twofish.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q172" value="i">i) ECC.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q172" value="j">j) Все являются асимметричными.</label></li>
+            </ul></div>
+            <div class="question-block" id="q173"><p class="question-title">173. Какой из этих алгоритмов является симметричным?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q173" value="a">a) AES.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q173" value="b">b) RSA.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q173" value="c">c) ECC.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q173" value="d">d) DSA.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q173" value="e">e) Диффи-Хеллман.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q173" value="f">f) Все являются симметричными.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q173" value="g">g) ГОСТ Р 34.10-2012.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q173" value="h">h) DES.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q173" value="i">i) 3DES.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q173" value="j">j) PGP.</label></li>
+            </ul></div>
+            <div class="question-block" id="q174"><p class="question-title">174. Какая основная задача протокола TLS?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q174" value="a">a) Обеспечение безопасной передачи данных между двумя узлами.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q174" value="b">b) Шифрование трафика.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q174" value="c">c) Аутентификация сервера (и опционально клиента).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q174" value="d">d) Обеспечение целостности данных.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q174" value="e">e) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q174" value="f">f) Используется в HTTPS.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q174" value="g">g) Преемник SSL.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q174" value="h">h) Только шифрование.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q174" value="i">i) Только аутентификация.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q174" value="j">j) Только для веб-трафика.</label></li>
+            </ul></div>
+            <div class="question-block" id="q175"><p class="question-title">175. Что такое "компьютерный вирус"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q175" value="a">a) Тип вредоносного ПО, которое может создавать свои копии и внедрять их в другой код.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q175" value="b">b) Требует носителя для распространения (файл, загрузочный сектор).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q175" value="c">c) Требует действия пользователя для активации.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q175" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q175" value="e">e) Отличается от червя, который распространяется самостоятельно.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q175" value="f">f) Биологический вирус.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q175" value="g">g) Любая вредоносная программа.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q175" value="h">h) Только для Windows.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q175" value="i">i) Устаревшая угроза.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q175" value="j">j) То же, что и троян.</label></li>
+            </ul></div>
+            <div class="question-block" id="q176"><p class="question-title">176. Что такое "очистка данных" (data sanitization)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q176" value="a">a) Процесс необратимого удаления данных с носителя информации.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q176" value="b">b) Простое удаление файла.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q176" value="c">c) Форматирование диска.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q176" value="d">d) Физическое уничтожение носителя.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q176" value="e">e) Перезапись данных случайными последовательностями.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q176" value="f">f) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q176" value="g">g) Дегауссизация (размагничивание).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q176" value="h">h) Важно при выводе оборудования из эксплуатации.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q176" value="i">i) То же, что и шифрование.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q176" value="j">j) Очистка от вирусов.</label></li>
+            </ul></div>
+            <div class="question-block" id="q177"><p class="question-title">177. Что такое "фаззинг"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q177" value="a">a) Техника тестирования ПО путем подачи на вход случайных, некорректных данных.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q177" value="b">b) Используется для поиска уязвимостей, приводящих к сбоям.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q177" value="c">c) Автоматизированный процесс.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q177" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q177" value="e">e) Может найти переполнения буфера и другие ошибки.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q177" value="f">f) Fuzz testing.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q177" value="g">g) Ручное тестирование.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q177" value="h">h) Тестирование производительности.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q177" value="i">i) Тестирование интерфейса.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q177" value="j">j) Только для сетевых протоколов.</label></li>
+            </ul></div>
+            <div class="question-block" id="q178"><p class="question-title">178. Что такое "криптографический ключ"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q178" value="a">a) Секретный параметр, используемый в криптографическом алгоритме.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q178" value="b">b) От его секретности зависит безопасность шифра.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q178" value="c">c) Длина ключа влияет на криптостойкость.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q178" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q178" value="e">e) Симметричный и асимметричный (открытый/закрытый).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q178" value="f">f) Пароль.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q178" value="g">g) Алгоритм шифрования.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q178" value="h">h) Должен быть случайным.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q178" value="i">i) Хранилище ключей.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q178" value="j">j) USB-токен.</label></li>
+            </ul></div>
+            <div class="question-block" id="q179"><p class="question-title">179. Какой класс защиты информации по ФСТЭК является самым высоким?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q179" value="a">a) 1.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q179" value="b">b) 6.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q179" value="c">c) A.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q179" value="d">d) F.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q179" value="e">e) 7.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q179" value="f">f) 0.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q179" value="g">g) Зависит от типа системы.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q179" value="h">h) 1Г.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q179" value="i">i) УЗ1.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q179" value="j">j) Классы отменены.</label></li>
+            </ul></div>
+            <div class="question-block" id="q180"><p class="question-title">180. Что такое "индикатор компрометации" (IoC)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q180" value="a">a) Артефакт, наблюдаемый в сети или системе, который с высокой вероятностью указывает на вторжение.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q180" value="b">b) IP-адрес злоумышленника.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q180" value="c">c) Хэш вредоносного файла.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q180" value="d">d) URL командного центра.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q180" value="e">e) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q180" value="f">f) Используется для обнаружения и реагирования.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q180" value="g">g) Только сетевые индикаторы.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q180" value="h">h) Только хостовые индикаторы.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q180" value="i">i) Уязвимость.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q180" value="j">j) Ложное срабатывание.</label></li>
+            </ul></div>
+            <div class="question-block" id="q181"><p class="question-title">181. Что такое "нулевое доверие" (Zero Trust)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q181" value="a">a) Модель безопасности, которая не доверяет никому по умолчанию, даже внутри сети.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q181" value="b">b) "Никогда не доверяй, всегда проверяй".</label></li>
+                <li class="answer-item"><label><input type="radio" name="q181" value="c">c) Требует строгой аутентификации для каждого запроса.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q181" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q181" value="e">e) Микросегментация.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q181" value="f">f) Принцип наименьших привилегий.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q181" value="g">g) Противоположность периметральной модели.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q181" value="h">h) Только для облака.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q181" value="i">i) Очень дорого.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q181" value="j">j) Недостижимый идеал.</label></li>
+            </ul></div>
+            <div class="question-block" id="q182"><p class="question-title">182. Что такое "управление правами на доступ к информации" (IRM)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q182" value="a">a) Технология, позволяющая контролировать доступ к документам даже после их отправки.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q182" value="b">b) Позволяет запретить копирование, печать, пересылку.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q182" value="c">c) Может отозвать доступ к документу.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q182" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q182" value="e">e) Azure Information Protection.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q182" value="f">f) То же, что и DLP.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q182" value="g">g) Только для документов Microsoft Office.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q182" value="h">h) Устаревшая технология.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q182" value="i">i) Управление доступом на файловом сервере.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q182" value="j">j) Шифрование документов.</label></li>
+            </ul></div>
+            <div class="question-block" id="q183"><p class="question-title">183. Что такое "анализ статического кода" (SAST)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q183" value="a">a) Анализ исходного кода на наличие уязвимостей без его выполнения.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q183" value="b">b) "Тестирование белого ящика".</label></li>
+                <li class="answer-item"><label><input type="radio" name="q183" value="c">c) Интегрируется в CI/CD.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q183" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q183" value="e">e) SonarQube, Checkmarx.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q183" value="f">f) Находит много ложных срабатываний.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q183" value="g">g) Противоположность DAST.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q183" value="h">h) Только для компилируемых языков.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q183" value="i">i) Анализ бинарного кода.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q183" value="j">j) Ручной процесс.</label></li>
+            </ul></div>
+            <div class="question-block" id="q184"><p class="question-title">184. Что такое "анализ динамического кода" (DAST)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q184" value="a">a) Анализ запущенного приложения на наличие уязвимостей.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q184" value="b">b) "Тестирование черного ящика".</label></li>
+                <li class="answer-item"><label><input type="radio" name="q184" value="c">c) Не требует доступа к исходному коду.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q184" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q184" value="e">e) OWASP ZAP, Burp Suite.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q184" value="f">f) Находит меньше ложных срабатываний, чем SAST.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q184" value="g">g) Противоположность SAST.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q184" value="h">h) Только для веб-приложений.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q184" value="i">i) Анализ исходного кода.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q184" value="j">j) Ручной процесс.</label></li>
+            </ul></div>
+            <div class="question-block" id="q185"><p class="question-title">185. Что такое "управление событиями"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q185" value="a">a) Сбор, агрегация, корреляция и анализ логов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q185" value="b">b) Основа для обнаружения инцидентов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q185" value="c">c) Используется в SIEM-системах.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q185" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q185" value="e">e) Аудит.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q185" value="f">f) Централизованное хранение логов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q185" value="g">g) Только события безопасности.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q185" value="h">h) Только для Windows.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q185" value="i">i) Планирование мероприятий.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q185" value="j">j) Управление инцидентами.</label></li>
+            </ul></div>
+            <div class="question-block" id="q186"><p class="question-title">186. Какая атака основана на вставке вредоносного кода, который выполняется на стороне клиента?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q186" value="a">a) XSS.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q186" value="b">b) SQL-инъекция.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q186" value="c">c) CSRF.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q186" value="d">d) DoS.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q186" value="e">e) Man-in-the-Middle.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q186" value="f">f) Фишинг.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q186" value="g">g) Брутфорс.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q186" value="h">h) Path Traversal.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q186" value="i">i) Command Injection.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q186" value="j">j) Все вышеперечисленное.</label></li>
+            </ul></div>
+            <div class="question-block" id="q187"><p class="question-title">187. Что такое "приватность по умолчанию" (privacy by default)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q187" value="a">a) Принцип, по которому система собирает и обрабатывает минимально необходимый объем данных.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q187" value="b">b) Часть GDPR.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q187" value="c">c) Противоположен сбору всех возможных данных.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q187" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q187" value="e">e) Максимально приватные настройки по умолчанию.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q187" value="f">f) То же, что и анонимность.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q187" value="g">g) Security by default.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q187" value="h">h) Только для персональных данных.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q187" value="i">i) Требует явного согласия на сбор данных.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q187" value="j">j) Редко используется.</label></li>
+            </ul></div>
+            <div class="question-block" id="q188"><p class="question-title">188. Что такое "приватность в проектировании" (privacy by design)?</p><ul class="answers-list">
+                <li class="answer-.item"><label><input type="radio" name="q188" value="a">a) Подход, при котором защита приватности встраивается в систему с самого начала.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q188" value="b">b) Требование GDPR.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q188" value="c">c) 7 основополагающих принципов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q188" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q188" value="e">e) Проактивный, а не реактивный подход.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q188" value="f">f) То же, что и security by design.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q188" value="g">g) Защита на всем жизненном цикле данных.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q188" value="h">h) Только для систем, работающих с ПДн.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q188" value="i">i) Уведомление пользователя.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q188" value="j">j) Минимизация данных.</label></li>
+            </ul></div>
+            <div class="question-block" id="q189"><p class="question-title">189. Что такое "руткит"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q189" value="a">a) Вредоносное ПО, предназначенное для сокрытия своего присутствия в системе.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q189" value="b">b) Может работать на уровне ядра ОС.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q189" value="c">c) Очень трудно обнаружить и удалить.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q189" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q189" value="e">e) Предоставляет "черный ход" (backdoor) злоумышленнику.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q189" value="f">f) Набор утилит для получения root-доступа.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q189" value="g">g) Только для Linux/Unix.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q189" value="h">h) Не является вирусом.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q189" value="i">i) Устаревшая угроза.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q189" value="j">j) Легальное ПО для администрирования.</label></li>
+            </ul></div>
+            <div class="question-block" id="q190"><p class="question-title">190. Что такое "управление идентификацией"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q190" value="a">a) Процесс управления всем жизненным циклом цифровых идентификаторов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q190" value="b">b) IdM (Identity Management).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q190" value="c">c) Часть IAM.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q190" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q190" value="e">e) Только создание пользователей.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q190" value="f">f) Только сброс паролей.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q190" value="g">g) Только аутентификация.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q190" value="h">h) Только авторизация.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q190" value="i">i) Управление Active Directory.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q190" value="j">j) Управление ключами.</label></li>
+            </ul></div>
+            <div class="question-block" id="q191"><p class="question-title">191. Какое средство защиты предназначено для контроля трафика между сетями?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q191" value="a">a) Межсетевой экран (Firewall).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q191" value="b">b) Антивирус.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q191" value="c">c) IDS/IPS.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q191" value="d">d) Прокси-сервер.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q191" value="e">e) WAF.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q191" value="f">f) Роутер.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q191" value="g">g) VPN-шлюз.</label></li>
+                <li class="answer-item"><label><input type="radio" name.="q191" value="h">h) DLP-система.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q191" value="i">i) SIEM-система.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q191" value="j">j) Все вышеперечисленное.</label></li>
+            </ul></div>
+            <div class="question-block" id="q192"><p class="question-title">192. Что такое "утечка данных"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q192" value="a">a) Несанкционированная передача конфиденциальной информации за пределы организации.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q192" value="b">b) Инцидент ИБ.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q192" value="c">c) Может быть умышленной или случайной.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q192" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q192" value="e">e) Нарушение конфиденциальности.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q192" value="f">f) Кража базы данных.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q192" value="g">g) Отправка письма не тому адресату.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q192" value="h">h) Только внешняя атака.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q192" value="i">i) Потеря ноутбука.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q192" value="j">j) Публикация в открытом доступе.</label></li>
+            </ul></div>
+            <div class="question-block" id="q193"><p class="question-title">193. Что такое "политика чистых столов"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q193" value="a">a) Требование убирать все рабочие документы в запираемые ящики в конце дня.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q193" value="b">b) Требование блокировать компьютер при уходе с рабочего места.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q193" value="c">c) Организационная мера защиты.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q193" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q193" value="e">e) Защищает от "заглядывания через плечо".</label></li>
+                <li class="answer-item"><label><input type="radio" name="q193" value="f">f) Часть общей политики безопасности.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q193" value="g">g) Требование к уборщицам.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q193" value="h">h) Только для бумажных документов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q193" value="i">i) Устаревшее правило.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q193" value="j">j) Рекомендация, а не требование.</label></li>
+            </ul></div>
+            <div class="question-block" id="q194"><p class="question-title">194. Что такое "социальный инженер"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q194" value="a">a) Злоумышленник, использующий методы манипуляции людьми.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q194" value="b">b) Психолог.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q194" value="c">c) Специалист по маркетингу.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q194" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q194" value="e">e) Не использует технические средства.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q194" value="f">f) Цель - получение конфиденциальной информации.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q194" value="g">g) Может выдавать себя за сотрудника техподдержки.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q194" value="h">h) Инженер по социальным вопросам.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q194" value="i">i) Специалист по рекламе.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q194" value="j">j) Легальная профессия.</label></li>
+            </ul></div>
+            <div class="question-block" id="q195"><p class="question-title">195. Что такое "одноразовый пароль" (OTP)?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q195" value="a">a) Пароль, действительный только для одной сессии или транзакции.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q195" value="b">b) TOTP (на основе времени) и HOTP (на основе счетчика).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q195" value="c">c) Используется в 2FA.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q195" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q195" value="e">e) Генерируется токеном или приложением.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q195" value="f">f) Код из SMS.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q195" value="g">g) Не защищает от MitM атак.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q195" value="h">h) Более безопасен, чем статический пароль.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q195" value="i">i) Пароль, который можно использовать один раз.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q195" value="j">j) Пароль, который меняется каждый день.</label></li>
+            </ul></div>
+            <div class="question-block" id="q196"><p class="question-title">196. Что такое "управление инцидентами"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q196" value="a">a) Процесс реагирования на инциденты ИБ.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q196" value="b">b) Обнаружение, анализ, сдерживание, искоренение, восстановление.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q196" value="c">c) Извлечение уроков (post-mortem).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q196" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q196" value="e">e) Требует наличия плана реагирования (IRP).</label></li>
+                <li class="answer-item"><label><input type="radio" name="q196" value="f">f) Выполняется командой CSIRT/CERT.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q196" value="g">g) Только устранение последствий.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q196" value="h">h) Только расследование.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q196" value="i">i) Управление IT-услугами.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q196" value="j">j) Только для крупных инцидентов.</label></li>
+            </ul></div>
+            <div class="question-block" id="q197"><p class="question-title">197. Какая роль у специалиста по ИБ в компании?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q197" value="a">a) Защита информационных активов компании.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q197" value="b">b) Разработка и внедрение политик безопасности.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q197" value="c">c) Мониторинг систем и реагирование на инциденты.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q197" value="d">d) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q197" value="e">e) Анализ рисков и уязвимостей.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q197" value="f">f) Обучение сотрудников.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q197" value="g">g) Только настройка файрволов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q197" value="h">h) Только расследование инцидентов.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q197" value="i">i) "Белый хакер".</label></li>
+                <li class="answer-item"><label><input type="radio" name="q197" value="j">j) Системный администратор.</label></li>
+            </ul></div>
+            <div class="question-block" id="q198"><p class="question-title">198. Что такое "угроза"?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q198" value="a">a) Потенциальная причина инцидента, который может нанести ущерб.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q198" value="b">b) Уязвимость.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q198" value="c">c) Риск.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q198" value="d">d) Атака.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q198" value="e">e) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q198" value="f">f) Естественная или искусственная.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q198" value="g">g) Преднамеренная или случайная.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q198" value="h">h) Источник опасности.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q198" value="i">i) Только то, что уже произошло.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q198" value="j">j) Только злоумышленник.</label></li>
+            </ul></div>
+            <div class="question-block" id="q199"><p class="question-title">199. Что такое "актив" в контексте ИБ?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q199" value="a">a) Любой ресурс, имеющий ценность для организации.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q199" value="b">b) Информация, данные.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q199" value="c">c) Аппаратное и программное обеспечение.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q199" value="d">d) Персонал, репутация.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q199" value="e">e) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q199" value="f">f) Только то, что можно купить.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q199" value="g">g) Только материальные ценности.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q199" value="h">h) То, что нужно защищать.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q199" value="i">i) Только серверы.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q199" value="j">j) Только база данных.</label></li>
+            </ul></div>
+            <div class="question-block" id="q200"><p class="question-title">200. Что такое "риск" в ИБ?</p><ul class="answers-list">
+                <li class="answer-item"><label><input type="radio" name="q200" value="a">a) Вероятность реализации угрозы с использованием уязвимости и нанесения ущерба.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q200" value="b">b) Угроза.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q200" value="c">c) Уязвимость.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q200" value="d">d) Ущерб.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q200" value="e">e) Все вышеперечисленное.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q200" value="f">f) Риском можно управлять: принять, избежать, передать, снизить.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q200" value="g">g) Количественная или качественная оценка.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q200" value="h">h) Нулевого риска не бывает.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q200" value="i">i) Атака.</label></li>
+                <li class="answer-item"><label><input type="radio" name="q200" value="j">j) Только финансовые потери.</label></li>
+            </ul></div>
+
+            <div class="button-container">
+                <button type="submit" class="submit-button">Завершить тест</button>
+            </div>
+        </form>
+        <div id="results" style="display: none;"></div>
+    </main>
+
+    <script>
+        const correctAnswers = {
+            q101: 'a', q102: 'a', q103: 'a', q104: 'a', q105: 'a', q106: 'a', q107: 'a', q108: 'a', q109: 'a', q110: 'a',
+            q111: 'a', q112: 'a', q113: 'd', q114: 'd', q115: 'd', q116: 'a', q117: 'd', q118: 'e', q119: 'e', q120: 'd',
+            q121: 'd', q122: 'e', q123: 'd', q124: 'd', q125: 'a', q126: 'a', q127: 'e', q128: 'e', q129: 'a', q130: 'd',
+            q131: 'e', q132: 'a', q133: 'a', q134: 'd', q135: 'd', q136: 'e', q137: 'a', q138: 'd', q139: 'd', q140: 'd',
+            q141: 'd', q142: 'd', q143: 'd', q144: 'a', q145: 'e', q146: 'e', q147: 'd', q148: 'd', q149: 'd', q150: 'd'
+        };
+
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let score = 0;
+            const totalQuestions = Object.keys(correctAnswers).length;
+            
+            document.querySelectorAll('.answer-item label').forEach(label => {
+                label.classList.remove('correct-answer', 'incorrect-answer');
+                const input = label.querySelector('input');
+                if(input) input.disabled = true;
+            });
+
+            for (const qId in correctAnswers) {
+                const correctAnswer = correctAnswers[qId];
+                const selectedAnswer = document.querySelector(`input[name="${qId}"]:checked`);
+                const questionBlock = document.getElementById(qId);
+                
+                if (selectedAnswer) {
+                    const parentLabel = selectedAnswer.parentElement;
+                    if (selectedAnswer.value === correctAnswer) {
+                        score++;
+                        parentLabel.classList.add('correct-answer');
+                    } else {
+                        parentLabel.classList.add('incorrect-answer');
+                        const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
+                        if (correctLabel) correctLabel.classList.add('correct-answer');
+                    }
+                } else {
+                     if(questionBlock) {
+                         const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
+                         if (correctLabel) correctLabel.classList.add('correct-answer');
+                     }
+                }
+            }
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<h2>Ваш результат: ${score} из ${totalQuestions}</h2>`;
+            resultsDiv.style.display = 'block';
+            this.querySelector('.submit-button').style.display = 'none';
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
+"""
+
+def transform_html():
+    # 1. Read Source and Template
+    source_html = original_html
+    with open('csharp_quiz.json', 'r', encoding='utf-8') as f:
+        template_html = f.read()
+
+    # 2. Parse the Source File
+    soup = BeautifulSoup(source_html, 'html.parser')
+
+    title = soup.find('title').text
+    header_span = soup.find('header').find('span').text
+    back_button_href = soup.find('a', class_='back-button')['href']
+
+    questions = []
+    question_blocks = soup.find_all('div', class_='question-block')
+    for block in question_blocks:
+        question_id = block['id']
+        question_text_p = block.find('p', class_='question-title')
+        # Remove the leading number like "151. "
+        question_text = re.sub(r'^\d+\.\s*', '', question_text_p.text)
+        
+        answers = []
+        answer_items = block.find_all('label')
+        for item in answer_items:
+            # Remove the leading letter like "a) "
+            answer_text = re.sub(r'^[a-j]\)\s*', '', item.text)
+            answers.append(answer_text.strip())
+        
+        questions.append({
+            'id': question_id,
+            'text': question_text.strip(),
+            'answers': answers
+        })
+
+    # 3. Parse correctAnswers from the Source Script
+    script_tag = soup.find('script').string
+    correct_answers_match = re.search(r'const\s+correctAnswers\s*=\s*({[^;]+});', script_tag, re.DOTALL)
+    if not correct_answers_match:
+        # Try another name for the variable
+        correct_answers_match = re.search(r'const\s+answers\s*=\s*({[^;]+});', script_tag, re.DOTALL)
+
+    if correct_answers_match:
+        correct_answers_str = correct_answers_match.group(1)
+        # The string is a JS object, so we need to make it valid JSON
+        # by quoting the keys and replacing single quotes.
+        correct_answers_str_json = re.sub(r"(\s*(\w+)\s*):", r'"\2":', correct_answers_str)
+        correct_answers_str_json = correct_answers_str_json.replace("'", '"')
+        correct_answers = json.loads(correct_answers_str_json)
+    else:
+        correct_answers = {}
+
+
+    # 4. Build the New questions Data Structure
+    new_questions_data = []
+    for question in questions:
+        question_id = question['id']
+        if question_id in correct_answers:
+            correct_answer_letter = correct_answers[question_id]
+            # Convert letter to a zero-based index (a=0, b=1, ...)
+            correct_answer_index = ord(correct_answer_letter) - ord('a')
+            
+            new_question_entry = [
+                question['text'],
+                question['answers'],
+                correct_answer_index
+            ]
+            new_questions_data.append(new_question_entry)
+
+    # 5. Generate the Final HTML
+    # Use the template from csharp_quiz.json
+    final_html_soup = BeautifulSoup(template_html, 'html.parser')
+
+    # Replace title and h1
+    final_html_soup.find('title').string = title
+    
+    h1_tag = final_html_soup.find('h1')
+    if h1_tag:
+        h1_tag.string = title
+
+    # Replace header span text
+    header_span_template = final_html_soup.find('header').find('span')
+    if header_span_template:
+        header_span_template.string = header_span
+
+    # Replace back button href
+    back_button_template = final_html_soup.find('a', class_='back-button')
+    if back_button_template:
+        back_button_template['href'] = back_button_href
+
+    # Convert new_questions_data to a JSON string
+    new_questions_data_as_json = json.dumps(new_questions_data, ensure_ascii=False, indent=4)
+
+    # Replace the questions data in the script tag
+    script_in_template = final_html_soup.find('script').string
+    
+    # Use a placeholder for the questions array in the regex
+    new_script_content = re.sub(
+        r'const\s+questions\s*=\s*\[.*\];',
+        f'const questions = {new_questions_data_as_json};',
+        script_in_template,
+        flags=re.DOTALL
+    )
+    final_html_soup.find('script').string = new_script_content
+    
+    final_html = str(final_html_soup)
+
+    # 6. Write the New Content
+    with open('mc_longdickoff(3).html', 'w', encoding='utf-8') as f:
+        f.write(final_html)
+
+    # 7. Print the new content
+    print(final_html)
+
+if __name__ == "__main__":
+    transform_html()

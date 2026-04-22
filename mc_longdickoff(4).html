@@ -1,705 +1,1127 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Тест 4 по Информационной Безопасности</title>
-    <style>
-        :root {
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+  <title>
+   Тест 4 по Информационной Безопасности
+  </title>
+  <style>
+   :root {
             --system-background: #f2f2f7;
             --system-blue: #007aff;
-            --system-green: #34c759;
-            --system-red: #ff3b30;
+            --system-gray: #8e8e93;
             --separator-color: #c6c6c8;
             --label-primary: #000000;
             --label-secondary: #8e8e93;
             --grouped-background: #ffffff;
             --grouped-background-ios: #f0f0f0;
+            --system-green: #34c759;
+            --system-red: #ff3b30;
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif; margin: 0; background-color: var(--grouped-background-ios); color: var(--label-primary); padding-top: env(safe-area-inset-top); padding-right: env(safe-area-inset-right); padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-        .header { background-color: var(--grouped-background); padding: 12px 10px; text-align: center; font-size: 17px; font-weight: 600; border-bottom: 0.5px solid var(--separator-color); position: sticky; top: 0; z-index: 1; }
-        .back-button { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 17px; color: var(--system-blue); text-decoration: none; cursor: pointer; }
-        main { padding: 22px 16px; }
-        .question-block { background-color: var(--grouped-background); border-radius: 10px; margin-bottom: 20px; padding: 16px; border: 0.5px solid var(--separator-color); }
-        .question-title { font-size: 17px; font-weight: 600; margin-bottom: 12px; }
-        .answers-list { list-style: none; padding: 0; margin: 0; }
-        .answer-item { padding: 8px 0; }
-        .answer-item label { display: flex; align-items: center; font-size: 16px; }
-        .answer-item input { margin-right: 12px; }
-        .button-container { text-align: center; margin-top: 22px; }
-        .submit-button { background-color: var(--system-blue); color: white; font-size: 17px; font-weight: 600; border: none; border-radius: 10px; padding: 14px 20px; cursor: pointer; width: 100%; max-width: 300px; }
-        #results { background-color: var(--grouped-background); border-radius: 10px; margin: 22px 0; padding: 16px; border: 0.5px solid var(--separator-color); text-align: center; }
-        .correct-answer { color: var(--system-green); font-weight: bold; }
-        .incorrect-answer { color: var(--system-red); text-decoration: line-through; }
-    </style>
-</head>
-<body>
 
-    <header class="header">
-        <a href="mc_longdickoff.html" class="back-button">&lsaquo; ИБ</a>
-        <span>Тест 4</span>
-    </header>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+            margin: 0;
+            background-color: var(--grouped-background-ios);
+            color: var(--label-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: env(safe-area-inset-top);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
 
-    <main>
-        <form id="quiz-form">
-            <!-- Questions 151-200 -->
-            <div class="question-block" id="q151"><p class="question-title">151. Какова цель Threat Intelligence (анализа угроз)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q151" value="a">a) Сбор и анализ информации об угрозах для принятия обоснованных решений по защите.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q151" value="b">b) Предсказание будущих атак.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q151" value="c">c) Изучение тактик, техник и процедур (TTPs) злоумышленников.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q151" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q151" value="e">e) Стратегический, тактический и операционный анализ.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q151" value="f">f) Только для государственных организаций.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q151" value="g">g) Сбор индикаторов компрометации (IoC).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q151" value="h">h) Анализ даркнета.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q151" value="i">i) Расследование инцидентов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q151" value="j">j) Прогнозирование погоды.</label></li>
-            </ul></div>
-            <div class="question-block" id="q152"><p class="question-title">152. Что такое "цифровая тень" (digital shadow)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q152" value="a">a) Вся информация об организации, доступная в открытых источниках.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q152" value="b">b) То же, что и цифровой след.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q152" value="c">c) Данные, которые могут быть использованы для OSINT.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q152" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q152" value="e">e) Утечки данных, попавшие в сеть.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q152" value="f">f) Информация из соцсетей сотрудников.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q152" value="g">g) Только негативная информация.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q152" value="h">h) Данные о структуре компании.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q152" value="i">i) Информация, которую невозможно контролировать.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q152" value="j">j) Резервная копия сайта.</label></li>
-            </ul></div>
-            <div class="question-block" id="q153"><p class="question-title">153. Что такое OSINT (Open-source intelligence)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q153" value="a">a) Разведка на основе открытых источников.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q153" value="b">b) Сбор и анализ данных из общедоступных источников.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q153" value="c">c) Используется как злоумышленниками, так и специалистами по ИБ.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q153" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q153" value="e">e) Анализ социальных сетей, сайтов, форумов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q153" value="f">f) Требует специальных инструментов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q153" value="g">g) Легальный способ сбора информации.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q153" value="h">h) Только для поиска людей.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q153" value="i">i) Взлом систем.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q153" value="j">j) Анализ исходного кода открытого ПО.</label></li>
-            </ul></div>
-            <div class="question-block" id="q154"><p class="question-title">154. Что такое "управление жизненным циклом идентификаторов"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q154" value="a">a) Процесс создания, использования и удаления учетных записей.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q154" value="b">b) Provisioning и deprovisioning.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q154" value="c">c) Важная часть IAM.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q154" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q154" value="e">e) Своевременное удаление учетных записей уволенных сотрудников.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q154" value="f">f) Только создание паролей.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q154" value="g">g) Только управление правами.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q154" value="h">h) Процесс аудита.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q154" value="i">i) Только для облачных сервисов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q154" value="j">j) Управление ключами шифрования.</label></li>
-            </ul></div>
-            <div class="question-block" id="q155"><p class="question-title">155. Что такое "шифрование на уровне файловой системы" (EFS)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q155" value="a">a) Шифрование отдельных файлов и папок.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q155" value="b">b) Встроенная функция в Windows.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q155" value="c">c) Файлы шифруются с помощью ключа пользователя.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q155" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q155" value="e">e) Отличается от полнодискового шифрования (BitLocker).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q155" value="f">f) Защищает данные, даже если диск украден.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q155" value="g">g) Только для NTFS.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q155" value="h">h) Не защищает от администратора системы.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q155" value="i">i) Устаревшая технология.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q155" value="j">j) Полнодисковое шифрование.</label></li>
-            </ul></div>
-            <div class="question-block" id="q156"><p class="question-title">156. Что такое "криптоконтейнер"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q156" value="a">a) Зашифрованный файл-контейнер, который монтируется как виртуальный диск.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q156" value="b">b) VeraCrypt, TrueCrypt.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q156" value="c">c) Позволяет хранить файлы в зашифрованном виде.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q156" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q156" value="e">e) Может использоваться для создания скрытых томов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q156" value="f">f) Контейнер Docker.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q156" value="g">g) Аппаратный токен.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q156" value="h">h) Только для хранения ключей.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q156" value="i">i) Устаревшая технология.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q156" value="j">j) Защищенная флешка.</label></li>
-            </ul></div>
-            <div class="question-block" id="q157"><p class="question-title">157. Что такое "безопасность по умолчанию" (secure by default)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q157" value="a">a) Принцип, по которому система поставляется с максимально безопасными настройками.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q157" value="b">b) Противоположность "insecure by default".</label></li>
-                <li class="answer-item"><label><input type="radio" name="q157" value="c">c) Пользователь должен сознательно ослаблять безопасность, если это необходимо.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q157" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q157" value="e">e) Пример: файрвол включен по умолчанию.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q157" value="f">f) Все порты закрыты по умолчанию.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q157" value="g">g) Минимальные права для пользователей по умолчанию.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q157" value="h">h) Редкость на практике.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q157" value="i">i) Неудобно для пользователя.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q157" value="j">j) Только для платного ПО.</label></li>
-            </ul></div>
-            <div class="question-block" id="q158"><p class="question-title">158. Что такое "безопасность в проектировании" (security by design)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q158" value="a">a) Подход, при котором безопасность закладывается в архитектуру системы с самого начала.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q158" value="b">b) Безопасность не является "навесной" функцией.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q158" value="c">c) Часть SSDLC.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q158" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q158" value="e">e) Моделирование угроз на этапе проектирования.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q158" value="f">f) Более эффективно и дешево, чем исправлять уязвимости позже.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q158" value="g">g) Противоположность "security through obscurity".</label></li>
-                <li class="answer-item"><label><input type="radio" name="q158" value="h">h) Только для военных систем.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q158" value="i">i) Замедляет разработку.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q158" value="j">j) Требует высокой квалификации.</label></li>
-            </ul></div>
-            <div class="question-block" id="q159"><p class="question-title">159. Что такое "криптографическая соль"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q159" value="a">a) Случайные данные, добавляемые к паролю перед хэшированием.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q159" value="b">b) Защищает от атак по радужным таблицам.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q159" value="c">c) Делает хэши одинаковых паролей уникальными.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q159" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q159" value="e">e) Поваренная соль.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q159" value="f">f) То же, что и ключ шифрования.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q159" value="g">g) Хранится вместе с хэшем пароля.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q159" value="h">h) Устаревший метод.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q159" value="i">i) То же, что и "перец".</label></li>
-                <li class="answer-item"><label><input type="radio" name="q159" value="j">j) Не обязательна к использованию.</label></li>
-            </ul></div>
-            <div class="question-block" id="q160"><p class="question-title">160. Что такое "управление секретами"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q160" value="a">a) Безопасное хранение, управление и доступ к токенам, паролям, ключам API.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q160" value="b">b) Использование специализированных хранилищ (Vaults).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q160" value="c">c) HashiCorp Vault, Azure Key Vault.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q160" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q160" value="e">e) Избегание хранения секретов в коде или файлах конфигурации.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q160" value="f">f) Ротация секретов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q160" value="g">g) Аудит доступа к секретам.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q160" value="h">h) Только для облачных приложений.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q160" value="i">i) Хранение паролей в текстовом файле.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q160" value="j">j) Управление государственной тайной.</label></li>
-            </ul></div>
-            <div class="question-block" id="q161"><p class="question-title">161. Какой протокол считается небезопасным для передачи паролей?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q161" value="a">a) Telnet</label></li>
-                <li class="answer-item"><label><input type="radio" name="q161" value="b">b) FTP</label></li>
-                <li class="answer-item"><label><input type="radio" name="q161" value="c">c) HTTP</label></li>
-                <li class="answer-item"><label><input type="radio" name="q161" value="d">d) Все вышеперечисленные</label></li>
-                <li class="answer-item"><label><input type="radio" name="q161" value="e">e) SSH</label></li>
-                <li class="answer-item"><label><input type="radio" name="q161" value="f">f) HTTPS</label></li>
-                <li class="answer-item"><label><input type="radio" name="q161" value="g">g) SFTP</label></li>
-                <li class="answer-item"><label><input type="radio" name="q161" value="h">h) TLS</label></li>
-                <li class="answer-item"><label><input type="radio" name="q161" value="i">i) POP3 (без шифрования)</label></li>
-                <li class="answer-item"><label><input type="radio" name="q161" value="j">j) IMAP (без шифрования)</label></li>
-            </ul></div>
-            <div class="question-block" id="q162"><p class="question-title">162. Что такое "ботнет"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q162" value="a">a) Сеть зараженных компьютеров (ботов), управляемых злоумышленником.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q162" value="b">b) Используется для DDoS-атак, рассылки спама, майнинга.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q162" value="c">c) Управляется через командный центр (C&C).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q162" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q162" value="e">e) Роботизированная сеть.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q162" value="f">f) Чат-бот.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q162" value="g">g) Только для компьютеров с Windows.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q162" value="h">h) Устаревшая угроза.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q162" value="i">i) Легальная сеть.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q162" value="j">j) Сеть для научных вычислений.</label></li>
-            </ul></div>
-            <div class="question-block" id="q163"><p class="question-title">163. Что такое "шифрование"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q163" value="a">a) Процесс преобразования информации для скрытия ее содержания.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q163" value="b">b) Обратимый процесс (при наличии ключа).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q163" value="c">c) Основной метод обеспечения конфиденциальности.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q163" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q163" value="e">e) Кодирование.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q163" value="f">f) То же, что и хэширование.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q163" value="g">g) Только для текста.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q163" value="h">h) Симметричное и асимметричное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q163" value="i">i) Сжатие данных.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q163" value="j">j) Стеганография.</label></li>
-            </ul></div>
-            <div class="question-block" id="q164"><p class="question-title">164. Что такое "дешифрование"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q164" value="a">a) Процесс преобразования зашифрованных данных в исходную форму.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q164" value="b">b) Требует наличия ключа.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q164" value="c">c) Обратный шифрованию процесс.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q164" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q164" value="e">e) Декодирование.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q164" value="f">f) То же, что и криптоанализ.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q164" value="g">g) Взлом шифра.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q164" value="h">h) Распаковка архива.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q164" value="i">i) Процесс, выполняемый получателем.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q164" value="j">j) Не требует ключа.</label></li>
-            </ul></div>
-            <div class="question-block" id="q165"><p class="question-title">165. Что такое "план непрерывности деятельности"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q165" value="a">a) BCP (Business Continuity Plan).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q165" value="b">b) План восстановления после сбоев.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q165" value="c">c) План реагирования на инциденты.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q165" value="d">d) План по обеспечению бесперебойной работы критичных бизнес-процессов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q165" value="e">e) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q165" value="f">f) Только для ИТ.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q165" value="g">g) Только для стихийных бедствий.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q165" value="h">h) Регламент.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q165" value="i">i) Политика безопасности.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q165" value="j">j) Инструкция.</label></li>
-            </ul></div>
-            <div class="question-block" id="q166"><p class="question-title">166. Какой из следующих является фактором аутентификации "знание"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q166" value="a">a) Пароль.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q166" value="b">b) ПИН-код.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q166" value="c">c) Секретный вопрос.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q166" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q166" value="e">e) Отпечаток пальца.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q166" value="f">f) Смарт-карта.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q166" value="g">g) SMS-код.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q166" value="h">h) Токен.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q166" value="i">i) Распознавание лица.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q166" value="j">j) Местоположение.</label></li>
-            </ul></div>
-            <div class="question-block" id="q167"><p class="question-title">167. Какой из следующих является фактором аутентификации "владение"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q167" value="a">a) Смарт-карта.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q167" value="b">b) USB-токен.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q167" value="c">c) Мобильный телефон (для получения SMS).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q167" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q167" value="e">e) Пароль.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q167" value="f">f) Отпечаток пальца.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q167" value="g">g) ПИН-код.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q167" value="h">h) Секретный вопрос.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q167" value="i">i) Распознавание лица.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q167" value="j">j) Знание.</label></li>
-            </ul></div>
-            <div class="question-block" id="q168"><p class="question-title">168. Что такое "физическая изоляция" (air gap)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q168" value="a">a) Полная изоляция компьютера или сети от небезопасных сетей, включая интернет.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q168" value="b">b) Отсутствие физического соединения.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q168" value="c">c) Считается одной из самых надежных мер защиты.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q168" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q168" value="e">e) Используется для критически важных систем.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q168" value="f">f) Не дает 100% гарантии (например, атаки через USB, ПЭМИН).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q168" value="g">g) Изоляция на уровне файрвола.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q168" value="h">h) Виртуальная изоляция.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q168" value="i">i) Запрет на Wi-Fi.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q168" value="j">j) Только для военных.</label></li>
-            </ul></div>
-            <div class="question-block" id="q169"><p class="question-title">169. Что такое "белый список" приложений (whitelisting)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q169" value="a">a) Подход, при котором разрешен запуск только доверенных приложений из списка.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q169" value="b">b) Противоположность "черному списку".</label></li>
-                <li class="answer-item"><label><input type="radio" name="q169" value="c">c) Более безопасный, но менее гибкий подход.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q169" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q169" value="e">e) Запрещает запуск всего, что не разрешено.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q169" value="f">f) Список разрешенных IP-адресов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q169" value="g">g) Список разрешенных сайтов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q169" value="h">h) Список вредоносных программ.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q169" value="i">i) Устаревший подход.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q169" value="j">j) AppLocker в Windows.</label></li>
-            </ul></div>
-            <div class="question-block" id="q170"><p class="question-title">170. Что такое "черный список" (blacklisting)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q170" value="a">a) Подход, при котором запрещен запуск известных вредоносных приложений.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q170" value="b">b) Противоположность "белому списку".</label></li>
-                <li class="answer-item"><label><input type="radio" name="q170" value="c">c) Менее безопасный, так как не защищает от новых угроз.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q170" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q170" value="e">e) Разрешает запуск всего, что не запрещено.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q170" value="f">f) Основа работы традиционных антивирусов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q170" value="g">g) Список запрещенных IP-адресов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q170" value="h">h) Список доверенных приложений.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q170" value="i">i) Самый надежный подход.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q170" value="j">j) Список разрешенных сайтов.</label></li>
-            </ul></div>
-            <div class="question-block" id="q171"><p class="question-title">171. Что такое "физический токен"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q171" value="a">a) Небольшое аппаратное устройство для аутентификации.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q171" value="b">b) USB-ключ (YubiKey).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q171" value="c">c) Смарт-карта.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q171" value="d">d) Генератор одноразовых паролей (OTP).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q171" value="e">e) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q171" value="f">f) Фактор "владение".</label></li>
-                <li class="answer-item"><label><input type="radio" name="q171" value="g">g) Виртуальный токен.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q171" value="h">h) Пароль.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q171" value="i">i) Биометрический сканер.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q171" value="j">j) Программный токен (Google Authenticator).</label></li>
-            </ul></div>
-            <div class="question-block" id="q172"><p class="question-title">172. Какой из этих алгоритмов является асимметричным?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q172" value="a">a) RSA.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q172" value="b">b) AES.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q172" value="c">c) DES.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q172" value="d">d) 3DES.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q172" value="e">e) Blowfish.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q172" value="f">f) RC4.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q172" value="g">g) ГОСТ 28147-89.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q172" value="h">h) Twofish.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q172" value="i">i) ECC.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q172" value="j">j) Все являются асимметричными.</label></li>
-            </ul></div>
-            <div class="question-block" id="q173"><p class="question-title">173. Какой из этих алгоритмов является симметричным?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q173" value="a">a) AES.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q173" value="b">b) RSA.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q173" value="c">c) ECC.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q173" value="d">d) DSA.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q173" value="e">e) Диффи-Хеллман.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q173" value="f">f) Все являются симметричными.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q173" value="g">g) ГОСТ Р 34.10-2012.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q173" value="h">h) DES.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q173" value="i">i) 3DES.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q173" value="j">j) PGP.</label></li>
-            </ul></div>
-            <div class="question-block" id="q174"><p class="question-title">174. Какая основная задача протокола TLS?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q174" value="a">a) Обеспечение безопасной передачи данных между двумя узлами.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q174" value="b">b) Шифрование трафика.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q174" value="c">c) Аутентификация сервера (и опционально клиента).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q174" value="d">d) Обеспечение целостности данных.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q174" value="e">e) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q174" value="f">f) Используется в HTTPS.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q174" value="g">g) Преемник SSL.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q174" value="h">h) Только шифрование.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q174" value="i">i) Только аутентификация.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q174" value="j">j) Только для веб-трафика.</label></li>
-            </ul></div>
-            <div class="question-block" id="q175"><p class="question-title">175. Что такое "компьютерный вирус"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q175" value="a">a) Тип вредоносного ПО, которое может создавать свои копии и внедрять их в другой код.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q175" value="b">b) Требует носителя для распространения (файл, загрузочный сектор).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q175" value="c">c) Требует действия пользователя для активации.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q175" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q175" value="e">e) Отличается от червя, который распространяется самостоятельно.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q175" value="f">f) Биологический вирус.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q175" value="g">g) Любая вредоносная программа.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q175" value="h">h) Только для Windows.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q175" value="i">i) Устаревшая угроза.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q175" value="j">j) То же, что и троян.</label></li>
-            </ul></div>
-            <div class="question-block" id="q176"><p class="question-title">176. Что такое "очистка данных" (data sanitization)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q176" value="a">a) Процесс необратимого удаления данных с носителя информации.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q176" value="b">b) Простое удаление файла.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q176" value="c">c) Форматирование диска.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q176" value="d">d) Физическое уничтожение носителя.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q176" value="e">e) Перезапись данных случайными последовательностями.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q176" value="f">f) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q176" value="g">g) Дегауссизация (размагничивание).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q176" value="h">h) Важно при выводе оборудования из эксплуатации.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q176" value="i">i) То же, что и шифрование.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q176" value="j">j) Очистка от вирусов.</label></li>
-            </ul></div>
-            <div class="question-block" id="q177"><p class="question-title">177. Что такое "фаззинг"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q177" value="a">a) Техника тестирования ПО путем подачи на вход случайных, некорректных данных.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q177" value="b">b) Используется для поиска уязвимостей, приводящих к сбоям.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q177" value="c">c) Автоматизированный процесс.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q177" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q177" value="e">e) Может найти переполнения буфера и другие ошибки.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q177" value="f">f) Fuzz testing.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q177" value="g">g) Ручное тестирование.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q177" value="h">h) Тестирование производительности.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q177" value="i">i) Тестирование интерфейса.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q177" value="j">j) Только для сетевых протоколов.</label></li>
-            </ul></div>
-            <div class="question-block" id="q178"><p class="question-title">178. Что такое "криптографический ключ"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q178" value="a">a) Секретный параметр, используемый в криптографическом алгоритме.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q178" value="b">b) От его секретности зависит безопасность шифра.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q178" value="c">c) Длина ключа влияет на криптостойкость.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q178" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q178" value="e">e) Симметричный и асимметричный (открытый/закрытый).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q178" value="f">f) Пароль.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q178" value="g">g) Алгоритм шифрования.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q178" value="h">h) Должен быть случайным.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q178" value="i">i) Хранилище ключей.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q178" value="j">j) USB-токен.</label></li>
-            </ul></div>
-            <div class="question-block" id="q179"><p class="question-title">179. Какой класс защиты информации по ФСТЭК является самым высоким?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q179" value="a">a) 1.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q179" value="b">b) 6.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q179" value="c">c) A.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q179" value="d">d) F.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q179" value="e">e) 7.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q179" value="f">f) 0.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q179" value="g">g) Зависит от типа системы.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q179" value="h">h) 1Г.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q179" value="i">i) УЗ1.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q179" value="j">j) Классы отменены.</label></li>
-            </ul></div>
-            <div class="question-block" id="q180"><p class="question-title">180. Что такое "индикатор компрометации" (IoC)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q180" value="a">a) Артефакт, наблюдаемый в сети или системе, который с высокой вероятностью указывает на вторжение.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q180" value="b">b) IP-адрес злоумышленника.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q180" value="c">c) Хэш вредоносного файла.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q180" value="d">d) URL командного центра.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q180" value="e">e) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q180" value="f">f) Используется для обнаружения и реагирования.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q180" value="g">g) Только сетевые индикаторы.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q180" value="h">h) Только хостовые индикаторы.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q180" value="i">i) Уязвимость.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q180" value="j">j) Ложное срабатывание.</label></li>
-            </ul></div>
-            <div class="question-block" id="q181"><p class="question-title">181. Что такое "нулевое доверие" (Zero Trust)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q181" value="a">a) Модель безопасности, которая не доверяет никому по умолчанию, даже внутри сети.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q181" value="b">b) "Никогда не доверяй, всегда проверяй".</label></li>
-                <li class="answer-item"><label><input type="radio" name="q181" value="c">c) Требует строгой аутентификации для каждого запроса.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q181" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q181" value="e">e) Микросегментация.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q181" value="f">f) Принцип наименьших привилегий.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q181" value="g">g) Противоположность периметральной модели.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q181" value="h">h) Только для облака.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q181" value="i">i) Очень дорого.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q181" value="j">j) Недостижимый идеал.</label></li>
-            </ul></div>
-            <div class="question-block" id="q182"><p class="question-title">182. Что такое "управление правами на доступ к информации" (IRM)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q182" value="a">a) Технология, позволяющая контролировать доступ к документам даже после их отправки.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q182" value="b">b) Позволяет запретить копирование, печать, пересылку.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q182" value="c">c) Может отозвать доступ к документу.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q182" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q182" value="e">e) Azure Information Protection.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q182" value="f">f) То же, что и DLP.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q182" value="g">g) Только для документов Microsoft Office.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q182" value="h">h) Устаревшая технология.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q182" value="i">i) Управление доступом на файловом сервере.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q182" value="j">j) Шифрование документов.</label></li>
-            </ul></div>
-            <div class="question-block" id="q183"><p class="question-title">183. Что такое "анализ статического кода" (SAST)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q183" value="a">a) Анализ исходного кода на наличие уязвимостей без его выполнения.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q183" value="b">b) "Тестирование белого ящика".</label></li>
-                <li class="answer-item"><label><input type="radio" name="q183" value="c">c) Интегрируется в CI/CD.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q183" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q183" value="e">e) SonarQube, Checkmarx.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q183" value="f">f) Находит много ложных срабатываний.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q183" value="g">g) Противоположность DAST.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q183" value="h">h) Только для компилируемых языков.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q183" value="i">i) Анализ бинарного кода.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q183" value="j">j) Ручной процесс.</label></li>
-            </ul></div>
-            <div class="question-block" id="q184"><p class="question-title">184. Что такое "анализ динамического кода" (DAST)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q184" value="a">a) Анализ запущенного приложения на наличие уязвимостей.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q184" value="b">b) "Тестирование черного ящика".</label></li>
-                <li class="answer-item"><label><input type="radio" name="q184" value="c">c) Не требует доступа к исходному коду.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q184" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q184" value="e">e) OWASP ZAP, Burp Suite.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q184" value="f">f) Находит меньше ложных срабатываний, чем SAST.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q184" value="g">g) Противоположность SAST.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q184" value="h">h) Только для веб-приложений.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q184" value="i">i) Анализ исходного кода.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q184" value="j">j) Ручной процесс.</label></li>
-            </ul></div>
-            <div class="question-block" id="q185"><p class="question-title">185. Что такое "управление событиями"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q185" value="a">a) Сбор, агрегация, корреляция и анализ логов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q185" value="b">b) Основа для обнаружения инцидентов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q185" value="c">c) Используется в SIEM-системах.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q185" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q185" value="e">e) Аудит.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q185" value="f">f) Централизованное хранение логов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q185" value="g">g) Только события безопасности.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q185" value="h">h) Только для Windows.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q185" value="i">i) Планирование мероприятий.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q185" value="j">j) Управление инцидентами.</label></li>
-            </ul></div>
-            <div class="question-block" id="q186"><p class="question-title">186. Какая атака основана на вставке вредоносного кода, который выполняется на стороне клиента?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q186" value="a">a) XSS.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q186" value="b">b) SQL-инъекция.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q186" value="c">c) CSRF.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q186" value="d">d) DoS.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q186" value="e">e) Man-in-the-Middle.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q186" value="f">f) Фишинг.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q186" value="g">g) Брутфорс.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q186" value="h">h) Path Traversal.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q186" value="i">i) Command Injection.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q186" value="j">j) Все вышеперечисленное.</label></li>
-            </ul></div>
-            <div class="question-block" id="q187"><p class="question-title">187. Что такое "приватность по умолчанию" (privacy by default)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q187" value="a">a) Принцип, по которому система собирает и обрабатывает минимально необходимый объем данных.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q187" value="b">b) Часть GDPR.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q187" value="c">c) Противоположен сбору всех возможных данных.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q187" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q187" value="e">e) Максимально приватные настройки по умолчанию.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q187" value="f">f) То же, что и анонимность.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q187" value="g">g) Security by default.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q187" value="h">h) Только для персональных данных.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q187" value="i">i) Требует явного согласия на сбор данных.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q187" value="j">j) Редко используется.</label></li>
-            </ul></div>
-            <div class="question-block" id="q188"><p class="question-title">188. Что такое "приватность в проектировании" (privacy by design)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q188" value="a">a) Подход, при котором защита приватности встраивается в систему с самого начала.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q188" value="b">b) Требование GDPR.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q188" value="c">c) 7 основополагающих принципов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q188" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q188" value="e">e) Проактивный, а не реактивный подход.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q188" value="f">f) То же, что и security by design.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q188" value="g">g) Защита на всем жизненном цикле данных.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q188" value="h">h) Только для систем, работающих с ПДн.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q188" value="i">i) Уведомление пользователя.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q188" value="j">j) Минимизация данных.</label></li>
-            </ul></div>
-            <div class="question-block" id="q189"><p class="question-title">189. Что такое "руткит"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q189" value="a">a) Вредоносное ПО, предназначенное для сокрытия своего присутствия в системе.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q189" value="b">b) Может работать на уровне ядра ОС.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q189" value="c">c) Очень трудно обнаружить и удалить.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q189" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q189" value="e">e) Предоставляет "черный ход" (backdoor) злоумышленнику.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q189" value="f">f) Набор утилит для получения root-доступа.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q189" value="g">g) Только для Linux/Unix.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q189" value="h">h) Не является вирусом.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q189" value="i">i) Устаревшая угроза.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q189" value="j">j) Легальное ПО для администрирования.</label></li>
-            </ul></div>
-            <div class="question-block" id="q190"><p class="question-title">190. Что такое "управление идентификацией"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q190" value="a">a) Процесс управления всем жизненным циклом цифровых идентификаторов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q190" value="b">b) IdM (Identity Management).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q190" value="c">c) Часть IAM.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q190" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q190" value="e">e) Только создание пользователей.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q190" value="f">f) Только сброс паролей.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q190" value="g">g) Только аутентификация.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q190" value="h">h) Только авторизация.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q190" value="i">i) Управление Active Directory.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q190" value="j">j) Управление ключами.</label></li>
-            </ul></div>
-            <div class="question-block" id="q191"><p class="question-title">191. Какое средство защиты предназначено для контроля трафика между сетями?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q191" value="a">a) Межсетевой экран (Firewall).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q191" value="b">b) Антивирус.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q191" value="c">c) IDS/IPS.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q191" value="d">d) Прокси-сервер.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q191" value="e">e) WAF.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q191" value="f">f) Роутер.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q191" value="g">g) VPN-шлюз.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q191" value="h">h) DLP-система.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q191" value="i">i) SIEM-система.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q191" value="j">j) Все вышеперечисленное.</label></li>
-            </ul></div>
-            <div class="question-block" id="q192"><p class="question-title">192. Что такое "утечка данных"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q192" value="a">a) Несанкционированная передача конфиденциальной информации за пределы организации.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q192" value="b">b) Инцидент ИБ.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q192" value="c">c) Может быть умышленной или случайной.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q192" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q192" value="e">e) Нарушение конфиденциальности.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q192" value="f">f) Кража базы данных.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q192" value="g">g) Отправка письма не тому адресату.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q192" value="h">h) Только внешняя атака.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q192" value="i">i) Потеря ноутбука.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q192" value="j">j) Публикация в открытом доступе.</label></li>
-            </ul></div>
-            <div class="question-block" id="q193"><p class="question-title">193. Что такое "политика чистых столов"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q193" value="a">a) Требование убирать все рабочие документы в запираемые ящики в конце дня.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q193" value="b">b) Требование блокировать компьютер при уходе с рабочего места.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q193" value="c">c) Организационная мера защиты.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q193" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q193" value="e">e) Защищает от "заглядывания через плечо".</label></li>
-                <li class="answer-item"><label><input type="radio" name="q193" value="f">f) Часть общей политики безопасности.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q193" value="g">g) Требование к уборщицам.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q193" value="h">h) Только для бумажных документов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q193" value="i">i) Устаревшее правило.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q193" value="j">j) Рекомендация, а не требование.</label></li>
-            </ul></div>
-            <div class="question-block" id="q194"><p class="question-title">194. Что такое "социальный инженер"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q194" value="a">a) Злоумышленник, использующий методы манипуляции людьми.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q194" value="b">b) Психолог.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q194" value="c">c) Специалист по маркетингу.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q194" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q194" value="e">e) Не использует технические средства.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q194" value="f">f) Цель - получение конфиденциальной информации.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q194" value="g">g) Может выдавать себя за сотрудника техподдержки.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q194" value="h">h) Инженер по социальным вопросам.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q194" value="i">i) Специалист по рекламе.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q194" value="j">j) Легальная профессия.</label></li>
-            </ul></div>
-            <div class="question-block" id="q195"><p class="question-title">195. Что такое "одноразовый пароль" (OTP)?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q195" value="a">a) Пароль, действительный только для одной сессии или транзакции.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q195" value="b">b) TOTP (на основе времени) и HOTP (на основе счетчика).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q195" value="c">c) Используется в 2FA.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q195" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q195" value="e">e) Генерируется токеном или приложением.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q195" value="f">f) Код из SMS.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q195" value="g">g) Не защищает от MitM атак.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q195" value="h">h) Более безопасен, чем статический пароль.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q195" value="i">i) Пароль, который можно использовать один раз.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q195" value="j">j) Пароль, который меняется каждый день.</label></li>
-            </ul></div>
-            <div class="question-block" id="q196"><p class="question-title">196. Что такое "управление инцидентами"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q196" value="a">a) Процесс реагирования на инциденты ИБ.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q196" value="b">b) Обнаружение, анализ, сдерживание, искоренение, восстановление.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q196" value="c">c) Извлечение уроков (post-mortem).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q196" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q196" value="e">e) Требует наличия плана реагирования (IRP).</label></li>
-                <li class="answer-item"><label><input type="radio" name="q196" value="f">f) Выполняется командой CSIRT/CERT.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q196" value="g">g) Только устранение последствий.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q196" value="h">h) Только расследование.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q196" value="i">i) Управление IT-услугами.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q196" value="j">j) Только для крупных инцидентов.</label></li>
-            </ul></div>
-            <div class="question-block" id="q197"><p class="question-title">197. Какая роль у специалиста по ИБ в компании?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q197" value="a">a) Защита информационных активов компании.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q197" value="b">b) Разработка и внедрение политик безопасности.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q197" value="c">c) Мониторинг систем и реагирование на инциденты.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q197" value="d">d) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q197" value="e">e) Анализ рисков и уязвимостей.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q197" value="f">f) Обучение сотрудников.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q197" value="g">g) Только настройка файрволов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q197" value="h">h) Только расследование инцидентов.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q197" value="i">i) "Белый хакер".</label></li>
-                <li class="answer-item"><label><input type="radio" name="q197" value="j">j) Системный администратор.</label></li>
-            </ul></div>
-            <div class="question-block" id="q198"><p class="question-title">198. Что такое "угроза"?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q198" value="a">a) Потенциальная причина инцидента, который может нанести ущерб.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q198" value="b">b) Уязвимость.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q198" value="c">c) Риск.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q198" value="d">d) Атака.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q198" value="e">e) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q198" value="f">f) Естественная или искусственная.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q198" value="g">g) Преднамеренная или случайная.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q198" value="h">h) Источник опасности.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q198" value="i">i) Только то, что уже произошло.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q198" value="j">j) Только злоумышленник.</label></li>
-            </ul></div>
-            <div class="question-block" id="q199"><p class="question-title">199. Что такое "актив" в контексте ИБ?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q199" value="a">a) Любой ресурс, имеющий ценность для организации.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q199" value="b">b) Информация, данные.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q199" value="c">c) Аппаратное и программное обеспечение.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q199" value="d">d) Персонал, репутация.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q199" value="e">e) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q199" value="f">f) Только то, что можно купить.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q199" value="g">g) Только материальные ценности.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q199" value="h">h) То, что нужно защищать.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q199" value="i">i) Только серверы.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q199" value="j">j) Только база данных.</label></li>
-            </ul></div>
-            <div class="question-block" id="q200"><p class="question-title">200. Что такое "риск" в ИБ?</p><ul class="answers-list">
-                <li class="answer-item"><label><input type="radio" name="q200" value="a">a) Вероятность реализации угрозы с использованием уязвимости и нанесения ущерба.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q200" value="b">b) Угроза.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q200" value="c">c) Уязвимость.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q200" value="d">d) Ущерб.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q200" value="e">e) Все вышеперечисленное.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q200" value="f">f) Риском можно управлять: принять, избежать, передать, снизить.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q200" value="g">g) Количественная или качественная оценка.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q200" value="h">h) Нулевого риска не бывает.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q200" value="i">i) Атака.</label></li>
-                <li class="answer-item"><label><input type="radio" name="q200" value="j">j) Только финансовые потери.</label></li>
-            </ul></div>
+        .header {
+            background-color: var(--grouped-background);
+            padding: 12px 10px;
+            text-align: center;
+            font-size: 17px;
+            font-weight: 600;
+            border-bottom: 0.5px solid var(--separator-color);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-            <div class="button-container">
-                <button type="submit" class="submit-button">Завершить тест</button>
-            </div>
-        </form>
-        <div id="results" style="display: none;"></div>
-    </main>
+        .back-button {
+            position: absolute;
+            left: 16px;
+            font-size: 17px;
+            color: var(--system-blue);
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-    <script>
-        const correctAnswers = {
-            q151: 'd', q152: 'd', q153: 'd', q154: 'd', q155: 'd', q156: 'd', q157: 'd', q158: 'd', q159: 'd', q160: 'd',
-            q161: 'd', q162: 'd', q163: 'd', q164: 'd', q165: 'd', q166: 'd', q167: 'd', q168: 'd', q169: 'd', q170: 'd',
-            q171: 'e', q172: 'a', q173: 'a', q174: 'e', q175: 'd', q176: 'f', q177: 'd', q178: 'd', q179: 'a', q180: 'e',
-            q181: 'd', q182: 'd', q183: 'd', q184: 'd', q185: 'd', q186: 'a', q187: 'd', q188: 'd', q189: 'd', q190: 'd',
-            q191: 'a', q192: 'd', q193: 'd', q194: 'd', q195: 'd', q196: 'd', q197: 'd', q198: 'e', q199: 'e', q200: 'e'
-        };
+        .footer {
+            background-color: var(--grouped-background);
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--label-secondary);
+            border-top: 0.5px solid var(--separator-color);
+            margin-top: auto;
+        }
 
-        document.getElementById('quiz-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            let score = 0;
-            const totalQuestions = Object.keys(correctAnswers).length;
-            
-            document.querySelectorAll('.answer-item label').forEach(label => {
-                label.classList.remove('correct-answer', 'incorrect-answer');
-                const input = label.querySelector('input');
-                if(input) input.disabled = true;
-            });
+        main {
+            flex-grow: 1;
+            padding: 22px 0;
+        }
 
-            for (const qId in correctAnswers) {
-                const correctAnswer = correctAnswers[qId];
-                const selectedAnswer = document.querySelector(`input[name="${qId}"]:checked`);
-                const questionBlock = document.getElementById(qId);
-                
-                if (selectedAnswer) {
-                    const parentLabel = selectedAnswer.parentElement;
-                    if (selectedAnswer.value === correctAnswer) {
-                        score++;
-                        parentLabel.classList.add('correct-answer');
-                    } else {
-                        parentLabel.classList.add('incorrect-answer');
-                        const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
-                        if (correctLabel) correctLabel.classList.add('correct-answer');
-                    }
-                } else {
-                     if(questionBlock) {
-                         const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
-                         if (correctLabel) correctLabel.classList.add('correct-answer');
-                     }
-                }
+        .content-container {
+            background-color: var(--grouped-background);
+            margin: 0 16px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 0.5px solid var(--separator-color);
+            padding: 16px;
+        }
+
+        #question-text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        #answers-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .answer-btn {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 17px;
+            cursor: pointer;
+            border: 1px solid var(--separator-color);
+            background: var(--grouped-background);
+            border-radius: 8px;
+            text-align: left;
+            transition: background-color 0.2s;
+        }
+
+        .answer-btn:hover:not(:disabled) {
+            background: #e5e5ea;
+        }
+        
+        .answer-btn.correct {
+            background-color: var(--system-green);
+            border-color: var(--system-green);
+            color: white;
+            font-weight: 600;
+        }
+        .answer-btn.wrong {
+            background-color: var(--system-red);
+            border-color: var(--system-red);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .answer-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        #next-button {
+            width: 100%;
+            padding: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
+            background-color: var(--system-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+        }
+        
+        #next-button:disabled {
+            background-color: var(--system-gray);
+        }
+
+        #feedback {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 25px;
+        }
+
+        .correct-text { color: var(--system-green); }
+        .wrong-text { color: var(--system-red); }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            main {
+                display: flex;
+                justify-content: center;
             }
+            .content-container {
+                max-width: 600px;
+                width: 100%;
+            }
+        }
+  </style>
+ </head>
+ <body>
+  <header class="header">
+   <a class="back-button" href="mc_longdickoff.html">
+    ‹ Назад
+   </a>
+   <span>
+    Тест 4
+   </span>
+  </header>
+  <main>
+   <div class="content-container">
+    <h1>
+     Тест 4 по Информационной Безопасности
+    </h1>
+    <div id="quiz-area">
+     <div id="question-text">
+     </div>
+     <div id="answers-container">
+     </div>
+     <div id="feedback">
+     </div>
+    </div>
+    <button id="next-button">
+     Следующий вопрос
+    </button>
+   </div>
+  </main>
+  <footer class="footer">
+   Решу игэ - сдам гиа
+  </footer>
+  <script>
+   const questions =
+       [
+    [
+        "Приведите пример меры физической безопасности.",
+        [
+            "Замки, системы видеонаблюдения, охранная сигнализация, контроль доступа в помещения.",
+            "Атака, при которой злоумышленник подменяет DNS-записи, чтобы перенаправить трафик на поддельный сайт.",
+            "Недостаток в системе, который может быть использован угрозой для нанесения ущерба.",
+            "Подмена IP-адреса отправителя в IP-пакетах с целью выдать себя за другую систему.",
+            "Программное обеспечение или аппаратное устройство, которое регистрирует нажатия клавиш на клавиатуре.",
+            "Комплекс мер, направленных на предотвращение утечки информации через акустические и виброакустические каналы.",
+            "Техника автоматизированного тестирования ПО, которая заключается в подаче на вход программы неверных, неожиданных или случайных данных.",
+            "Хронологическая документация или 'бумажный след', показывающий изъятие, хранение, передачу, анализ и утилизацию вещественных доказательств.",
+            "Наука о методах обеспечения конфиденциальности, целостности данных, аутентификации и невозможности отказа от авторства.",
+            "Программа-вымогатель (Ransomware)."
+        ],
+        0
+    ],
+    [
+        "Что такое 'вирус-полиморф'?",
+        [
+            "Компьютерный вирус, который постоянно изменяет свой код, чтобы избежать обнаружения антивирусными программами.",
+            "Тип атаки на веб-приложения, при которой в SQL-запрос внедряется вредоносный код, позволяющий получить доступ к базе данных.",
+            "Атака, направленная на компрометацию программного обеспечения на этапе его разработки или распространения.",
+            "В симметричном шифровании используется один и тот же ключ для шифрования и дешифрования, в асимметричном — два разных ключа (открытый и закрытый).",
+            "Программное обеспечение, которое тайно собирает информацию о пользователе и его действиях на компьютере.",
+            "Стратегия использования нескольких уровней защиты для защиты информационных активов.",
+            "Симметричный ключ, который генерируется для одного сеанса связи и используется для шифрования данных только в течение этого сеанса.",
+            "Сведения любого характера (производственные, технические, экономические, организационные и другие), имеющие коммерческую ценность в силу их неизвестности третьим лицам.",
+            "Промежуточный сервер в компьютерных сетях, выполняющий роль посредника между пользователем и целевым сервером.",
+            "Криптография скрывает содержание сообщения, а стеганография скрывает само существование сообщения."
+        ],
+        0
+    ],
+    [
+        "Какова цель организационных мер защиты информации?",
+        [
+            "Регламентация производственной деятельности и взаимоотношений исполнителей на нормативно-правовой основе, исключающая или ослабляющая действие угроз.",
+            "Выявление, оценка и снижение рисков для информационных активов до приемлемого уровня.",
+            "Content-Security-Policy (CSP).",
+            "Обновление программного обеспечения, предназначенное для исправления ошибок или уязвимостей.",
+            "Программное обеспечение, которое тайно собирает информацию о пользователе и его действиях на компьютере.",
+            "Реквизит электронного документа, предназначенный для защиты данного электронного документа от подделки, полученный в результате криптографического преобразования информации.",
+            "Центр сертификации (Certification Authority, CA).",
+            "Разновидность фишинга с использованием SMS-сообщений.",
+            "Метод взлома, заключающийся в систематическом переборе всех возможных комбинаций пароля или ключа.",
+            "Что-то, что вы знаете (пароль), что-то, что у вас есть (токен), и что-то, чем вы являетесь (биометрия)."
+        ],
+        0
+    ],
+    [
+        "Что такое политика информационной безопасности?",
+        [
+            "Набор правил и процедур, которые определяют, как в организации обрабатываются, защищаются и распространяются информационные активы.",
+            "Программное обеспечение, предназначенное для показа рекламы, часто без согласия пользователя.",
+            "Сегмент сети, содержащий общедоступные сервисы и отделяющий их от частной (локальной) сети.",
+            "TLS (Transport Layer Security), преемник SSL.",
+            "443.",
+            "Технология, позволяющая создать безопасное зашифрованное соединение поверх менее защищенной сети, такой как интернет.",
+            "Оценка безопасности компьютерной системы или сети путем моделирования атаки злоумышленника.",
+            "Стратегия использования нескольких уровней защиты для защиты информационных активов.",
+            "Программное обеспечение, которое тайно собирает информацию о пользователе и его действиях на компьютере.",
+            "Подмена IP-адреса отправителя в IP-пакетах с целью выдать себя за другую систему."
+        ],
+        0
+    ],
+    [
+        "Что такое 'Clickjacking'?",
+        [
+            "Атака, при которой злоумышленник 'обманывает' пользователя, заставляя его нажимать на невидимые или замаскированные элементы на веб-странице.",
+            "Владелец ресурса сам определяет права доступа для других субъектов.",
+            "Техника атаки в сетях Ethernet, позволяющая перехватывать трафик между узлами путем отправки ложных ARP-сообщений.",
+            "Свойство, которое гарантирует, что отправитель сообщения не сможет впоследствии отрицать факт его отправки, а получатель — факт получения.",
+            "Ресурс-ловушка, имитирующий реальную систему, чтобы привлечь и изучить действия злоумышленников.",
+            "Хронологическая запись событий, связанных с безопасностью, в компьютерной системе.",
+            "Разновидность фишинга с использованием голосовых коммуникаций (телефонных звонков).",
+            "Отключение ненужных служб, установка последних патчей безопасности, настройка строгой политики паролей.",
+            "Принцип наименьших привилегий.",
+            "Ситуация, в которой один человек или программа успешно маскируется под другого путем фальсификации данных."
+        ],
+        0
+    ],
+    [
+        "Что такое 'план непрерывности бизнеса' (BCP)?",
+        [
+            "План, описывающий, как организация будет продолжать функционировать во время и после чрезвычайной ситуации.",
+            "443.",
+            "Процесс сбора, анализа и распространения информации об актуальных и потенциальных киберугрозах.",
+            "Техника автоматизированного тестирования ПО, которая заключается в подаче на вход программы неверных, неожиданных или случайных данных.",
+            "Промежуточный сервер в компьютерных сетях, выполняющий роль посредника между пользователем и целевым сервером.",
+            "Любое программное обеспечение, предназначенное для нанесения вреда компьютеру, серверу или компьютерной сети.",
+            "Изолированная среда для безопасного выполнения подозрительных программ без риска для основной системы.",
+            "Оценка безопасности компьютерной системы или сети путем моделирования атаки злоумышленника.",
+            "Точка принудительного применения политик безопасности, размещенная между пользователями и облачными сервисами.",
+            "TLS (Transport Layer Security), преемник SSL."
+        ],
+        0
+    ],
+    [
+        "Что такое 'защита речевой информации'?",
+        [
+            "Комплекс мер, направленных на предотвращение утечки информации через акустические и виброакустические каналы.",
+            "Отключение ненужных служб, установка последних патчей безопасности, настройка строгой политики паролей.",
+            "Метод физического проникновения, при котором неавторизованное лицо следует за авторизованным в защищенную зону.",
+            "Случайные данные, которые добавляются к паролю перед хэшированием для защиты от атак по радужным таблицам.",
+            "Анализ работающего приложения на наличие уязвимостей путем симуляции внешних атак.",
+            "Генераторы 'белого шума', виброакустические излучатели.",
+            "Оценка уязвимостей (сканирование) находит и сообщает о потенциальных проблемах, а тестирование на проникновение пытается их эксплуатировать.",
+            "Утечка данных, заражение корпоративной сети вредоносным ПО с личных устройств, сложность управления.",
+            "В создании нескольких последовательных рубежей защиты, каждый из которых дублирует и дополняет остальные.",
+            "Обеспечение точности и полноты информации и методов ее обработки."
+        ],
+        0
+    ],
+    [
+        "Что такое 'цифровая подпись'?",
+        [
+            "Реквизит электронного документа, предназначенный для защиты данного электронного документа от подделки, полученный в результате криптографического преобразования информации.",
+            "Поддельный TGT (Ticket Granting Ticket) Kerberos, который дает злоумышленнику неограниченный доступ к домену.",
+            "Технология, которая использует машинное обучение для обнаружения аномалий в поведении пользователей и сущностей, указывающих на угрозы.",
+            "Сбор, анализ и корреляция информации о событиях безопасности в реальном времени из различных источников.",
+            "Процесс разработки ПО, в который на всех этапах интегрированы задачи и практики по обеспечению безопасности.",
+            "Тип вредоносного ПО, которое способно к саморазмножению и распространению по сети без участия человека.",
+            "Решение для защиты конечных точек, которое непрерывно отслеживает и реагирует на продвинутые угрозы.",
+            "Нет, хэш-функции являются односторонними, что делает невозможным восстановление исходных данных.",
+            "Атака на SolarWinds.",
+            "Метод манипулирования людьми с целью получения конфиденциальной информации."
+        ],
+        0
+    ],
+    [
+        "Что характеризует ролевую модель доступа (RBAC)?",
+        [
+            "Права доступа назначаются ролям, а пользователи получают права через присвоение им этих ролей.",
+            "Технология, позволяющая создать безопасное зашифрованное соединение поверх менее защищенной сети, такой как интернет.",
+            "Обновление программного обеспечения, предназначенное для исправления ошибок или уязвимостей.",
+            "Online Certificate Status Protocol — протокол для получения статуса отзыва цифрового сертификата в реальном времени.",
+            "Динамика набора текста, походка, подпись.",
+            "Ситуация, в которой один человек или программа успешно маскируется под другого путем фальсификации данных.",
+            "Оценка уязвимостей (сканирование) находит и сообщает о потенциальных проблемах, а тестирование на проникновение пытается их эксплуатировать.",
+            "Центр сертификации (Certification Authority, CA).",
+            "Хронологическая запись событий, связанных с безопасностью, в компьютерной системе.",
+            "Реквизит электронного документа, предназначенный для защиты данного электронного документа от подделки, полученный в результате криптографического преобразования информации."
+        ],
+        0
+    ],
+    [
+        "Какой HTTP-заголовок помогает предотвратить XSS-атаки?",
+        [
+            "Content-Security-Policy (CSP).",
+            "Методы аутентификации, которые не требуют от пользователя ввода пароля (например, с помощью биометрии, FIDO-ключей).",
+            "Вредоносное ПО, которое существует только в оперативной памяти и не записывает файлы на диск, что затрудняет его обнаружение.",
+            "Точка принудительного применения политик безопасности, размещенная между пользователями и облачными сервисами.",
+            "Симметричный ключ, который генерируется для одного сеанса связи и используется для шифрования данных только в течение этого сеанса.",
+            "Система, которая не только обнаруживает вторжения, но и активно пытается их блокировать.",
+            "Вирусу для распространения требуется носитель (файл), в то время как червь является самодостаточной программой.",
+            "Хакер, который взламывает системы без разрешения, но не с вредоносными намерениями, а, например, чтобы сообщить владельцу об уязвимости.",
+            "MAC (мандатная модель доступа), так как права доступа централизованно управляются системой безопасности.",
+            "Атака, при которой злоумышленник пытается использовать один или несколько часто используемых паролей против множества учетных записей."
+        ],
+        0
+    ],
+    [
+        "Что характеризует дискреционную модель доступа (DAC)?",
+        [
+            "Владелец ресурса сам определяет права доступа для других субъектов.",
+            "Метод социальной инженерии, при котором злоумышленник подсматривает конфиденциальную информацию (например, пароль) через плечо жертвы.",
+            "План, описывающий, как организация будет продолжать функционировать во время и после чрезвычайной ситуации.",
+            "Свойство, которое гарантирует, что отправитель сообщения не сможет впоследствии отрицать факт его отправки, а получатель — факт получения.",
+            "Разновидность фишинга с использованием голосовых коммуникаций (телефонных звонков).",
+            "Тип атаки, целью которой является сделать компьютерные ресурсы недоступными для легитимных пользователей.",
+            "Процесс выявления, количественной оценки и приоритизации уязвимостей в системе.",
+            "Процесс подтверждения личности пользователя на основе его уникальных физиологических или поведенческих характеристик.",
+            "Часть BCP, которая фокусируется на восстановлении ИТ-инфраструктуры и операций после сбоя.",
+            "Хронологическая запись событий, связанных с безопасностью, в компьютерной системе."
+        ],
+        0
+    ],
+    [
+        "Что такое 'безопасный жизненный цикл разработки ПО' (SDLC)?",
+        [
+            "Процесс разработки ПО, в который на всех этапах интегрированы задачи и практики по обеспечению безопасности.",
+            "Часть BCP, которая фокусируется на восстановлении ИТ-инфраструктуры и операций после сбоя.",
+            "Электронный документ, который использует цифровую подпись для привязки открытого ключа к личности.",
+            "Атака, при которой злоумышленник подменяет DNS-записи, чтобы перенаправить трафик на поддельный сайт.",
+            "Цифровая подпись.",
+            "Оценка уязвимостей (сканирование) находит и сообщает о потенциальных проблемах, а тестирование на проникновение пытается их эксплуатировать.",
+            "Криптографическая атака, основанная на парадоксе дней рождения, используемая для нахождения коллизий в хэш-функциях.",
+            "ISO/IEC 27001.",
+            "Атака, направленная на компрометацию программного обеспечения на этапе его разработки или распространения.",
+            "Динамика набора текста, походка, подпись."
+        ],
+        0
+    ],
+    [
+        "Что такое система обнаружения вторжений (IDS)?",
+        [
+            "Программное или аппаратное средство, предназначенное для выявления фактов неавторизованного доступа в компьютерную систему или сеть.",
+            "Иерархическая структура центров сертификации, которая позволяет проверить подлинность сертификата, двигаясь от конечного сертификата к корневому.",
+            "Процесс подтверждения личности пользователя на основе его уникальных физиологических или поведенческих характеристик.",
+            "Обновление программного обеспечения, предназначенное для исправления ошибок или уязвимостей.",
+            "Процесс сбора, анализа и распространения информации об актуальных и потенциальных киберугрозах.",
+            "Криптография скрывает содержание сообщения, а стеганография скрывает само существование сообщения.",
+            "Свойство протоколов согласования ключей, которое гарантирует, что компрометация долгосрочных ключей не приведет к компрометации прошлых сеансовых ключей.",
+            "Любое программное обеспечение, предназначенное для нанесения вреда компьютеру, серверу или компьютерной сети.",
+            "Оценка безопасности компьютерной системы или сети путем моделирования атаки злоумышленника.",
+            "ISO/IEC 27001."
+        ],
+        0
+    ],
+    [
+        "Что такое 'вишинг'?",
+        [
+            "Разновидность фишинга с использованием голосовых коммуникаций (телефонных звонков).",
+            "Технология безопасности, которая изолирует сеансы просмотра веб-страниц от конечного устройства пользователя, чтобы предотвратить атаки через браузер.",
+            "Поддельный TGT (Ticket Granting Ticket) Kerberos, который дает злоумышленнику неограниченный доступ к домену.",
+            "Программное или аппаратное средство, предназначенное для выявления фактов неавторизованного доступа в компьютерную систему или сеть.",
+            "Процесс сбора, анализа и распространения информации об актуальных и потенциальных киберугрозах.",
+            "Недостаток в системе, который может быть использован угрозой для нанесения ущерба.",
+            "Атака, при которой злоумышленник подменяет DNS-записи, чтобы перенаправить трафик на поддельный сайт.",
+            "Практика безопасности, которая запрещает запуск известных вредоносных или нежелательных приложений.",
+            "Метод взлома, заключающийся в систематическом переборе всех возможных комбинаций пароля или ключа.",
+            "Процесс преобразования данных в код для предотвращения несанкционированного доступа."
+        ],
+        0
+    ],
+    [
+        "Что такое 'фреймворк MITRE ATT&CK'?",
+        [
+            "Глобальная база знаний о тактиках и техниках злоумышленников, основанная на реальных наблюдениях.",
+            "Процесс разработки ПО, в который на всех этапах интегрированы задачи и практики по обеспечению безопасности.",
+            "Вредоносное ПО, которое существует только в оперативной памяти и не записывает файлы на диск, что затрудняет его обнаружение.",
+            "Поддельный TGS (Ticket Granting Service) Kerberos, который предоставляет доступ к определенному сервису в домене.",
+            "Программное обеспечение или аппаратное устройство, которое регистрирует нажатия клавиш на клавиатуре.",
+            "Криптография скрывает содержание сообщения, а стеганография скрывает само существование сообщения.",
+            "Владелец ресурса сам определяет права доступа для других субъектов.",
+            "Пространство (территория, здание, часть здания), в котором исключено неконтролируемое пребывание посторонних лиц, а также транспортных, технических и иных средств.",
+            "Решение для защиты конечных точек, которое непрерывно отслеживает и реагирует на продвинутые угрозы.",
+            "Форма киберсквоттинга, основанная на опечатках, которые может сделать пользователь при вводе URL-адреса в веб-браузере."
+        ],
+        0
+    ],
+    [
+        "Что такое 'UEBA' (User and Entity Behavior Analytics)?",
+        [
+            "Технология, которая использует машинное обучение для обнаружения аномалий в поведении пользователей и сущностей, указывающих на угрозы.",
+            "Изолированная среда для безопасного выполнения подозрительных программ без риска для основной системы.",
+            "Ресурс-ловушка, имитирующий реальную систему, чтобы привлечь и изучить действия злоумышленников.",
+            "Тип атаки, при которой скомпрометированные учетные данные (пары логин/пароль) из одной утечки используются для получения несанкционированного доступа к другим системам.",
+            "Свойство, которое гарантирует, что отправитель сообщения не сможет впоследствии отрицать факт его отправки, а получатель — факт получения.",
+            "Концепция, позволяющая индивидуумам контролировать свою цифровую личность без необходимости полагаться на централизованных поставщиков идентификации.",
+            "Криптография скрывает содержание сообщения, а стеганография скрывает само существование сообщения.",
+            "Форма киберсквоттинга, основанная на опечатках, которые может сделать пользователь при вводе URL-адреса в веб-браузере.",
+            "Использование антивирусного ПО, брандмауэров, шифрования.",
+            "Цифровая подпись."
+        ],
+        0
+    ],
+    [
+        "Что такое 'атака методом перебора' (brute-force attack)?",
+        [
+            "Метод взлома, заключающийся в систематическом переборе всех возможных комбинаций пароля или ключа.",
+            "Процесс преобразования данных в код для предотвращения несанкционированного доступа.",
+            "Разновидность атаки методом перебора, при которой для подбора пароля используются заранее составленные списки (словари) наиболее вероятных паролей.",
+            "Платформа, которая позволяет автоматизировать и оркестровать рабочие процессы реагирования на инциденты безопасности.",
+            "HTTPS (HyperText Transfer Protocol Secure).",
+            "Часть BCP, которая фокусируется на восстановлении ИТ-инфраструктуры и операций после сбоя.",
+            "Атака на SolarWinds.",
+            "Центр сертификации (Certification Authority, CA).",
+            "Электронный документ, который использует цифровую подпись для привязки открытого ключа к личности.",
+            "Метод физического проникновения, при котором неавторизованное лицо следует за авторизованным в защищенную зону."
+        ],
+        0
+    ],
+    [
+        "Что такое шифрование?",
+        [
+            "Процесс преобразования данных в код для предотвращения несанкционированного доступа.",
+            "Вредоносное ПО, которое существует только в оперативной памяти и не записывает файлы на диск, что затрудняет его обнаружение.",
+            "Программное обеспечение или аппаратное устройство, которое регистрирует нажатия клавиш на клавиатуре.",
+            "Отпечаток пальца, сканирование сетчатки глаза, распознавание лица.",
+            "Обеспечить дополнительный уровень безопасности для локальной сети, вынося ресурсы, доступные извне, в отдельную подсеть.",
+            "Хронологическая документация или 'бумажный след', показывающий изъятие, хранение, передачу, анализ и утилизацию вещественных доказательств.",
+            "Использование антивирусного ПО, брандмауэров, шифрования.",
+            "Тип атаки на веб-приложения, при которой в SQL-запрос внедряется вредоносный код, позволяющий получить доступ к базе данных.",
+            "Сегмент сети, содержащий общедоступные сервисы и отделяющий их от частной (локальной) сети.",
+            "Криптографическая атака, основанная на парадоксе дней рождения, используемая для нахождения коллизий в хэш-функциях."
+        ],
+        0
+    ],
+    [
+        "Что такое 'EDR' (Endpoint Detection and Response)?",
+        [
+            "Решение для защиты конечных точек, которое непрерывно отслеживает и реагирует на продвинутые угрозы.",
+            "Случайные данные, которые добавляются к паролю перед хэшированием для защиты от атак по радужным таблицам.",
+            "Владелец ресурса сам определяет права доступа для других субъектов.",
+            "Специалист по кибербезопасности, который использует свои навыки для поиска уязвимостей в системах с разрешения их владельцев.",
+            "Тип атаки, при которой скомпрометированные учетные данные (пары логин/пароль) из одной утечки используются для получения несанкционированного доступа к другим системам.",
+            "Эволюция EDR, которая собирает и коррелирует данные с нескольких уровней безопасности (конечные точки, сеть, облако).",
+            "Анализ работающего приложения на наличие уязвимостей путем симуляции внешних атак.",
+            "Content-Security-Policy (CSP).",
+            "В симметричном шифровании используется один и тот же ключ для шифрования и дешифрования, в асимметричном — два разных ключа (открытый и закрытый).",
+            "Процесс разработки ПО, в который на всех этапах интегрированы задачи и практики по обеспечению безопасности."
+        ],
+        0
+    ],
+    [
+        "Какую информацию можно отнести к коммерческой тайне?",
+        [
+            "Сведения любого характера (производственные, технические, экономические, организационные и другие), имеющие коммерческую ценность в силу их неизвестности третьим лицам.",
+            "Криптография скрывает содержание сообщения, а стеганография скрывает само существование сообщения.",
+            "Атака, при которой злоумышленник подменяет DNS-записи, чтобы перенаправить трафик на поддельный сайт.",
+            "Динамика набора текста, походка, подпись.",
+            "Набор ролей, политик и процедур, необходимых для создания, управления, распространения, использования, хранения и отзыва цифровых сертификатов.",
+            "Сеть компьютеров, зараженных вредоносным ПО и контролируемых злоумышленником для выполнения различных задач, таких как DDoS-атаки.",
+            "Пространство (территория, здание, часть здания), в котором исключено неконтролируемое пребывание посторонних лиц, а также транспортных, технических и иных средств.",
+            "Метод скрытой передачи информации путем сокрытия самого факта передачи сообщения.",
+            "Стратегия использования нескольких уровней защиты для защиты информационных активов.",
+            "Ресурс-ловушка, имитирующий реальную систему, чтобы привлечь и изучить действия злоумышленников."
+        ],
+        0
+    ],
+    [
+        "Что означает 'доступность' в триаде ЦРУ?",
+        [
+            "Обеспечение того, чтобы авторизованные пользователи имели доступ к информации и связанным с ней активам, когда это требуется.",
+            "Программное обеспечение или аппаратное устройство, которое регистрирует нажатия клавиш на клавиатуре.",
+            "TLS (Transport Layer Security), преемник SSL.",
+            "Любое программное обеспечение, предназначенное для нанесения вреда компьютеру, серверу или компьютерной сети.",
+            "Стратегия использования нескольких уровней защиты для защиты информационных активов.",
+            "Федеральный закон 'О персональных данных' (№ 152-ФЗ).",
+            "Центр сертификации (Certification Authority, CA).",
+            "Подтверждение авторства (аутентификация) и обеспечение целостности документа.",
+            "Replay attack (атака повторного воспроизведения).",
+            "Тип атаки, целью которой является сделать компьютерные ресурсы недоступными для легитимных пользователей."
+        ],
+        0
+    ],
+    [
+        "Что такое 'подделка DNS' (DNS spoofing)?",
+        [
+            "Атака, при которой злоумышленник подменяет DNS-записи, чтобы перенаправить трафик на поддельный сайт.",
+            "Меры по защите персонала, оборудования и данных от физических угроз, таких как кража, вандализм или стихийные бедствия.",
+            "Стратегический подход к кибербезопасности, который предполагает, что доверия нет нигде по умолчанию, и требует строгой проверки личности для каждого человека и устройства, пытающегося получить доступ к ресурсам.",
+            "Политика, позволяющая сотрудникам использовать свои личные устройства (смартфоны, ноутбуки) для рабочих целей.",
+            "Метод социальной инженерии, при котором злоумышленник подсматривает конфиденциальную информацию (например, пароль) через плечо жертвы.",
+            "Несанкционированное использование чужих компьютерных ресурсов для майнинга криптовалюты.",
+            "Принцип наименьших привилегий.",
+            "Электронный документ, который использует цифровую подпись для привязки открытого ключа к личности.",
+            "Документ, который регулярно обновляется и описывает 10 наиболее критичных рисков безопасности для веб-приложений.",
+            "Программное обеспечение для обнаружения, предотвращения и удаления вредоносных программ."
+        ],
+        0
+    ],
+    [
+        "Что такое 'ботнет'?",
+        [
+            "Сеть компьютеров, зараженных вредоносным ПО и контролируемых злоумышленником для выполнения различных задач, таких как DDoS-атаки.",
+            "Выявление, оценка и снижение рисков для информационных активов до приемлемого уровня.",
+            "Обеспечение того, чтобы авторизованные пользователи имели доступ к информации и связанным с ней активам, когда это требуется.",
+            "Docker.",
+            "Процесс выявления, количественной оценки и приоритизации уязвимостей в системе.",
+            "Атака, при которой злоумышленник компрометирует веб-сайты, часто посещаемые целевой группой лиц, чтобы заразить их устройства.",
+            "Отпечаток пальца, сканирование сетчатки глаза, распознавание лица.",
+            "Атака, использующая ранее неизвестную уязвимость (zero-day vulnerability).",
+            "Тип атаки, при которой скомпрометированные учетные данные (пары логин/пароль) из одной утечки используются для получения несанкционированного доступа к другим системам.",
+            "Вероятность реализации угрозы с использованием уязвимости и величина возможного ущерба."
+        ],
+        0
+    ],
+    [
+        "Что такое 'белый хакер'?",
+        [
+            "Специалист по кибербезопасности, который использует свои навыки для поиска уязвимостей в системах с разрешения их владельцев.",
+            "Программное обеспечение, которое тайно собирает информацию о пользователе и его действиях на компьютере.",
+            "Любое программное обеспечение, предназначенное для нанесения вреда компьютеру, серверу или компьютерной сети.",
+            "Цифровая подпись.",
+            "Потенциально возможное событие, действие или процесс, который может нанести ущерб информационным активам.",
+            "Раздел криптологии, занимающийся методами и способами расшифровки зашифрованной информации без предназначенного для этого ключа.",
+            "Концепция совместной работы Red Team и Blue Team для максимизации эффективности киберучений.",
+            "Система, которая не только обнаруживает вторжения, но и активно пытается их блокировать.",
+            "Информация или ресурс, имеющий ценность для организации.",
+            "Вероятность реализации угрозы с использованием уязвимости и величина возможного ущерба."
+        ],
+        0
+    ],
+    [
+        "В чем заключается принцип 'эшелонированной обороны'?",
+        [
+            "В создании нескольких последовательных рубежей защиты, каждый из которых дублирует и дополняет остальные.",
+            "ISO/IEC 27001.",
+            "Реквизит электронного документа, предназначенный для защиты данного электронного документа от подделки, полученный в результате криптографического преобразования информации.",
+            "Процесс преобразования пароля в строку символов фиксированной длины с помощью хэш-функции для безопасного хранения.",
+            "Метод манипулирования людьми с целью получения конфиденциальной информации.",
+            "Федеральный закон 'О персональных данных' (№ 152-ФЗ).",
+            "Набор программных средств, которые злоумышленник использует для маскировки своего присутствия в системе.",
+            "Информация или ресурс, имеющий ценность для организации.",
+            "Разновидность фишинга с использованием SMS-сообщений.",
+            "Случайные данные, которые добавляются к паролю перед хэшированием для защиты от атак по радужным таблицам."
+        ],
+        0
+    ],
+    [
+        "Какой основной закон в России регулирует отношения в области информации, информационных технологий и защиты информации?",
+        [
+            "Федеральный закон 'Об информации, информационных технологиях и о защите информации' (№ 149-ФЗ).",
+            "HTTPS (HyperText Transfer Protocol Secure).",
+            "Анализ исходного кода приложения на наличие уязвимостей без его фактического выполнения.",
+            "План, описывающий, как организация будет продолжать функционировать во время и после чрезвычайной ситуации.",
+            "Решение для защиты конечных точек, которое непрерывно отслеживает и реагирует на продвинутые угрозы.",
+            "Случайные данные, которые добавляются к паролю перед хэшированием для защиты от атак по радужным таблицам.",
+            "Вероятность реализации угрозы с использованием уязвимости и величина возможного ущерба.",
+            "Утечка данных, заражение корпоративной сети вредоносным ПО с личных устройств, сложность управления.",
+            "Категория решений безопасности, которые используют ловушки и приманки (например, honeypots) для обнаружения и противодействия злоумышленникам.",
+            "MAC (мандатная модель доступа), так как права доступа централизованно управляются системой безопасности."
+        ],
+        0
+    ],
+    [
+        "В чем разница между симметричным и асимметричным шифрованием?",
+        [
+            "В симметричном шифровании используется один и тот же ключ для шифрования и дешифрования, в асимметричном — два разных ключа (открытый и закрытый).",
+            "Технология, которая использует машинное обучение для обнаружения аномалий в поведении пользователей и сущностей, указывающих на угрозы.",
+            "Практика безопасности, которая запрещает запуск известных вредоносных или нежелательных приложений.",
+            "Вирусу для распространения требуется носитель (файл), в то время как червь является самодостаточной программой.",
+            "TLS (Transport Layer Security), преемник SSL.",
+            "Тип атаки, при которой злоумышленник заставляет авторизованного пользователя выполнять нежелательные действия на сайте.",
+            "Динамика набора текста, походка, подпись.",
+            "RSA (Rivest-Shamir-Adleman).",
+            "Правило, требующее от сотрудников убирать со своих рабочих мест все конфиденциальные документы и носители информации в конце рабочего дня.",
+            "AES (Advanced Encryption Standard)."
+        ],
+        0
+    ],
+    [
+        "Какова основная функция SIEM-системы (Security Information and Event Management)?",
+        [
+            "Сбор, анализ и корреляция информации о событиях безопасности в реальном времени из различных источников.",
+            "Регламентация производственной деятельности и взаимоотношений исполнителей на нормативно-правовой основе, исключающая или ослабляющая действие угроз.",
+            "Процесс предоставления или запрета доступа к ресурсам на основе идентификации и аутентификации субъекта.",
+            "Процесс перехвата и анализа сетевого трафика.",
+            "Хронологическая запись событий, связанных с безопасностью, в компьютерной системе.",
+            "Выявление, оценка и снижение рисков для информационных активов до приемлемого уровня.",
+            "Тип атаки, целью которой является сделать компьютерные ресурсы недоступными для легитимных пользователей.",
+            "Злоумышленник, который взламывает системы с целью кражи информации, нарушения работы или получения иной выгоды.",
+            "Метод идентификации пользователя с помощью запроса аутентификационных данных двух разных типов.",
+            "443."
+        ],
+        0
+    ],
+    [
+        "Что такое 'XDR' (Extended Detection and Response)?",
+        [
+            "Эволюция EDR, которая собирает и коррелирует данные с нескольких уровней безопасности (конечные точки, сеть, облако).",
+            "Техника автоматизированного тестирования ПО, которая заключается в подаче на вход программы неверных, неожиданных или случайных данных.",
+            "Электронный документ, который использует цифровую подпись для привязки открытого ключа к личности.",
+            "Информация или ресурс, имеющий ценность для организации.",
+            "Набор программных средств, которые злоумышленник использует для маскировки своего присутствия в системе.",
+            "Хакер, который взламывает системы без разрешения, но не с вредоносными намерениями, а, например, чтобы сообщить владельцу об уязвимости.",
+            "Метод скрытой передачи информации путем сокрытия самого факта передачи сообщения.",
+            "Категория решений безопасности, которые используют ловушки и приманки (например, honeypots) для обнаружения и противодействия злоумышленникам.",
+            "Замки, системы видеонаблюдения, охранная сигнализация, контроль доступа в помещения.",
+            "Docker."
+        ],
+        0
+    ],
+    [
+        "Что такое 'фаззинг'?",
+        [
+            "Техника автоматизированного тестирования ПО, которая заключается в подаче на вход программы неверных, неожиданных или случайных данных.",
+            "Группа специалистов по безопасности, отвечающая за защиту систем организации от атак.",
+            "Любое программное обеспечение, предназначенное для нанесения вреда компьютеру, серверу или компьютерной сети.",
+            "443.",
+            "Любая информация, относящаяся к прямо или косвенно определенному или определяемому физическому лицу.",
+            "Технология защиты данных во время их обработки (использования) в памяти, обычно с помощью защищенных анклавов.",
+            "Тип атаки на веб-приложения, при которой в SQL-запрос внедряется вредоносный код, позволяющий получить доступ к базе данных.",
+            "Несанкционированное использование чужих компьютерных ресурсов для майнинга криптовалюты.",
+            "Метод скрытой передачи информации путем сокрытия самого факта передачи сообщения.",
+            "Решение для защиты конечных точек, которое непрерывно отслеживает и реагирует на продвинутые угрозы."
+        ],
+        0
+    ],
+    [
+        "Что такое 'плечевой серфинг' (shoulder surfing)?",
+        [
+            "Метод социальной инженерии, при котором злоумышленник подсматривает конфиденциальную информацию (например, пароль) через плечо жертвы.",
+            "Компьютерный вирус, который постоянно изменяет свой код, чтобы избежать обнаружения антивирусными программами.",
+            "Отпечаток пальца, сканирование сетчатки глаза, распознавание лица.",
+            "Любая информация, относящаяся к прямо или косвенно определенному или определяемому физическому лицу.",
+            "Поддельный TGT (Ticket Granting Ticket) Kerberos, который дает злоумышленнику неограниченный доступ к домену.",
+            "Метод физического проникновения, при котором неавторизованное лицо следует за авторизованным в защищенную зону.",
+            "Набор программных средств, которые злоумышленник использует для маскировки своего присутствия в системе.",
+            "Практика безопасности, которая запрещает запуск известных вредоносных или нежелательных приложений.",
+            "Обновление программного обеспечения, предназначенное для исправления ошибок или уязвимостей.",
+            "ISO/IEC 27001."
+        ],
+        0
+    ],
+    [
+        "Приведите пример поведенческой биометрии.",
+        [
+            "Динамика набора текста, походка, подпись.",
+            "Техника обхода цензуры и сокрытия реального конечного пункта назначения трафика, используя легитимный домен в качестве 'фронта'.",
+            "Криптография скрывает содержание сообщения, а стеганография скрывает само существование сообщения.",
+            "Процесс сбора, анализа и распространения информации об актуальных и потенциальных киберугрозах.",
+            "Тип уязвимости, который позволяет атакующему получить доступ к файлам и каталогам, находящимся за пределами корневого каталога веб-сервера.",
+            "Набор правил и процедур, которые определяют, как в организации обрабатываются, защищаются и распространяются информационные активы.",
+            "Владелец ресурса сам определяет права доступа для других субъектов.",
+            "Платформа, которая позволяет автоматизировать и оркестровать рабочие процессы реагирования на инциденты безопасности.",
+            "Техника автоматизированного тестирования ПО, которая заключается в подаче на вход программы неверных, неожиданных или случайных данных.",
+            "Федеральный закон 'Об информации, информационных технологиях и о защите информации' (№ 149-ФЗ)."
+        ],
+        0
+    ],
+    [
+        "Назовите три основных типа факторов аутентификации.",
+        [
+            "Что-то, что вы знаете (пароль), что-то, что у вас есть (токен), и что-то, чем вы являетесь (биометрия).",
+            "Техника обхода цензуры и сокрытия реального конечного пункта назначения трафика, используя легитимный домен в качестве 'фронта'.",
+            "HTTPS (HyperText Transfer Protocol Secure).",
+            "Генераторы 'белого шума', виброакустические излучатели.",
+            "Подтверждение авторства (аутентификация) и обеспечение целостности документа.",
+            "Группа специалистов по безопасности, отвечающая за защиту систем организации от атак.",
+            "Свойство, которое гарантирует, что отправитель сообщения не сможет впоследствии отрицать факт его отправки, а получатель — факт получения.",
+            "Принцип наименьших привилегий.",
+            "Пространство (территория, здание, часть здания), в котором исключено неконтролируемое пребывание посторонних лиц, а также транспортных, технических и иных средств.",
+            "Обеспечение точности и полноты информации и методов ее обработки."
+        ],
+        0
+    ],
+    [
+        "Что такое 'сеансовый ключ'?",
+        [
+            "Симметричный ключ, который генерируется для одного сеанса связи и используется для шифрования данных только в течение этого сеанса.",
+            "Программное обеспечение для обнаружения, предотвращения и удаления вредоносных программ.",
+            "Цифровая подпись.",
+            "Эволюция EDR, которая собирает и коррелирует данные с нескольких уровней безопасности (конечные точки, сеть, облако).",
+            "Технология безопасности, которая изолирует сеансы просмотра веб-страниц от конечного устройства пользователя, чтобы предотвратить атаки через браузер.",
+            "Генераторы 'белого шума', виброакустические излучатели.",
+            "Федеральный закон 'Об информации, информационных технологиях и о защите информации' (№ 149-ФЗ).",
+            "Техника обхода цензуры и сокрытия реального конечного пункта назначения трафика, используя легитимный домен в качестве 'фронта'.",
+            "Решение для защиты конечных точек, которое непрерывно отслеживает и реагирует на продвинутые угрозы.",
+            "Разновидность атаки методом перебора, при которой для подбора пароля используются заранее составленные списки (словари) наиболее вероятных паролей."
+        ],
+        0
+    ],
+    [
+        "Что такое 'атака 'день рождения''?",
+        [
+            "Криптографическая атака, основанная на парадоксе дней рождения, используемая для нахождения коллизий в хэш-функциях.",
+            "Техника автоматизированного тестирования ПО, которая заключается в подаче на вход программы неверных, неожиданных или случайных данных.",
+            "Определить правила и ограничения для пользователей при использовании ИТ-ресурсов организации.",
+            "Процесс преобразования пароля в строку символов фиксированной длины с помощью хэш-функции для безопасного хранения.",
+            "План, описывающий, как организация будет продолжать функционировать во время и после чрезвычайной ситуации.",
+            "Режим коммерческой тайны.",
+            "Атака, направленная на компрометацию программного обеспечения на этапе его разработки или распространения.",
+            "Часть BCP, которая фокусируется на восстановлении ИТ-инфраструктуры и операций после сбоя.",
+            "Процесс преобразования данных в код для предотвращения несанкционированного доступа.",
+            "Специалист по кибербезопасности, который использует свои навыки для поиска уязвимостей в системах с разрешения их владельцев."
+        ],
+        0
+    ],
+    [
+        "Что такое 'IP-спуфинг'?",
+        [
+            "Подмена IP-адреса отправителя в IP-пакетах с целью выдать себя за другую систему.",
+            "Процесс выявления, количественной оценки и приоритизации уязвимостей в системе.",
+            "Принцип наименьших привилегий.",
+            "Разновидность атаки методом перебора, при которой для подбора пароля используются заранее составленные списки (словари) наиболее вероятных паролей.",
+            "Список цифровых сертификатов, которые были отозваны до истечения срока их действия.",
+            "Технология, позволяющая создать безопасное зашифрованное соединение поверх менее защищенной сети, такой как интернет.",
+            "Программное обеспечение или аппаратное устройство, которое регистрирует нажатия клавиш на клавиатуре.",
+            "Разновидность фишинга с использованием SMS-сообщений.",
+            "Подтверждение авторства (аутентификация) и обеспечение целостности документа.",
+            "Обеспечение точности и полноты информации и методов ее обработки."
+        ],
+        0
+    ],
+    [
+        "Что такое 'белый список' приложений (whitelisting)?",
+        [
+            "Практика безопасности, которая разрешает запуск только предварительно одобренных приложений, блокируя все остальные.",
+            "Анализ исходного кода приложения на наличие уязвимостей без его фактического выполнения.",
+            "Вид интернет-мошенничества, целью которого является получение доступа к конфиденциальным данным пользователей — логинам и паролям.",
+            "Вредоносное ПО, которое существует только в оперативной памяти и не записывает файлы на диск, что затрудняет его обнаружение.",
+            "Решение для защиты конечных точек, которое непрерывно отслеживает и реагирует на продвинутые угрозы.",
+            "Системы, предназначенные для предотвращения утечки конфиденциальной информации за пределы корпоративной сети.",
+            "Атака, направленная на компрометацию программного обеспечения на этапе его разработки или распространения.",
+            "Процесс сбора, анализа и распространения информации об актуальных и потенциальных киберугрозах.",
+            "Стратегия использования нескольких уровней защиты для защиты информационных активов.",
+            "Техника автоматизированного тестирования ПО, которая заключается в подаче на вход программы неверных, неожиданных или случайных данных."
+        ],
+        0
+    ],
+    [
+        "Что такое 'статический анализ кода' (SAST)?",
+        [
+            "Анализ исходного кода приложения на наличие уязвимостей без его фактического выполнения.",
+            "Компьютерный вирус, который постоянно изменяет свой код, чтобы избежать обнаружения антивирусными программами.",
+            "Оценка безопасности компьютерной системы или сети путем моделирования атаки злоумышленника.",
+            "Техника автоматизированного тестирования ПО, которая заключается в подаче на вход программы неверных, неожиданных или случайных данных.",
+            "Технология, которая использует машинное обучение для обнаружения аномалий в поведении пользователей и сущностей, указывающих на угрозы.",
+            "Обеспечение того, чтобы авторизованные пользователи имели доступ к информации и связанным с ней активам, когда это требуется.",
+            "Тип атаки, при которой злоумышленник тайно ретранслирует и, возможно, изменяет коммуникацию между двумя сторонами, которые считают, что они непосредственно общаются друг с другом.",
+            "Права доступа назначаются ролям, а пользователи получают права через присвоение им этих ролей.",
+            "Симметричный ключ, который генерируется для одного сеанса связи и используется для шифрования данных только в течение этого сеанса.",
+            "TLS (Transport Layer Security), преемник SSL."
+        ],
+        0
+    ],
+    [
+        "Что такое 'безпарольная аутентификация'?",
+        [
+            "Методы аутентификации, которые не требуют от пользователя ввода пароля (например, с помощью биометрии, FIDO-ключей).",
+            "Концепция, позволяющая индивидуумам контролировать свою цифровую личность без необходимости полагаться на централизованных поставщиков идентификации.",
+            "Меры по защите персонала, оборудования и данных от физических угроз, таких как кража, вандализм или стихийные бедствия.",
+            "Разновидность фишинга с использованием голосовых коммуникаций (телефонных звонков).",
+            "Программное обеспечение для управления и защиты мобильных устройств (смартфонов, планшетов) в организации.",
+            "Разновидность фишинга с использованием SMS-сообщений.",
+            "Хакер, который взламывает системы без разрешения, но не с вредоносными намерениями, а, например, чтобы сообщить владельцу об уязвимости.",
+            "Категория решений безопасности, которые используют ловушки и приманки (например, honeypots) для обнаружения и противодействия злоумышленникам.",
+            "Документ, который регулярно обновляется и описывает 10 наиболее критичных рисков безопасности для веб-приложений.",
+            "Дискреционная (DAC), Мандатная (MAC) и Ролевая (RBAC)."
+        ],
+        0
+    ],
+    [
+        "Что такое брандмауэр (firewall)?",
+        [
+            "Сетевой экран, который отслеживает и фильтрует входящий и исходящий сетевой трафик на основе заданных правил безопасности.",
+            "Хронологическая документация или 'бумажный след', показывающий изъятие, хранение, передачу, анализ и утилизацию вещественных доказательств.",
+            "Вредоносное ПО, которое существует только в оперативной памяти и не записывает файлы на диск, что затрудняет его обнаружение.",
+            "Хакер, который взламывает системы без разрешения, но не с вредоносными намерениями, а, например, чтобы сообщить владельцу об уязвимости.",
+            "Техника автоматизированного тестирования ПО, которая заключается в подаче на вход программы неверных, неожиданных или случайных данных.",
+            "Дефект алгоритма, который намеренно встроен в него разработчиком и позволяет получить несанкционированный доступ к данным или удалённому управлению операционной системой и компьютером в целом.",
+            "HTTPS (HyperText Transfer Protocol Secure).",
+            "Ограничение доступа к информации только для авторизованных лиц.",
+            "Криптография скрывает содержание сообщения, а стеганография скрывает само существование сообщения.",
+            "Стратегия использования нескольких уровней защиты для защиты информационных активов."
+        ],
+        0
+    ],
+    [
+        "Что такое 'угроза нулевого дня'?",
+        [
+            "Атака, использующая ранее неизвестную уязвимость (zero-day vulnerability).",
+            "Программное обеспечение, предназначенное для показа рекламы, часто без согласия пользователя.",
+            "Приведение исходного или исполняемого кода программы к виду, сохраняющему его функциональность, но затрудняющему анализ и понимание.",
+            "Замки, системы видеонаблюдения, охранная сигнализация, контроль доступа в помещения.",
+            "Динамика набора текста, походка, подпись.",
+            "В симметричном шифровании используется один и тот же ключ для шифрования и дешифрования, в асимметричном — два разных ключа (открытый и закрытый).",
+            "Вирусу для распространения требуется носитель (файл), в то время как червь является самодостаточной программой.",
+            "Разновидность фишинга с использованием SMS-сообщений.",
+            "Метод получения конфиденциальной информации путем исследования мусора компании.",
+            "Процесс преобразования пароля в строку символов фиксированной длины с помощью хэш-функции для безопасного хранения."
+        ],
+        0
+    ],
+    [
+        "Что такое 'Red Team'?",
+        [
+            "Группа специалистов по безопасности, имитирующая атаки на организацию для проверки ее защищенности.",
+            "Техника автоматизированного тестирования ПО, которая заключается в подаче на вход программы неверных, неожиданных или случайных данных.",
+            "Тип атаки на веб-приложения, при которой в SQL-запрос внедряется вредоносный код, позволяющий получить доступ к базе данных.",
+            "Метод физического проникновения, при котором неавторизованное лицо следует за авторизованным в защищенную зону.",
+            "ISO/IEC 27001.",
+            "Разновидность фишинга с использованием SMS-сообщений.",
+            "Дефект алгоритма, который намеренно встроен в него разработчиком и позволяет получить несанкционированный доступ к данным или удалённому управлению операционной системой и компьютером в целом.",
+            "Сведения любого характера (производственные, технические, экономические, организационные и другие), имеющие коммерческую ценность в силу их неизвестности третьим лицам.",
+            "Симметричный ключ, который генерируется для одного сеанса связи и используется для шифрования данных только в течение этого сеанса.",
+            "Атака, использующая ранее неизвестную уязвимость (zero-day vulnerability)."
+        ],
+        0
+    ],
+    [
+        "Что такое DDoS-атака?",
+        [
+            "Атака типа 'отказ в обслуживании', при которой множество скомпрометированных систем атакуют одну цель, вызывая перегрузку и недоступность сервиса.",
+            "Документ, который регулярно обновляется и описывает 10 наиболее критичных рисков безопасности для веб-приложений.",
+            "Хронологическая документация или 'бумажный след', показывающий изъятие, хранение, передачу, анализ и утилизацию вещественных доказательств.",
+            "Свойство, которое гарантирует, что отправитель сообщения не сможет впоследствии отрицать факт его отправки, а получатель — факт получения.",
+            "Технология безопасности, которая изолирует сеансы просмотра веб-страниц от конечного устройства пользователя, чтобы предотвратить атаки через браузер.",
+            "Цифровая подпись.",
+            "Вид интернет-мошенничества, целью которого является получение доступа к конфиденциальным данным пользователей — логинам и паролям.",
+            "Дефект алгоритма, который намеренно встроен в него разработчиком и позволяет получить несанкционированный доступ к данным или удалённому управлению операционной системой и компьютером в целом.",
+            "В симметричном шифровании используется один и тот же ключ для шифрования и дешифрования, в асимметричном — два разных ключа (открытый и закрытый).",
+            "Вирусу для распространения требуется носитель (файл), в то время как червь является самодостаточной программой."
+        ],
+        0
+    ],
+    [
+        "Что такое 'золотой билет' (Golden Ticket) в контексте атак на Active Directory?",
+        [
+            "Поддельный TGT (Ticket Granting Ticket) Kerberos, который дает злоумышленнику неограниченный доступ к домену.",
+            "Вирусу для распространения требуется носитель (файл), в то время как червь является самодостаточной программой.",
+            "ISO/IEC 27001.",
+            "Тип атаки, при которой злоумышленник тайно ретранслирует и, возможно, изменяет коммуникацию между двумя сторонами, которые считают, что они непосредственно общаются друг с другом.",
+            "Анализ исходного кода приложения на наличие уязвимостей без его фактического выполнения.",
+            "Метод получения конфиденциальной информации путем исследования мусора компании.",
+            "Набор правил и процедур, которые определяют, как в организации обрабатываются, защищаются и распространяются информационные активы.",
+            "Что-то, что вы знаете (пароль), что-то, что у вас есть (токен), и что-то, чем вы являетесь (биометрия).",
+            "Наука о методах обеспечения конфиденциальности, целостности данных, аутентификации и невозможности отказа от авторства.",
+            "Одно или серия нежелательных или неожиданных событий информационной безопасности, которые имеют значительную вероятность компрометации бизнес-операций и создания угрозы информационной безопасности."
+        ],
+        0
+    ],
+    [
+        "Что такое 'защита от утечек данных' (DLP)?",
+        [
+            "Системы, предназначенные для предотвращения утечки конфиденциальной информации за пределы корпоративной сети.",
+            "Генераторы 'белого шума', виброакустические излучатели.",
+            "Метод получения конфиденциальной информации путем исследования мусора компании.",
+            "Хронологическая документация или 'бумажный след', показывающий изъятие, хранение, передачу, анализ и утилизацию вещественных доказательств.",
+            "Реквизит электронного документа, предназначенный для защиты данного электронного документа от подделки, полученный в результате криптографического преобразования информации.",
+            "Online Certificate Status Protocol — протокол для получения статуса отзыва цифрового сертификата в реальном времени.",
+            "Точка принудительного применения политик безопасности, размещенная между пользователями и облачными сервисами.",
+            "Ситуация, в которой один человек или программа успешно маскируется под другого путем фальсификации данных.",
+            "Атака на SolarWinds.",
+            "AES (Advanced Encryption Standard)."
+        ],
+        0
+    ],
+    [
+        "Что такое 'отрицание обслуживания' (DoS)?",
+        [
+            "Тип атаки, целью которой является сделать компьютерные ресурсы недоступными для легитимных пользователей.",
+            "Комплекс мер, направленных на предотвращение утечки информации через акустические и виброакустические каналы.",
+            "ISO/IEC 27001.",
+            "MAC (мандатная модель доступа), так как права доступа централизованно управляются системой безопасности.",
+            "Глобальная база знаний о тактиках и техниках злоумышленников, основанная на реальных наблюдениях.",
+            "Случайные данные, которые добавляются к паролю перед хэшированием для защиты от атак по радужным таблицам.",
+            "Сетевой экран, который отслеживает и фильтрует входящий и исходящий сетевой трафик на основе заданных правил безопасности.",
+            "Анализ исходного кода приложения на наличие уязвимостей без его фактического выполнения.",
+            "В симметричном шифровании используется один и тот же ключ для шифрования и дешифрования, в асимметричном — два разных ключа (открытый и закрытый).",
+            "Правовая концепция, предоставляющая создателю оригинального произведения исключительные права на его использование и распространение."
+        ],
+        0
+    ],
+    [
+        "Какой стандарт определяет криптографический протокол для защиты коммуникаций в компьютерной сети?",
+        [
+            "TLS (Transport Layer Security), преемник SSL.",
+            "Практика безопасности, которая запрещает запуск известных вредоносных или нежелательных приложений.",
+            "Процесс преобразования данных в код для предотвращения несанкционированного доступа.",
+            "Концепция совместной работы Red Team и Blue Team для максимизации эффективности киберучений.",
+            "Технология, позволяющая пользователю один раз пройти аутентификацию и получить доступ к нескольким независимым программным системам.",
+            "Платформа, которая позволяет автоматизировать и оркестровать рабочие процессы реагирования на инциденты безопасности.",
+            "Вредоносное ПО, которое существует только в оперативной памяти и не записывает файлы на диск, что затрудняет его обнаружение.",
+            "Иерархическая структура центров сертификации, которая позволяет проверить подлинность сертификата, двигаясь от конечного сертификата к корневому.",
+            "Генераторы 'белого шума', виброакустические излучатели.",
+            "Технология, которая использует машинное обучение для обнаружения аномалий в поведении пользователей и сущностей, указывающих на угрозы."
+        ],
+        0
+    ],
+    [
+        "Какой тип вредоносного ПО шифрует файлы и требует выкуп за их расшифровку?",
+        [
+            "Программа-вымогатель (Ransomware).",
+            "Любое программное обеспечение, предназначенное для нанесения вреда компьютеру, серверу или компьютерной сети.",
+            "Метод виртуализации на уровне операционной системы, который позволяет упаковать приложение и его зависимости в изолированную среду (контейнер).",
+            "Компьютерный вирус, который постоянно изменяет свой код, чтобы избежать обнаружения антивирусными программами.",
+            "Программное обеспечение или аппаратное устройство, которое регистрирует нажатия клавиш на клавиатуре.",
+            "Технология защиты данных во время их обработки (использования) в памяти, обычно с помощью защищенных анклавов.",
+            "Программное обеспечение, предназначенное для показа рекламы, часто без согласия пользователя.",
+            "Метод получения конфиденциальной информации путем исследования мусора компании.",
+            "Наука о методах обеспечения конфиденциальности, целостности данных, аутентификации и невозможности отказа от авторства.",
+            "Потенциально возможное событие, действие или процесс, который может нанести ущерб информационным активам."
+        ],
+        0
+    ],
+    [
+        "Какой механизм обеспечивает неотказуемость?",
+        [
+            "Цифровая подпись.",
+            "Атака, при которой злоумышленник подменяет DNS-записи, чтобы перенаправить трафик на поддельный сайт.",
+            "Практика безопасности, которая запрещает запуск известных вредоносных или нежелательных приложений.",
+            "Использование антивирусного ПО, брандмауэров, шифрования.",
+            "Программное обеспечение или аппаратное устройство, которое регистрирует нажатия клавиш на клавиатуре.",
+            "Ситуация, в которой один человек или программа успешно маскируется под другого путем фальсификации данных.",
+            "Специалист по кибербезопасности, который использует свои навыки для поиска уязвимостей в системах с разрешения их владельцев.",
+            "Хронологическая запись событий, связанных с безопасностью, в компьютерной системе.",
+            "Метод физического проникновения, при котором неавторизованное лицо следует за авторизованным в защищенную зону.",
+            "Вирусу для распространения требуется носитель (файл), в то время как червь является самодостаточной программой."
+        ],
+        0
+    ],
+    [
+        "Какой популярный инструмент для контейнеризации вы знаете?",
+        [
+            "Docker.",
+            "Подтверждение авторства (аутентификация) и обеспечение целостности документа.",
+            "Раздел криптологии, занимающийся методами и способами расшифровки зашифрованной информации без предназначенного для этого ключа.",
+            "Концепция совместной работы Red Team и Blue Team для максимизации эффективности киберучений.",
+            "Процесс перехвата и анализа сетевого трафика.",
+            "Метод скрытой передачи информации путем сокрытия самого факта передачи сообщения.",
+            "Процесс повышения безопасности системы путем уменьшения ее поверхности атаки.",
+            "Программное обеспечение или аппаратное устройство, которое регистрирует нажатия клавиш на клавиатуре.",
+            "Вероятность реализации угрозы с использованием уязвимости и величина возможного ущерба.",
+            "Процесс подтверждения личности пользователя на основе его уникальных физиологических или поведенческих характеристик."
+        ],
+        0
+    ]
+];
 
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = `<h2>Ваш результат: ${score} из ${totalQuestions}</h2>`;
-            resultsDiv.style.display = 'block';
-            this.querySelector('.submit-button').style.display = 'none';
-            resultsDiv.scrollIntoView({ behavior: 'smooth' });
-        });
-    </script>
-</body>
+const questionTextEl = document.getElementById('question-text');
+const answersContainerEl = document.getElementById('answers-container');
+const feedbackEl = document.getElementById('feedback');
+const nextButton = document.getElementById('next-button');
+
+let currentQuestionIndex = 0;
+let score = 0;
+let correctAnswerText = '';
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function showQuestion() {
+  feedbackEl.innerHTML = '';
+  nextButton.disabled = true;
+  
+  if (currentQuestionIndex >= questions.length) {
+      const percentage = (score / questions.length) * 100;
+      let message = '';
+      if (percentage >= 95) {
+          message = 'Отлично!';
+      } else if (percentage >= 75) {
+          message = 'Хорошо!';
+      } else if (percentage >= 50) {
+          message = 'Сомнительно, но окей.';
+      } else if (percentage >= 25) {
+          message = 'Пиздец, бро.';
+      } else {
+          message = 'Тебе пизда :)';
+      }
+
+      questionTextEl.textContent = 'Тест завершен!';
+      answersContainerEl.innerHTML = '';
+      feedbackEl.innerHTML = `Вы набрали ${score} из ${questions.length} (${percentage.toFixed(0)}%). ${message}`;
+      nextButton.textContent = 'Начать заново';
+      nextButton.disabled = false;
+      nextButton.onclick = () => location.reload();
+      return;
+  }
+
+  const questionData = questions[currentQuestionIndex];
+  const question = questionData[0];
+  const allAnswers = questionData[1];
+  const correctAnswIndex = questionData[2]
+  correctAnswerText = allAnswers[correctAnswIndex];
+
+  // Get all incorrect answers
+  const incorrectAnswers = allAnswers.filter((_, index) => index !== correctAnswIndex);
+  
+  // Shuffle incorrect answers and pick two
+  shuffleArray(incorrectAnswers);
+  const selectedIncorrectAnswers = incorrectAnswers.slice(0, 2);
+
+  // Create the final list of answers for the user and shuffle it
+  const answersToShow = [correctAnswerText, ...selectedIncorrectAnswers];
+  shuffleArray(answersToShow);
+
+
+  questionTextEl.textContent = `${currentQuestionIndex + 1}. ${question}`;
+  answersContainerEl.innerHTML = '';
+
+  answersToShow.forEach(answer => {
+    const button = document.createElement('button');
+    button.textContent = answer;
+    button.classList.add('answer-btn');
+    button.onclick = () => selectAnswer(button, answer);
+    answersContainerEl.appendChild(button);
+  });
+}
+
+function selectAnswer(selectedButton, selectedAnswer) {
+  const isCorrect = selectedAnswer === correctAnswerText;
+
+  Array.from(answersContainerEl.children).forEach(button => {
+    button.disabled = true;
+    if (button.textContent === correctAnswerText) {
+      button.classList.add('correct');
+      if (button.textContent === selectedButton.textContent) {
+          if (!selectedButton.classList.contains('wrong')) {
+             score++;
+          }
+      }
+    } else if (button === selectedButton) {
+      button.classList.add('wrong');
+    }
+  });
+
+  if (isCorrect) {
+    feedbackEl.textContent = 'Правильно!';
+    feedbackEl.className = 'correct-text';
+  } else {
+    feedbackEl.textContent = 'Неправильно!';
+    feedbackEl.className = 'wrong-text';
+  }
+
+  nextButton.disabled = false;
+}
+
+nextButton.addEventListener('click', () => {
+    currentQuestionIndex++;
+    showQuestion();
+});
+
+// Initial load
+shuffleArray(questions);
+showQuestion();
+  </script>
+ </body>
 </html>

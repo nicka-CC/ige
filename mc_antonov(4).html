@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
+<!DOCTYPE html><html lang="ru"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Тест 4 по C#</title>
@@ -8,796 +6,1157 @@
         :root {
             --system-background: #f2f2f7;
             --system-blue: #007aff;
-            --system-green: #34c759;
-            --system-red: #ff3b30;
+            --system-gray: #8e8e93;
             --separator-color: #c6c6c8;
             --label-primary: #000000;
             --label-secondary: #8e8e93;
             --grouped-background: #ffffff;
             --grouped-background-ios: #f0f0f0;
+            --system-green: #34c759;
+            --system-red: #ff3b30;
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif; margin: 0; background-color: var(--grouped-background-ios); color: var(--label-primary); padding-top: env(safe-area-inset-top); padding-right: env(safe-area-inset-right); padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-        .header { background-color: var(--grouped-background); padding: 12px 10px; text-align: center; font-size: 17px; font-weight: 600; border-bottom: 0.5px solid var(--separator-color); position: sticky; top: 0; z-index: 1; }
-        .back-button { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 17px; color: var(--system-blue); text-decoration: none; cursor: pointer; }
-        main { padding: 22px 16px; }
-        .question-block { background-color: var(--grouped-background); border-radius: 10px; margin-bottom: 20px; padding: 16px; border: 0.5px solid var(--separator-color); }
-        .question-title { font-size: 17px; font-weight: 600; margin-bottom: 12px; }
-        .answers-list { list-style: none; padding: 0; margin: 0; }
-        .answer-item { padding: 8px 0; }
-        .answer-item label { display: flex; align-items: center; font-size: 16px; }
-        .answer-item input { margin-right: 12px; }
-        .button-container { text-align: center; margin-top: 22px; }
-        .submit-button { background-color: var(--system-blue); color: white; font-size: 17px; font-weight: 600; border: none; border-radius: 10px; padding: 14px 20px; cursor: pointer; width: 100%; max-width: 300px; }
-        #results { background-color: var(--grouped-background); border-radius: 10px; margin: 22px 0; padding: 16px; border: 0.5px solid var(--separator-color); text-align: center; }
-        .correct-answer { color: var(--system-green); font-weight: bold; }
-        .incorrect-answer { color: var(--system-red); text-decoration: line-through; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+            margin: 0;
+            background-color: var(--grouped-background-ios);
+            color: var(--label-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: env(safe-area-inset-top);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        .header {
+            background-color: var(--grouped-background);
+            padding: 12px 10px;
+            text-align: center;
+            font-size: 17px;
+            font-weight: 600;
+            border-bottom: 0.5px solid var(--separator-color);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 16px;
+            font-size: 17px;
+            color: var(--system-blue);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .footer {
+            background-color: var(--grouped-background);
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--label-secondary);
+            border-top: 0.5px solid var(--separator-color);
+            margin-top: auto;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 22px 0;
+        }
+
+        .content-container {
+            background-color: var(--grouped-background);
+            margin: 0 16px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 0.5px solid var(--separator-color);
+            padding: 16px;
+        }
+
+        #question-text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        #answers-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .answer-btn {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 17px;
+            cursor: pointer;
+            border: 1px solid var(--separator-color);
+            background: var(--grouped-background);
+            border-radius: 8px;
+            text-align: left;
+            transition: background-color 0.2s;
+        }
+
+        .answer-btn:hover:not(:disabled) {
+            background: #e5e5ea;
+        }
+        
+        .answer-btn.correct {
+            background-color: var(--system-green);
+            border-color: var(--system-green);
+            color: white;
+            font-weight: 600;
+        }
+        .answer-btn.wrong {
+            background-color: var(--system-red);
+            border-color: var(--system-red);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .answer-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        #next-button {
+            width: 100%;
+            padding: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
+            background-color: var(--system-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+        }
+        
+        #next-button:disabled {
+            background-color: var(--system-gray);
+        }
+
+        #feedback {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 25px;
+        }
+
+        .correct-text { color: var(--system-green); }
+        .wrong-text { color: var(--system-red); }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            main {
+                display: flex;
+                justify-content: center;
+            }
+            .content-container {
+                max-width: 600px;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <a href="mc_antonov.html" class="back-button">&lsaquo; C#</a>
+        <a href="mc_antonov.html" class="back-button">‹ Назад</a>
         <span>Тест 4</span>
     </header>
 
     <main>
-        <form id="quiz-form">
-            <!-- Questions 151-200 -->
-            <div class="question-block" id="q151"><p class="question-title">151. Что такое SignalR?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q151" value="a">a) Библиотека для добавления веб-функциональности в реальном времени в приложения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q151" value="b">b) Система для отправки SMS-сообщений</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q151" value="c">c) Фреймворк для обработки сигналов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q151" value="d">d) Протокол для радиосвязи</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q151" value="e">e) Библиотека для работы с графикой</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q151" value="f">f) Конкурент Entity Framework</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q151" value="g">g) Новый тип делегата</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q151" value="h">h) Инструмент для профилирования</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q151" value="i">i) Устаревшая технология</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q151" value="j">j) Способ вызова RPC</label></li>
-                </ul>
+        <div class="content-container">
+            <h1>Тест 4 по C#</h1>
+            <div id="quiz-area">
+                <div id="question-text"></div>
+                <div id="answers-container"></div>
+                <div id="feedback"></div>
             </div>
-            <div class="question-block" id="q152"><p class="question-title">152. Что такое Hub в SignalR?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q152" value="a">a) Высокоуровневый конвейер, позволяющий клиенту и серверу вызывать методы друг у друга</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q152" value="b">b) Центральный узел сети</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q152" value="c">c) USB-концентратор</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q152" value="d">d) Класс для хранения соединений</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q152" value="e">e) Конфигурационный файл SignalR</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q152" value="f">f) Точка входа в приложение</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q152" value="g">g) Интерфейс для клиентов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q152" value="h">h) Базовый класс для всех контроллеров</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q152" value="i">i) Репозиторий кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q152" value="j">j) Провайдер аутентификации</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q153"><p class="question-title">153. В чем разница между Blazor Server и Blazor WebAssembly?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q153" value="a">a) Blazor Server исполняет код на сервере, а WebAssembly - в браузере клиента</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q153" value="b">b) Blazor WebAssembly исполняет код на сервере, а Server - в браузере</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q153" value="c">c) Blazor Server использует SignalR для обновлений UI, а WebAssembly - нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q153" value="d">d) Blazor WebAssembly требует загрузки .NET runtime в браузер, а Server - нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q153" value="e">e) Blazor Server имеет меньшую задержку UI, но требует постоянного подключения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q153" value="f">f) Blazor WebAssembly может работать оффлайн</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q153" value="g">g) Нет разницы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q153" value="h">h) Blazor Server устарел</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q153" value="i">i) Blazor WebAssembly не поддерживает .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q153" value="j">j) Blazor Server не может вызывать JavaScript</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q154"><p class="question-title">154. Что такое .NET MAUI?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q154" value="a">a) Кросс-платформенный фреймворк для создания нативных мобильных и десктопных приложений</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q154" value="b">b) Эволюция Xamarin.Forms</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q154" value="c">c) Использует единую кодовую базу для Android, iOS, macOS и Windows</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q154" value="d">d) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q154" value="e">e) Конкурент React Native и Flutter</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q154" value="f">f) Использует XAML для описания UI</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q154" value="g">g) Новый UI фреймворк</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q154" value="h">h) Позволяет писать UI на C#</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q154" value="i">i) Часть .NET 6 и новее</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q154" value="j">j) Язык программирования</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q155"><p class="question-title">155. Что такое `BenchmarkDotNet`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q155" value="a">a) Библиотека для тестирования производительности .NET кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q155" value="b">b) Инструмент для нагрузочного тестирования веб-сайтов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q155" value="c">c) Встроенный профилировщик Visual Studio</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q155" value="d">d) Статический анализатор кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q155" value="e">e) Библиотека для юнит-тестирования</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q155" value="f">f) Платформа для запуска тестов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q155" value="g">g) Система для измерения покрытия кода тестами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q155" value="h">h) Веб-сервис для сравнения производительности</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q155" value="i">i) Набор правил для написания быстрого кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q155" value="j">j) Устаревшая библиотека</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q156"><p class="question-title">156. В чем разница между аутентификацией и авторизацией?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q156" value="a">a) Аутентификация - это проверка личности; авторизация - проверка прав доступа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q156" value="b">b) Авторизация - это проверка личности; аутентификация - проверка прав доступа</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q156" value="c">c) Это синонимы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q156" value="d">d) Аутентификация происходит до авторизации</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q156" value="e">e) Авторизация используется для входа, аутентификация - для доступа к ресурсам</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q156" value="f">f) Аутентификация - это "кто ты?", авторизация - "что тебе можно?"</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q156" value="g">g) Аутентификация использует логин/пароль, авторизация - роли/политики</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q156" value="h">h) Нет разницы в контексте ASP.NET Core</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q156" value="i">i) Авторизация является частью аутентификации</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q156" value="j">j) Аутентификация является частью авторизации</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q157"><p class="question-title">157. Что такое JWT (JSON Web Token)?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q157" value="a">a) Стандарт для создания токенов доступа, которые содержат утверждения (claims) в формате JSON</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q157" value="b">b) Зашифрованный JSON</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q157" value="c">c) Токен для работы с Web Sockets</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q157" value="d">d) Токен, который хранится в сессии на сервере</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q157" value="e">e) Используется для аутентификации без сохранения состояния (stateless)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q157" value="f">f) Состоит из заголовка, полезной нагрузки и подписи</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q157" value="g">g) Может быть подписан для проверки подлинности</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q157" value="h">h) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q157" value="i">i) Токен, который нельзя отозвать</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q157" value="j">j) Устаревший стандарт</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q158"><p class="question-title">158. Что такое `GC.SuppressFinalize()`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q158" value="a">a) Метод, который сообщает GC, что финализатор для объекта вызывать не нужно</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q158" value="b">b) Принудительно вызывает финализатор</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q158" value="c">c) Временно отключает сборку мусора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q158" value="d">d) Обычно вызывается в конце метода `Dispose()`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q158" value="e">e) Помогает избежать двойного освобождения ресурсов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q158" value="f">f) Перемещает объект в очередь финализации</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q158" value="g">g) Запрещает финализацию для всех объектов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q158" value="h">h) Устаревший метод</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q158" value="i">i) Вызывается автоматически</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q158" value="j">j) Связан с `IDisposable`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q159"><p class="question-title">159. Что такое `Source Generators` (Генераторы кода)?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q159" value="a">a) Компонент компилятора Roslyn, который может генерировать C# код во время компиляции</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q159" value="b">b) T4 шаблоны</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q159" value="c">c) Инструмент для создания проектов из шаблонов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q159" value="d">d) Позволяет уменьшить количество шаблонного (boilerplate) кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q159" value="e">e) Может анализировать существующий код для генерации нового</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q159" value="f">f) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q159" value="g">g) Генерируемый код добавляется в сборку</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q159" value="h">h) Может повысить производительность</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q159" value="i">i) Замена рефлексии в некоторых случаях</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q159" value="j">j) Инструмент для рефакторинга</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q160"><p class="question-title">160. Для чего нужен `[NotNullWhen(true)]` атрибут?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q160" value="a">a) Чтобы сообщить компилятору, что переменная не будет `null`, если метод вернул `true`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q160" value="b">b) Чтобы запретить `null` в качестве аргумента</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q160" value="c">c) Чтобы указать, что возвращаемое значение никогда не будет `null`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q160" value="d">d) Для nullable reference types</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q160" value="e">e) Используется в методах, похожих на `Try...`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q160" value="f">f) Помогает статическому анализатору</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q160" value="g">g) Атрибут для `out` параметров</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q160" value="h">h) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q160" value="i">i) Устаревший атрибут</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q160" value="j">j) Требует .NET 5+</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q161"><p class="question-title">161. Какой атрибут используется для указания маршрута в ASP.NET Core MVC/API?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q161" value="a">a) [Route]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q161" value="b">b) [HttpGet]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q161" value="c">c) [HttpPost]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q161" value="d">d) [ApiController]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q161" value="e">e) [ActionName]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q161" value="f">f) [Url]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q161" value="g">g) [Path]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q161" value="h">h) [EndPoint]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q161" value="i">i) [Map]</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q161" value="j">j) [Controller]</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q162"><p class="question-title">162. Что такое `IHostedService`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q162" value="a">a) Интерфейс для реализации долгоживущих фоновых задач в ASP.NET Core</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q162" value="b">b) Сервис для хостинга веб-сайтов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q162" value="c">c) Базовый интерфейс для всех сервисов в DI</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q162" value="d">d) Интерфейс для Middleware</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q162" value="e">e) Используется для запуска приложения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q162" value="f">f) Управляет жизненным циклом хоста</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q162" value="g">g) Связан с Kestrel</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q162" value="h">h) Устаревший интерфейс</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q162" value="i">i) Интерфейс для плагинов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q162" value="j">j) Определяет методы StartAsync и StopAsync</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q163"><p class="question-title">163. Что такое `appsettings.json`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q163" value="a">a) Файл конфигурации в формате JSON для приложений ASP.NET Core</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q163" value="b">b) Файл с настройками Visual Studio</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q163" value="c">c) Файл с зависимостями проекта</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q163" value="d">d) Файл для хранения секретов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q163" value="e">e) Может быть переопределен переменными окружения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q163" value="f">f) Используется для хранения строк подключения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q163" value="g">g) Имеет иерархическую структуру</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q163" value="h">h) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q163" value="i">i) Устаревший формат, заменен на XML</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q163" value="j">j) Файл с метаданными сборки</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q164"><p class="question-title">164. Что делает метод `AddDbContext` в ASP.NET Core?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q164" value="a">a) Регистрирует класс контекста базы данных в DI-контейнере</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q164" value="b">b) Добавляет новую базу данных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q164" value="c">c) Создает миграцию</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q164" value="d">d) По умолчанию регистрирует контекст с жизненным циклом Scoped</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q164" value="e">e) Настраивает провайдера базы данных (например, SQL Server)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q164" value="f">f) Позволяет задать строку подключения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q164" value="g">g) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q164" value="h">h) Выполняет подключение к БД</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q164" value="i">i) Устаревший метод</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q164" value="j">j) Добавляет `DbContext` в GAC</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q165"><p class="question-title">165. Что такое `[ApiController]` атрибут?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q165" value="a">a) Атрибут, который добавляет специфичное для API поведение контроллерам</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q165" value="b">b) Включает автоматическую валидацию модели и возврат `400 Bad Request`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q165" value="c">c) Включает привязку параметров из источника</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q165" value="d">d) Указывает, что контроллер предназначен для веб-API</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q165" value="e">e) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q165" value="f">f) Устаревший атрибут</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q165" value="g">g) Заменяет `[Route]`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q165" value="h">h) Делает все методы контроллера `async`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q165" value="i">i) Указывает, что возвращаемые значения должны быть JSON</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q165" value="j">j) Синоним `[Controller]`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q166"><p class="question-title">166. Что такое Roslyn?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q166" value="a">a) Платформа компилятора .NET с открытым исходным кодом для C# и Visual Basic</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q166" value="b">b) Статический анализатор кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q166" value="c">c) Предоставляет API для анализа и рефакторинга кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q166" value="d">d) На нем основаны Source Generators</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q166" value="e">e) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q166" value="f">f) Новый язык программирования</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q166" value="g">g) Среда выполнения .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q166" value="h">h) Инструмент для сборки проектов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q166" value="i">i) Профилировщик памяти</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q166" value="j">j) Устаревшая платформа</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q167"><p class="question-title">167. В чем различие между `Task.Run` и `Task.Factory.StartNew`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q167" value="a">a) `Task.Run` является предпочтительным и более безопасным сокращением для запуска задач в пуле потоков</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q167" value="b">b) `StartNew` имеет больше перегрузок и требует более аккуратной настройки для безопасного использования с `async/await`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q167" value="c">c) Нет разницы, `Task.Run` вызывает `StartNew`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q167" value="d">d) `Task.Run` неявно использует `TaskCreationOptions.DenyChildAttach`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q167" value="e">e) `StartNew` является устаревшим</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q167" value="f">f) `Task.Run` всегда использует пул потоков, а `StartNew` - нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q167" value="g">g) `StartNew` быстрее</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q167" value="h">h) `Task.Run` может возвращать `ValueTask`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q167" value="i">i) `StartNew` не поддерживает `CancellationToken`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q167" value="j">j) `Task.Run` работает только в ASP.NET Core</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q168"><p class="question-title">168. Что такое `[FromServices]` атрибут?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q168" value="a">a) Указывает, что параметр действия контроллера должен быть привязан из DI-контейнера</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q168" value="b">b) Указывает, что параметр должен быть привязан из тела запроса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q168" value="c">c) Указывает, что параметр должен быть привязан из строки запроса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q168" value="d">d) Указывает, что сервис является внешним</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q168" value="e">e) Инжектирует сервис</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q168" value="f">f) Устаревший атрибут</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q168" value="g">g) Синоним `[Inject]`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q168" value="h">h) Работает только с `Singleton` сервисами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q168" value="i">i) Применяется к классам, а не параметрам</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q168" value="j">j) Связан с `IHostedService`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q169"><p class="question-title">169. Что такое `stack overflow` (переполнение стека)?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q169" value="a">a) Ошибка, возникающая при слишком глубокой или бесконечной рекурсии</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q169" value="b">b) Сайт для программистов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q169" value="c">c) Ошибка, когда в стеке заканчивается память</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q169" value="d">d) Не может быть перехвачено с помощью `try-catch`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q169" value="e">e) Приводит к аварийному завершению процесса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q169" value="f">f) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q169" value="g">g) Ошибка, связанная с `Stack<T>`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q169" value="h">h) Переполнение кучи</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q169" value="i">i) Связано с `stackalloc`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q169" value="j">j) Ошибка компиляции</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q170"><p class="question-title">170. Что такое `?.` и `??` операторы?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q170" value="a">a) `?.` - null-conditional, `??` - null-coalescing</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q170" value="b">b) `?.` - null-coalescing, `??` - null-conditional</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q170" value="c">c) Это синонимы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q170" value="d">d) `?.` для доступа к членам, `??` для присваивания значения по умолчанию</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q170" value="e">e) Оба помогают избежать `NullReferenceException`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q170" value="f">f) "Элвис" и "оператор объединения с null"</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q170" value="g">g) `?.` возвращает null, если левый операнд null</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q170" value="h">h) `??` возвращает правый операнд, если левый null</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q170" value="i">i) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q170" value="j">j) Устаревшие операторы</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q171"><p class="question-title">171. Что такое `GC.Collect()`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q171" value="a">a) Принудительно запускает сборку мусора</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q171" value="b">b) Его использование в большинстве случаев не рекомендуется</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q171" value="c">c) Может негативно повлиять на производительность</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q171" value="d">d) Не гарантирует немедленного освобождения памяти</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q171" value="e">e) Имеет перегрузки для указания поколения GC</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q171" value="f">f) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q171" value="g">g) Собирает объекты из кучи</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q171" value="h">h) Блокирующий вызов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q171" value="i">i) Используется для сбора статистики по GC</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q171" value="j">j) Очищает только поколение 0</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q172"><p class="question-title">172. Что такое `this` в методе-расширении?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q172" value="a">a) Модификатор перед первым параметром, указывающий, какой тип расширяется</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q172" value="b">b) Ссылка на текущий экземпляр статического класса</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q172" value="c">c) Не используется в методах-расширениях</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q172" value="d">d) Ссылка на сам метод-расширение</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q172" value="e">e) Указывает, что метод является `public`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q172" value="f">f) Позволяет вызывать метод как метод экземпляра</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q172" value="g">g) Метод-расширение должен быть в статическом классе</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q172" value="h">h) Параметр с `this` не передается явно при вызове</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q172" value="i">i) Устаревший синтаксис</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q172" value="j">j) Означает, что метод - конструктор</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q173"><p class="question-title">173. Что такое `checked` и `unchecked`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q173" value="a">a) Контексты для управления проверкой арифметического переполнения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q173" value="b">b) `checked` бросает `OverflowException` при переполнении</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q173" value="c">c) `unchecked` "обертывает" значение при переполнении (по умолчанию)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q173" value="d">d) Могут быть операторами или блоками кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q173" value="e">e) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q173" value="f">f) Влияют на производительность</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q173" value="g">g) Не влияют на операции с `double` и `float`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q173" value="h">h) Можно настроить как поведение по умолчанию для проекта</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q173" value="i">i) Устаревшие ключевые слова</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q173" value="j">j) Связаны с `Nullable` типами</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q174"><p class="question-title">174. Какая коллекция обеспечивает уникальность элементов?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q174" value="a">a) HashSet<T></label></li>
-                    <li class="answer-item"><label><input type="radio" name="q174" value="b">b) List<T></label></li>
-                    <li class="answer-item"><label><input type="radio" name="q174" value="c">c) Dictionary<TKey, TValue></label></li>
-                    <li class="answer-item"><label><input type="radio" name="q174" value="d">d) Queue<T></label></li>
-                    <li class="answer-item"><label><input type="radio" name="q174" value="e">e) Stack<T></label></li>
-                    <li class="answer-item"><label><input type="radio" name="q174" value="f">f) Array</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q174" value="g">g) SortedSet<T></label></li>
-                    <li class="answer-item"><label><input type="radio" name="q174" value="h">h) LinkedList<T></label></li>
-                    <li class="answer-item"><label><input type="radio" name="q174" value="i">i) Collection<T></label></li>
-                    <li class="answer-item"><label><input type="radio" name="q174" value="j">j) Все коллекции</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q175"><p class="question-title">175. Что такое `[Serializable]`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q175" value="a">a) Атрибут, указывающий, что класс может быть сериализован</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q175" value="b">b) Например, бинарным или SOAP форматером</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q175" value="c">c) Не требуется для JSON или XML сериализации (например, `JsonSerializer` или `XmlSerializer`)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q175" value="d">d) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q175" value="e">e) Устарел во многих сценариях .NET Core</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q175" value="f">f) Наследуется производными классами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q175" value="g">g) Атрибут, помечающий поля для сериализации</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q175" value="h">h) Требуется для передачи объектов между AppDomain</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q175" value="i">i) Делает класс потокобезопасным</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q175" value="j">j) Связан с `IDisposable`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q176"><p class="question-title">176. Что такое `protected internal`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q176" value="a">a) Модификатор доступа, разрешающий доступ из текущей сборки ИЛИ из производных классов в других сборках</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q176" value="b">b) Доступ только из производных классов в той же сборке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q176" value="c">c) Доступ из любого места в той же сборке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q176" value="d">d) Доступ только из производных классов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q176" value="e">e) Синоним `public`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q176" value="f">f) Устаревший модификатор</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q176" value="g">g) То же самое, что и `private protected`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q176" value="h">h) Более строгий, чем `internal`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q176" value="i">i) Менее строгий, чем `public`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q176" value="j">j) Модификатор для сборок</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q177"><p class="question-title">177. Что такое `private protected`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q177" value="a">a) Модификатор доступа, разрешающий доступ из производных классов только в текущей сборке</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q177" value="b">b) Доступ из текущей сборки ИЛИ из производных классов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q177" value="c">c) Доступ только из приватных классов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q177" value="d">d) Доступ только из `sealed` классов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q177" value="e">e) То же самое, что и `protected internal`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q177" value="f">f) Более строгий, чем `protected`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q177" value="g">g) Появился в C# 7.2</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q177" value="h">h) Менее строгий, чем `private`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q177" value="i">i) Устаревший модификатор</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q177" value="j">j) Синоним `internal`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q178"><p class="question-title">178. Что такое `[HttpGet]`, `[HttpPost]`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q178" value="a">a) Атрибуты, указывающие, что метод действия обрабатывает GET или POST HTTP-запросы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q178" value="b">b) Методы для выполнения HTTP-запросов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q178" value="c">c) Замена для `[Route]`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q178" value="d">d) Используются в ASP.NET Core</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q178" value="e">e) Также существуют `[HttpPut]`, `[HttpDelete]`, `[HttpPatch]`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q178" value="f">f) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q178" value="g">g) Указывают на HTTP-глагол</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q178" value="h">h) Устаревшие атрибуты</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q178" value="i">i) Работают только с `[ApiController]`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q178" value="j">j) Связаны с `HttpClient`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q179"><p class="question-title">179. Какой класс используется для выполнения HTTP-запросов?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q179" value="a">a) HttpClient</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q179" value="b">b) WebRequest</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q179" value="c">c) HttpWebRequest</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q179" value="d">d) WebClient</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q179" value="e">e) RestSharp</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q179" value="f">f) Socket</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q179" value="g">g) HttpRequest</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q179" value="h">h) Flurl</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q179" value="i">i) Рекомендуется создавать один экземпляр `HttpClient` и переиспользовать его</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q179" value="j">j) `HttpClientFactory` - предпочтительный способ управления `HttpClient` в ASP.NET Core</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q180"><p class="question-title">180. Что такое `Minimal APIs` в .NET 6?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q180" value="a">a) Упрощенный способ создания HTTP API с минимальным количеством кода</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q180" value="b">b) Не используют контроллеры</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q180" value="c">c) Используют лямбда-выражения для определения конечных точек</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q180" value="d">d) Хорошо подходят для микросервисов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q180" value="e">e) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q180" value="f">f) Используют `MapGet`, `MapPost` и т.д.</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q180" value="g">g) Менее функциональны, чем MVC/API с контроллерами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q180" value="h">h) Устаревший подход</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q180" value="i">i) Требуют больше настроек</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q180" value="j">j) API с одним методом</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q181"><p class="question-title">181. Что такое `[Required]` атрибут?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q181" value="a">a) Атрибут валидации, указывающий, что свойство или поле не должно быть `null`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q181" value="b">b) Для строк - не должно быть пустой строкой</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q181" value="c">c) Находится в `System.ComponentModel.DataAnnotations`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q181" value="d">d) Используется при валидации модели в ASP.NET Core</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q181" value="e">e) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q181" value="f">f) То же, что и `required` модификатор</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q181" value="g">g) Атрибут только для Entity Framework</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q181" value="h">h) Устаревший атрибут</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q181" value="i">i) Работает только со строками</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q181" value="j">j) Запрещает изменение свойства</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q182"><p class="question-title">182. Что такое `Enumerable.Range()`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q182" value="a">a) Генерирует последовательность целых чисел в указанном диапазоне</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q182" value="b">b) Возвращает диапазон из существующей коллекции</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q182" value="c">c) Метод для работы с `range` оператором</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q182" value="d">d) Устаревший метод</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q182" value="e">e) Создает массив</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q182" value="f">f) Принимает начальное значение и количество</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q182" value="g">g) Возвращает `IEnumerable<int>`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q182" value="h">h) Статический метод класса `Enumerable`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q182" value="i">i) Используется для тестирования</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q182" value="j">j) Медленнее, чем `for` цикл</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q183"><p class="question-title">183. Что такое `int.TryParse()`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q183" value="a">a) Метод для безопасного преобразования строки в `int` без генерации исключения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q183" value="b">b) Возвращает `bool` - результат успеха</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q183" value="c">c) Использует `out` параметр для возврата результата</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q183" value="d">d) Предпочтительнее, чем `int.Parse()` если строка может быть невалидной</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q183" value="e">e) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q183" value="f">f) Бросает `FormatException`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q183" value="g">g) Устаревший метод</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q183" value="h">h) Более медленный, чем `Convert.ToInt32`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q183" value="i">i) Не поддерживает форматы и культуры</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q183" value="j">j) Возвращает `null` при неудаче</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q184"><p class="question-title">184. Какая разница между `interface` и `abstract class`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q184" value="a">a) Класс может наследовать несколько интерфейсов, но только один класс (абстрактный или нет)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q184" value="b">b) Абстрактный класс может иметь реализацию методов и поля, интерфейс (до C# 8.0) - нет</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q184" value="c">c) Абстрактный класс может иметь конструктор</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q184" value="d">d) Члены интерфейса по умолчанию `public`, у абстрактного класса - `private`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q184" value="e">e) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q184" value="f">f) Нет разницы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q184" value="g">g) Абстрактный класс используется для is-a связи, интерфейс для can-do</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q184" value="h">h) Интерфейсы не могут иметь статических членов (до C# 8.0)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q184" value="i">i) Абстрактный класс устарел</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q184" value="j">j) Интерфейс не может содержать события</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q185"><p class="question-title">185. Что такое `IDbConnection`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q185" value="a">a) Интерфейс, представляющий соединение с базой данных в ADO.NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q185" value="b">b) Реализуется классами вроде `SqlConnection` и `NpgsqlConnection`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q185" value="c">c) Позволяет писать код, не зависящий от конкретной БД</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q185" value="d">d) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q185" value="e">e) Управляет транзакциями</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q185" value="f">f) Определяет метод `Open()`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q185" value="g">g) Часть `System.Data`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q185" value="h">h) Устаревший интерфейс, заменен на `DbContext`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q185" value="i">i) Интерфейс для Entity Framework</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q185" value="j">j) Используется для Dapper</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q186"><p class="question-title">186. Что такое Dapper?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q186" value="a">a) Простой object-relational mapper (ORM) для .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q186" value="b">b) Часто называют "Micro-ORM"</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q186" value="c">c) Фокусируется на производительности</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q186" value="d">d) Работает через методы-расширения для `IDbConnection`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q186" value="e">e) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q186" value="f">f) Разработан командой Stack Overflow</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q186" value="g">g) Конкурент Entity Framework</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q186" value="h">h) Не отслеживает изменения объектов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q186" value="i">i) Требует написания SQL-запросов вручную</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q186" value="j">j) Полноценный ORM</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q187"><p class="question-title">187. Что такое `[Key]` атрибут в EF Core?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q187" value="a">a) Указывает, что свойство является первичным ключом</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q187" value="b">b) Находится в `System.ComponentModel.DataAnnotations`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q187" value="c">c) Если не указан, EF пытается найти ключ по имени (`Id` или `ClassNameId`)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q187" value="d">d) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q187" value="e">e) Используется для составных ключей</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q187" value="f">f) Указывает, что поле является внешним ключом</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q187" value="g">g) Запрещает `null` значения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q187" value="h">h) Устаревший атрибут</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q187" value="i">i) Указывает, что поле должно быть индексировано</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q187" value="j">j) Связан с `Dictionary`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q188"><p class="question-title">188. Что такое `async void` и когда его следует использовать?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q188" value="a">a) Асинхронный метод, не возвращающий `Task`; использовать только для обработчиков событий</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q188" value="b">b) Следует избегать, так как исключения из `async void` методов сложно перехватить</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q188" value="c">c) Нельзя `await`-ить</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q188" value="d">d) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q188" value="e">e) Синоним для `async Task`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q188" value="f">f) Используется для fire-and-forget сценариев</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q188" value="g">g) Более производительный, чем `async Task`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q188" value="h">h) Устаревший синтаксис</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q188" value="i">i) Используется, когда результат не важен</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q188" value="j">j) Рекомендуется для всех асинхронных методов</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q189"><p class="question-title">189. Что такое `[Fact]` атрибут?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q189" value="a">a) Атрибут, помечающий метод как тест в xUnit</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q189" value="b">b) Атрибут, помечающий метод как тест в NUnit</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q189" value="c">c) Атрибут, помечающий метод как тест в MSTest</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q189" value="d">d) Атрибут для указания фактов о программе</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q189" value="e">e) Встроенный атрибут C#</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q189" value="f">f) Устаревший атрибут</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q189" value="g">g) Синоним `[Test]`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q189" value="h">h) Атрибут для параметризованных тестов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q189" value="i">i) Указывает, что метод является `true`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q189" value="j">j) Связан с `BenchmarkDotNet`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q190"><p class="question-title">190. Что такое `[Theory]` и `[InlineData]`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q190" value="a">a) Атрибуты для создания параметризованных тестов в xUnit</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q190" value="b">b) Атрибуты для создания параметризованных тестов в NUnit</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q190" value="c">c) Атрибуты для создания параметризованных тестов в MSTest</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q190" value="d">d) `[Theory]` помечает тест, `[InlineData]` предоставляет данные для него</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q190" value="e">e) Позволяют выполнить один и тот же тест с разными входными данными</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q190" value="f">f) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q190" value="g">g) Устаревшие атрибуты</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q190" value="h">h) Используются для `BenchmarkDotNet`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q190" value="i">i) Встроенные атрибуты C#</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q190" value="j">j) Связаны с рефлексией</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q191"><p class="question-title">191. Что такое `LINQPad`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q191" value="a">a) Инструмент для интерактивного выполнения C#/F#/VB выражений, запросов и программ</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q191" value="b">b) "Песочница" для .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q191" value="c">c) Позволяет быстро тестировать LINQ-запросы</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q191" value="d">d) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q191" value="e">e) Может подключаться к базам данных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q191" value="f">f) Плагин для Visual Studio</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q191" value="g">g) Онлайн-компилятор</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q191" value="h">h) Устаревший инструмент</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q191" value="i">i) Отладчик для LINQ</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q191" value="j">j) Часть .NET SDK</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q192"><p class="question-title">192. Что такое `AutoMapper`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q192" value="a">a) Библиотека для автоматического копирования данных из одного объекта в другой (маппинга)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q192" value="b">b) Например, для маппинга DTO в сущности EF</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q192" value="c">c) Использует соглашения для маппинга полей с одинаковыми именами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q192" value="d">d) Позволяет настраивать сложные правила маппинга</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q192" value="e">e) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q192" value="f">f) Встроен в .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q192" value="g">g) Инструмент для навигации по коду</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q192" value="h">h) Устаревшая библиотека</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q192" value="i">i) Используется для маппинга маршрутов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q192" value="j">j) Единственная библиотека для маппинга</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q193"><p class="question-title">193. Что такое `FluentValidation`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q193" value="a">a) Библиотека для создания строго типизированных правил валидации с "текучим" (fluent) интерфейсом</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q193" value="b">b) Альтернатива атрибутам `DataAnnotations`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q193" value="c">c) Позволяет отделить правила валидации от моделей</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q193" value="d">d) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q193" value="e">e) Встроена в .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q193" value="f">f) Используется для валидации баз данных</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q193" value="g">g) Устаревшая библиотека</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q193" value="h">h) Библиотека для асинхронной валидации</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q193" value="i">i) Не поддерживает сложные сценарии</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q193" value="j">j) Используется только в Blazor</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q194"><p class="question-title">194. Что такое `Serilog`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q194" value="a">a) Популярная библиотека для структурированного логирования в .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q194" value="b">b) Встроенный логгер ASP.NET Core</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q194" value="c">c) Библиотека для сериализации</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q194" value="d">d) Устаревшая библиотека</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q194" value="e">e) Инструмент для анализа логов</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q194" value="f">f) Конкурент NLog и log4net</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q194" value="g">g) Позволяет отправлять логи в различные приемники (sinks)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q194" value="h">h) Позволяет обогащать логи контекстной информацией</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q194" value="i">i) Поддерживает шаблоны сообщений</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q194" value="j">j) Библиотека для работы с последовательными портами</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q195"><p class="question-title">195. Что такое `IConfiguration`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q195" value="a">a) Интерфейс для доступа к конфигурации приложения в ASP.NET Core</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q195" value="b">b) Представляет собой иерархическую коллекцию пар "ключ-значение"</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q195" value="c">c) Может читать данные из `appsettings.json`, переменных окружения, командной строки и др.</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q195" value="d">d) Регистрируется в DI-контейнере по умолчанию</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q195" value="e">e) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q195" value="f">f) Используется для `DbContext`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q195" value="g">g) Устаревший интерфейс</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q195" value="h">h) Интерфейс для настройки Kestrel</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q195" value="i">i) Позволяет изменять конфигурацию во время выполнения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q195" value="j">j) Связан с `web.config`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q196"><p class="question-title">196. Что такое `WebApplication.CreateBuilder(args)`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q196" value="a">a) Метод для создания и настройки хоста приложения в .NET 6+ Minimal APIs</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q196" value="b">b) Создает `WebApplicationBuilder`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q196" value="c">c) Настраивает DI, конфигурацию, логирование</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q196" value="d">d) Заменил `CreateHostBuilder` в новых шаблонах</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q196" value="e">e) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q196" value="f">f) Устаревший метод</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q196" value="g">g) Создает экземпляр приложения</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q196" value="h">h) Метод для Blazor</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q196" value="i">i) Связан с `IHostedService`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q196" value="j">j) Запускает веб-сервер Kestrel</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q197"><p class="question-title">197. Что такое `CORS` (Cross-Origin Resource Sharing)?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q197" value="a">a) Механизм, позволяющий веб-странице запрашивать ресурсы с другого домена</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q197" value="b">b) Политика безопасности браузера</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q197" value="c">c) Настраивается в ASP.NET Core с помощью Middleware</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q197" value="d">d) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q197" value="e">e) Способ обхода Same-Origin Policy</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q197" value="f">f) Устаревшая технология</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q197" value="g">g) Связан с CSRF</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q197" value="h">h) Протокол шифрования</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q197" value="i">i) Заголовок HTTP-запроса</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q198"><p class="question-title">198. Что такое `MediatR`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q198" value="a">a) Библиотека для реализации паттерна Посредник (Mediator) в .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q198" value="b">b) Помогает уменьшить связанность между компонентами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q198" value="c">c) Реализует In-process messaging</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q198" value="d">d) Часто используется для реализации CQRS</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q198" value="e">e) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q198" value="f">f) Встроен в .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q198" value="g">g) Библиотека для работы с медиа-файлами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q198" value="h">h) Устаревшая библиотека</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q198" value="i">i) Конкурент SignalR</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q198" value="j">j) Связан с `IHostedService`</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q199"><p class="question-title">199. Что такое `Polly`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q199" value="a">a) Библиотека для обработки временных сбоев (transient faults) с помощью политик, таких как Retry, Circuit Breaker, Timeout</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q199" value="b">b) Библиотека для полиморфизма</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q199" value="c">c) Библиотека для работы с полигонами</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q199" value="d">d) Устаревшая библиотека</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q199" value="e">e) Встроена в .NET</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q199" value="f">f) Используется для интеграции с `HttpClientFactory`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q199" value="g">g) Повышает отказоустойчивость приложений</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q199" value="h">h) Все вышеперечисленное</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q199" value="i">i) Конкурент `MediatR`</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q199" value="j">j) Библиотека для логирования</label></li>
-                </ul>
-            </div>
-            <div class="question-block" id="q200"><p class="question-title">200. Какой паттерн проектирования реализует `IAsyncEnumerable<T>` в сочетании с `yield`?</p>
-                <ul class="answers-list">
-                    <li class="answer-item"><label><input type="radio" name="q200" value="a">a) Итератор (Iterator)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q200" value="b">b) Наблюдатель (Observer)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q200" value="c">c) Фабрика (Factory)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q200" value="d">d) Стратегия (Strategy)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q200" value="e">e) Декоратор (Decorator)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q200" value="f">f) Адаптер (Adapter)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q200" value="g">g) Прокси (Proxy)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q200" value="h">h) Singleton</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q200" value="i">i) Команда (Command)</label></li>
-                    <li class="answer-item"><label><input type="radio" name="q200" value="j">j) Шаблонный метод (Template Method)</label></li>
-                </ul>
-            </div>
-            <div class="button-container">
-                <button type="submit" class="submit-button">Завершить тест</button>
-            </div>
-        </form>
-        <div id="results" style="display: none;"></div>
+            <button id="next-button">Следующий вопрос</button>
+        </div>
     </main>
 
-    <script>
-        const correctAnswers = {
-            q151: 'a', q152: 'a', q153: 'a', q154: 'd', q155: 'a', q156: 'a', q157: 'h', q158: 'a', q159: 'f', q160: 'a',
-            q161: 'a', q162: 'a', q163: 'h', q164: 'g', q165: 'e', q166: 'e', q167: 'a', q168: 'a', q169: 'f', q170: 'a',
-            q171: 'f', q172: 'a', q173: 'e', q174: 'a', q175: 'd', q176: 'a', q177: 'a', q178: 'f', q179: 'a', q180: 'e',
-            q181: 'e', q182: 'a', q183: 'e', q184: 'e', q185: 'd', q186: 'e', q187: 'd', q188: 'd', q189: 'a', q190: 'f',
-            q191: 'd', q192: 'e', q193: 'd', q194: 'a', q195: 'e', q196: 'e', q197: 'd', q198: 'e', q199: 'h', q200: 'a'
-        };
+    <footer class="footer">
+        Решу игэ - сдам гиа
+    </footer>
+<script>
+const questions =
+    [
+    [
+        "Что такое SignalR?",
+        [
+            "Библиотека для добавления веб-функциональности в реальном времени в приложения",
+            "Система для отправки SMS-сообщений",
+            "Фреймворк для обработки сигналов",
+            "Протокол для радиосвязи",
+            "Библиотека для работы с графикой",
+            "Конкурент Entity Framework",
+            "Новый тип делегата",
+            "Инструмент для профилирования",
+            "Устаревшая технология",
+            "Способ вызова RPC"
+        ],
+        0
+    ],
+    [
+        "Что такое Hub в SignalR?",
+        [
+            "Высокоуровневый конвейер, позволяющий клиенту и серверу вызывать методы друг у друга",
+            "Центральный узел сети",
+            "USB-концентратор",
+            "Класс для хранения соединений",
+            "Конфигурационный файл SignalR",
+            "Точка входа в приложение",
+            "Интерфейс для клиентов",
+            "Базовый класс для всех контроллеров",
+            "Репозиторий кода",
+            "Провайдер аутентификации"
+        ],
+        0
+    ],
+    [
+        "В чем разница между Blazor Server и Blazor WebAssembly?",
+        [
+            "Blazor Server исполняет код на сервере, а WebAssembly - в браузере клиента",
+            "Blazor WebAssembly исполняет код на сервере, а Server - в браузере",
+            "Blazor Server использует SignalR для обновлений UI, а WebAssembly - нет",
+            "Blazor WebAssembly требует загрузки .NET runtime в браузер, а Server - нет",
+            "Blazor Server имеет меньшую задержку UI, но требует постоянного подключения",
+            "Blazor WebAssembly может работать оффлайн",
+            "Нет разницы",
+            "Blazor Server устарел",
+            "Blazor WebAssembly не поддерживает .NET",
+            "Blazor Server не может вызывать JavaScript"
+        ],
+        0
+    ],
+    [
+        "Что такое .NET MAUI?",
+        [
+            "Кросс-платформенный фреймворк для создания нативных мобильных и десктопных приложений",
+            "Эволюция Xamarin.Forms",
+            "Использует единую кодовую базу для Android, iOS, macOS и Windows",
+            "Все вышеперечисленное",
+            "Конкурент React Native и Flutter",
+            "Использует XAML для описания UI",
+            "Новый UI фреймворк",
+            "Позволяет писать UI на C#",
+            "Часть .NET 6 и новее",
+            "Язык программирования"
+        ],
+        3
+    ],
+    [
+        "Что такое `BenchmarkDotNet`?",
+        [
+            "Библиотека для тестирования производительности .NET кода",
+            "Инструмент для нагрузочного тестирования веб-сайтов",
+            "Встроенный профилировщик Visual Studio",
+            "Статический анализатор кода",
+            "Библиотека для юнит-тестирования",
+            "Платформа для запуска тестов",
+            "Система для измерения покрытия кода тестами",
+            "Веб-сервис для сравнения производительности",
+            "Набор правил для написания быстрого кода",
+            "Устаревшая библиотека"
+        ],
+        0
+    ],
+    [
+        "В чем разница между аутентификацией и авторизацией?",
+        [
+            "Аутентификация - это проверка личности; авторизация - проверка прав доступа",
+            "Авторизация - это проверка личности; аутентификация - проверка прав доступа",
+            "Это синонимы",
+            "Аутентификация происходит до авторизации",
+            "Авторизация используется для входа, аутентификация - для доступа к ресурсам",
+            "Аутентификация - это \"кто ты?\", авторизация - \"что тебе можно?\"",
+            "Аутентификация использует логин/пароль, авторизация - роли/политики",
+            "Нет разницы в контексте ASP.NET Core",
+            "Авторизация является частью аутентификации",
+            "Аутентификация является частью авторизации"
+        ],
+        0
+    ],
+    [
+        "Что такое JWT (JSON Web Token)?",
+        [
+            "Стандарт для создания токенов доступа, которые содержат утверждения (claims) в формате JSON",
+            "Зашифрованный JSON",
+            "Токен для работы с Web Sockets",
+            "Токен, который хранится в сессии на сервере",
+            "Используется для аутентификации без сохранения состояния (stateless)",
+            "Состоит из заголовка, полезной нагрузки и подписи",
+            "Может быть подписан для проверки подлинности",
+            "Все вышеперечисленное",
+            "Токен, который нельзя отозвать",
+            "Устаревший стандарт"
+        ],
+        7
+    ],
+    [
+        "Что такое `GC.SuppressFinalize()`?",
+        [
+            "Метод, который сообщает GC, что финализатор для объекта вызывать не нужно",
+            "Принудительно вызывает финализатор",
+            "Временно отключает сборку мусора",
+            "Обычно вызывается в конце метода `Dispose()`",
+            "Помогает избежать двойного освобождения ресурсов",
+            "Перемещает объект в очередь финализации",
+            "Запрещает финализацию для всех объектов",
+            "Устаревший метод",
+            "Вызывается автоматически",
+            "Связан с `IDisposable`"
+        ],
+        0
+    ],
+    [
+        "Что такое `Source Generators` (Генераторы кода)?",
+        [
+            "Компонент компилятора Roslyn, который может генерировать C# код во время компиляции",
+            "T4 шаблоны",
+            "Инструмент для создания проектов из шаблонов",
+            "Позволяет уменьшить количество шаблонного (boilerplate) кода",
+            "Может анализировать существующий код для генерации нового",
+            "Все вышеперечисленное",
+            "Генерируемый код добавляется в сборку",
+            "Может повысить производительность",
+            "Замена рефлексии в некоторых случаях",
+            "Инструмент для рефакторинга"
+        ],
+        5
+    ],
+    [
+        "Для чего нужен `[NotNullWhen(true)]` атрибут?",
+        [
+            "Чтобы сообщить компилятору, что переменная не будет `null`, если метод вернул `true`",
+            "Чтобы запретить `null` в качестве аргумента",
+            "Чтобы указать, что возвращаемое значение никогда не будет `null`",
+            "Для nullable reference types",
+            "Используется в методах, похожих на `Try...`",
+            "Помогает статическому анализатору",
+            "Атрибут для `out` параметров",
+            "Все вышеперечисленное",
+            "Устаревший атрибут",
+            "Требует .NET 5+"
+        ],
+        0
+    ],
+    [
+        "Какой атрибут используется для указания маршрута в ASP.NET Core MVC/API?",
+        [
+            "[Route]",
+            "[HttpGet]",
+            "[HttpPost]",
+            "[ApiController]",
+            "[ActionName]",
+            "[Url]",
+            "[Path]",
+            "[EndPoint]",
+            "[Map]",
+            "[Controller]"
+        ],
+        0
+    ],
+    [
+        "Что такое `IHostedService`?",
+        [
+            "Интерфейс для реализации долгоживущих фоновых задач в ASP.NET Core",
+            "Сервис для хостинга веб-сайтов",
+            "Базовый интерфейс для всех сервисов в DI",
+            "Интерфейс для Middleware",
+            "Используется для запуска приложения",
+            "Управляет жизненным циклом хоста",
+            "Связан с Kestrel",
+            "Устаревший интерфейс",
+            "Интерфейс для плагинов",
+            "Определяет методы StartAsync и StopAsync"
+        ],
+        0
+    ],
+    [
+        "Что такое `appsettings.json`?",
+        [
+            "Файл конфигурации в формате JSON для приложений ASP.NET Core",
+            "Файл с настройками Visual Studio",
+            "Файл с зависимостями проекта",
+            "Файл для хранения секретов",
+            "Может быть переопределен переменными окружения",
+            "Используется для хранения строк подключения",
+            "Имеет иерархическую структуру",
+            "Все вышеперечисленное",
+            "Устаревший формат, заменен на XML",
+            "Файл с метаданными сборки"
+        ],
+        7
+    ],
+    [
+        "Что делает метод `AddDbContext` в ASP.NET Core?",
+        [
+            "Регистрирует класс контекста базы данных в DI-контейнере",
+            "Добавляет новую базу данных",
+            "Создает миграцию",
+            "По умолчанию регистрирует контекст с жизненным циклом Scoped",
+            "Настраивает провайдера базы данных (например, SQL Server)",
+            "Позволяет задать строку подключения",
+            "Все вышеперечисленное",
+            "Выполняет подключение к БД",
+            "Устаревший метод",
+            "Добавляет `DbContext` в GAC"
+        ],
+        6
+    ],
+    [
+        "Что такое `[ApiController]` атрибут?",
+        [
+            "Атрибут, который добавляет специфичное для API поведение контроллерам",
+            "Включает автоматическую валидацию модели и возврат `400 Bad Request`",
+            "Включает привязку параметров из источника",
+            "Указывает, что контроллер предназначен для веб-API",
+            "Все вышеперечисленное",
+            "Устаревший атрибут",
+            "Заменяет `[Route]`",
+            "Делает все методы контроллера `async`",
+            "Указывает, что возвращаемые значения должны быть JSON",
+            "Синоним `[Controller]`"
+        ],
+        4
+    ],
+    [
+        "Что такое Roslyn?",
+        [
+            "Платформа компилятора .NET с открытым исходным кодом для C# и Visual Basic",
+            "Статический анализатор кода",
+            "Предоставляет API для анализа и рефакторинга кода",
+            "На нем основаны Source Generators",
+            "Все вышеперечисленное",
+            "Новый язык программирования",
+            "Среда выполнения .NET",
+            "Инструмент для сборки проектов",
+            "Профилировщик памяти",
+            "Устаревшая платформа"
+        ],
+        4
+    ],
+    [
+        "В чем различие между `Task.Run` и `Task.Factory.StartNew`?",
+        [
+            "`Task.Run` является предпочтительным и более безопасным сокращением для запуска задач в пуле потоков",
+            "`StartNew` имеет больше перегрузок и требует более аккуратной настройки для безопасного использования с `async/await`",
+            "Нет разницы, `Task.Run` вызывает `StartNew`",
+            "`Task.Run` неявно использует `TaskCreationOptions.DenyChildAttach`",
+            "`StartNew` является устаревшим",
+            "`Task.Run` всегда использует пул потоков, а `StartNew` - нет",
+            "`StartNew` быстрее",
+            "`Task.Run` может возвращать `ValueTask`",
+            "`StartNew` не поддерживает `CancellationToken`",
+            "`Task.Run` работает только в ASP.NET Core"
+        ],
+        0
+    ],
+    [
+        "Что такое `[FromServices]` атрибут?",
+        [
+            "Указывает, что параметр действия контроллера должен быть привязан из DI-контейнера",
+            "Указывает, что параметр должен быть привязан из тела запроса",
+            "Указывает, что параметр должен быть привязан из строки запроса",
+            "Указывает, что сервис является внешним",
+            "Инжектирует сервис",
+            "Устаревший атрибут",
+            "Синоним `[Inject]`",
+            "Работает только с `Singleton` сервисами",
+            "Применяется к классам, а не параметрам",
+            "Связан с `IHostedService`"
+        ],
+        0
+    ],
+    [
+        "Что такое `stack overflow` (переполнение стека)?",
+        [
+            "Ошибка, возникающая при слишком глубокой или бесконечной рекурсии",
+            "Сайт для программистов",
+            "Ошибка, когда в стеке заканчивается память",
+            "Не может быть перехвачено с помощью `try-catch`",
+            "Приводит к аварийному завершению процесса",
+            "Все вышеперечисленное",
+            "Ошибка, связанная с `Stack`",
+            "Переполнение кучи",
+            "Связано с `stackalloc`",
+            "Ошибка компиляции"
+        ],
+        5
+    ],
+    [
+        "Что такое `?.` и `??` операторы?",
+        [
+            "`?.` - null-conditional, `??` - null-coalescing",
+            "`?.` - null-coalescing, `??` - null-conditional",
+            "Это синонимы",
+            "`?.` для доступа к членам, `??` для присваивания значения по умолчанию",
+            "Оба помогают избежать `NullReferenceException`",
+            "\"Элвис\" и \"оператор объединения с null\"",
+            "`?.` возвращает null, если левый операнд null",
+            "`??` возвращает правый операнд, если левый null",
+            "Все вышеперечисленное",
+            "Устаревшие операторы"
+        ],
+        0
+    ],
+    [
+        "Что такое `GC.Collect()`?",
+        [
+            "Принудительно запускает сборку мусора",
+            "Его использование в большинстве случаев не рекомендуется",
+            "Может негативно повлиять на производительность",
+            "Не гарантирует немедленного освобождения памяти",
+            "Имеет перегрузки для указания поколения GC",
+            "Все вышеперечисленное",
+            "Собирает объекты из кучи",
+            "Блокирующий вызов",
+            "Используется для сбора статистики по GC",
+            "Очищает только поколение 0"
+        ],
+        5
+    ],
+    [
+        "Что такое `this` в методе-расширении?",
+        [
+            "Модификатор перед первым параметром, указывающий, какой тип расширяется",
+            "Ссылка на текущий экземпляр статического класса",
+            "Не используется в методах-расширениях",
+            "Ссылка на сам метод-расширение",
+            "Указывает, что метод является `public`",
+            "Позволяет вызывать метод как метод экземпляра",
+            "Метод-расширение должен быть в статическом классе",
+            "Параметр с `this` не передается явно при вызове",
+            "Устаревший синтаксис",
+            "Означает, что метод - конструктор"
+        ],
+        0
+    ],
+    [
+        "Что такое `checked` и `unchecked`?",
+        [
+            "Контексты для управления проверкой арифметического переполнения",
+            "`checked` бросает `OverflowException` при переполнении",
+            "`unchecked` \"обертывает\" значение при переполнении (по умолчанию)",
+            "Могут быть операторами или блоками кода",
+            "Все вышеперечисленное",
+            "Влияют на производительность",
+            "Не влияют на операции с `double` и `float`",
+            "Можно настроить как поведение по умолчанию для проекта",
+            "Устаревшие ключевые слова",
+            "Связаны с `Nullable` типами"
+        ],
+        4
+    ],
+    [
+        "Какая коллекция обеспечивает уникальность элементов?",
+        [
+            "HashSet",
+            "List",
+            "Dictionary",
+            "Queue",
+            "Stack",
+            "Array",
+            "SortedSet",
+            "LinkedList",
+            "Collection",
+            "Все коллекции"
+        ],
+        0
+    ],
+    [
+        "Что такое `[Serializable]`?",
+        [
+            "Атрибут, указывающий, что класс может быть сериализован",
+            "Например, бинарным или SOAP форматером",
+            "Не требуется для JSON или XML сериализации (например, `JsonSerializer` или `XmlSerializer`)",
+            "Все вышеперечисленное",
+            "Устарел во многих сценариях .NET Core",
+            "Наследуется производными классами",
+            "Атрибут, помечающий поля для сериализации",
+            "Требуется для передачи объектов между AppDomain",
+            "Делает класс потокобезопасным",
+            "Связан с `IDisposable`"
+        ],
+        3
+    ],
+    [
+        "Что такое `protected internal`?",
+        [
+            "Модификатор доступа, разрешающий доступ из текущей сборки ИЛИ из производных классов в других сборках",
+            "Доступ только из производных классов в той же сборке",
+            "Доступ из любого места в той же сборке",
+            "Доступ только из производных классов",
+            "Синоним `public`",
+            "Устаревший модификатор",
+            "То же самое, что и `private protected`",
+            "Более строгий, чем `internal`",
+            "Менее строгий, чем `public`",
+            "Модификатор для сборок"
+        ],
+        0
+    ],
+    [
+        "Что такое `private protected`?",
+        [
+            "Модификатор доступа, разрешающий доступ из производных классов только в текущей сборке",
+            "Доступ из текущей сборки ИЛИ из производных классов",
+            "Доступ только из приватных классов",
+            "Доступ только из `sealed` классов",
+            "То же самое, что и `protected internal`",
+            "Более строгий, чем `protected`",
+            "Появился в C# 7.2",
+            "Менее строгий, чем `private`",
+            "Устаревший модификатор",
+            "Синоним `internal`"
+        ],
+        0
+    ],
+    [
+        "Что такое `[HttpGet]`, `[HttpPost]`?",
+        [
+            "Атрибуты, указывающие, что метод действия обрабатывает GET или POST HTTP-запросы",
+            "Методы для выполнения HTTP-запросов",
+            "Замена для `[Route]`",
+            "Используются в ASP.NET Core",
+            "Также существуют `[HttpPut]`, `[HttpDelete]`, `[HttpPatch]`",
+            "Все вышеперечисленное",
+            "Указывают на HTTP-глагол",
+            "Устаревшие атрибуты",
+            "Работают только с `[ApiController]`",
+            "Связаны с `HttpClient`"
+        ],
+        5
+    ],
+    [
+        "Какой класс используется для выполнения HTTP-запросов?",
+        [
+            "HttpClient",
+            "WebRequest",
+            "HttpWebRequest",
+            "WebClient",
+            "RestSharp",
+            "Socket",
+            "HttpRequest",
+            "Flurl",
+            "Рекомендуется создавать один экземпляр `HttpClient` и переиспользовать его",
+            "`HttpClientFactory` - предпочтительный способ управления `HttpClient` в ASP.NET Core"
+        ],
+        0
+    ],
+    [
+        "Что такое `Minimal APIs` в .NET 6?",
+        [
+            "Упрощенный способ создания HTTP API с минимальным количеством кода",
+            "Не используют контроллеры",
+            "Используют лямбда-выражения для определения конечных точек",
+            "Хорошо подходят для микросервисов",
+            "Все вышеперечисленное",
+            "Используют `MapGet`, `MapPost` и т.д.",
+            "Менее функциональны, чем MVC/API с контроллерами",
+            "Устаревший подход",
+            "Требуют больше настроек",
+            "API с одним методом"
+        ],
+        4
+    ],
+    [
+        "Что такое `[Required]` атрибут?",
+        [
+            "Атрибут валидации, указывающий, что свойство или поле не должно быть `null`",
+            "Для строк - не должно быть пустой строкой",
+            "Находится в `System.ComponentModel.DataAnnotations`",
+            "Используется при валидации модели в ASP.NET Core",
+            "Все вышеперечисленное",
+            "То же, что и `required` модификатор",
+            "Атрибут только для Entity Framework",
+            "Устаревший атрибут",
+            "Работает только со строками",
+            "Запрещает изменение свойства"
+        ],
+        4
+    ],
+    [
+        "Что такое `Enumerable.Range()`?",
+        [
+            "Генерирует последовательность целых чисел в указанном диапазоне",
+            "Возвращает диапазон из существующей коллекции",
+            "Метод для работы с `range` оператором",
+            "Устаревший метод",
+            "Создает массив",
+            "Принимает начальное значение и количество",
+            "Возвращает `IEnumerable`",
+            "Статический метод класса `Enumerable`",
+            "Используется для тестирования",
+            "Медленнее, чем `for` цикл"
+        ],
+        0
+    ],
+    [
+        "Что такое `int.TryParse()`?",
+        [
+            "Метод для безопасного преобразования строки в `int` без генерации исключения",
+            "Возвращает `bool` - результат успеха",
+            "Использует `out` параметр для возврата результата",
+            "Предпочтительнее, чем `int.Parse()` если строка может быть невалидной",
+            "Все вышеперечисленное",
+            "Бросает `FormatException`",
+            "Устаревший метод",
+            "Более медленный, чем `Convert.ToInt32`",
+            "Не поддерживает форматы и культуры",
+            "Возвращает `null` при неудаче"
+        ],
+        4
+    ],
+    [
+        "Какая разница между `interface` и `abstract class`?",
+        [
+            "Класс может наследовать несколько интерфейсов, но только один класс (абстрактный или нет)",
+            "Абстрактный класс может иметь реализацию методов и поля, интерфейс (до C# 8.0) - нет",
+            "Абстрактный класс может иметь конструктор",
+            "Члены интерфейса по умолчанию `public`, у абстрактного класса - `private`",
+            "Все вышеперечисленное",
+            "Нет разницы",
+            "Абстрактный класс используется для is-a связи, интерфейс для can-do",
+            "Интерфейсы не могут иметь статических членов (до C# 8.0)",
+            "Абстрактный класс устарел",
+            "Интерфейс не может содержать события"
+        ],
+        4
+    ],
+    [
+        "Что такое `IDbConnection`?",
+        [
+            "Интерфейс, представляющий соединение с базой данных в ADO.NET",
+            "Реализуется классами вроде `SqlConnection` и `NpgsqlConnection`",
+            "Позволяет писать код, не зависящий от конкретной БД",
+            "Все вышеперечисленное",
+            "Управляет транзакциями",
+            "Определяет метод `Open()`",
+            "Часть `System.Data`",
+            "Устаревший интерфейс, заменен на `DbContext`",
+            "Интерфейс для Entity Framework",
+            "Используется для Dapper"
+        ],
+        3
+    ],
+    [
+        "Что такое Dapper?",
+        [
+            "Простой object-relational mapper (ORM) для .NET",
+            "Часто называют \"Micro-ORM\"",
+            "Фокусируется на производительности",
+            "Работает через методы-расширения для `IDbConnection`",
+            "Все вышеперечисленное",
+            "Разработан командой Stack Overflow",
+            "Конкурент Entity Framework",
+            "Не отслеживает изменения объектов",
+            "Требует написания SQL-запросов вручную",
+            "Полноценный ORM"
+        ],
+        4
+    ],
+    [
+        "Что такое `[Key]` атрибут в EF Core?",
+        [
+            "Указывает, что свойство является первичным ключом",
+            "Находится в `System.ComponentModel.DataAnnotations`",
+            "Если не указан, EF пытается найти ключ по имени (`Id` или `ClassNameId`)",
+            "Все вышеперечисленное",
+            "Используется для составных ключей",
+            "Указывает, что поле является внешним ключом",
+            "Запрещает `null` значения",
+            "Устаревший атрибут",
+            "Указывает, что поле должно быть индексировано",
+            "Связан с `Dictionary`"
+        ],
+        3
+    ],
+    [
+        "Что такое `async void` и когда его следует использовать?",
+        [
+            "Асинхронный метод, не возвращающий `Task`; использовать только для обработчиков событий",
+            "Следует избегать, так как исключения из `async void` методов сложно перехватить",
+            "Нельзя `await`-ить",
+            "Все вышеперечисленное",
+            "Синоним для `async Task`",
+            "Используется для fire-and-forget сценариев",
+            "Более производительный, чем `async Task`",
+            "Устаревший синтаксис",
+            "Используется, когда результат не важен",
+            "Рекомендуется для всех асинхронных методов"
+        ],
+        3
+    ],
+    [
+        "Что такое `[Fact]` атрибут?",
+        [
+            "Атрибут, помечающий метод как тест в xUnit",
+            "Атрибут, помечающий метод как тест в NUnit",
+            "Атрибут, помечающий метод как тест в MSTest",
+            "Атрибут для указания фактов о программе",
+            "Встроенный атрибут C#",
+            "Устаревший атрибут",
+            "Синоним `[Test]`",
+            "Атрибут для параметризованных тестов",
+            "Указывает, что метод является `true`",
+            "Связан с `BenchmarkDotNet`"
+        ],
+        0
+    ],
+    [
+        "Что такое `[Theory]` и `[InlineData]`?",
+        [
+            "Атрибуты для создания параметризованных тестов в xUnit",
+            "Атрибуты для создания параметризованных тестов в NUnit",
+            "Атрибуты для создания параметризованных тестов в MSTest",
+            "`[Theory]` помечает тест, `[InlineData]` предоставляет данные для него",
+            "Позволяют выполнить один и тот же тест с разными входными данными",
+            "Все вышеперечисленное",
+            "Устаревшие атрибуты",
+            "Используются для `BenchmarkDotNet`",
+            "Встроенные атрибуты C#",
+            "Связаны с рефлексией"
+        ],
+        5
+    ],
+    [
+        "Что такое `LINQPad`?",
+        [
+            "Инструмент для интерактивного выполнения C#/F#/VB выражений, запросов и программ",
+            "\"Песочница\" для .NET",
+            "Позволяет быстро тестировать LINQ-запросы",
+            "Все вышеперечисленное",
+            "Может подключаться к базам данных",
+            "Плагин для Visual Studio",
+            "Онлайн-компилятор",
+            "Устаревший инструмент",
+            "Отладчик для LINQ",
+            "Часть .NET SDK"
+        ],
+        3
+    ],
+    [
+        "Что такое `AutoMapper`?",
+        [
+            "Библиотека для автоматического копирования данных из одного объекта в другой (маппинга)",
+            "Например, для маппинга DTO в сущности EF",
+            "Использует соглашения для маппинга полей с одинаковыми именами",
+            "Позволяет настраивать сложные правила маппинга",
+            "Все вышеперечисленное",
+            "Встроен в .NET",
+            "Инструмент для навигации по коду",
+            "Устаревшая библиотека",
+            "Используется для маппинга маршрутов",
+            "Единственная библиотека для маппинга"
+        ],
+        4
+    ],
+    [
+        "Что такое `FluentValidation`?",
+        [
+            "Библиотека для создания строго типизированных правил валидации с \"текучим\" (fluent) интерфейсом",
+            "Альтернатива атрибутам `DataAnnotations`",
+            "Позволяет отделить правила валидации от моделей",
+            "Все вышеперечисленное",
+            "Встроена в .NET",
+            "Используется для валидации баз данных",
+            "Устаревшая библиотека",
+            "Библиотека для асинхронной валидации",
+            "Не поддерживает сложные сценарии",
+            "Используется только в Blazor"
+        ],
+        3
+    ],
+    [
+        "Что такое `Serilog`?",
+        [
+            "Популярная библиотека для структурированного логирования в .NET",
+            "Встроенный логгер ASP.NET Core",
+            "Библиотека для сериализации",
+            "Устаревшая библиотека",
+            "Инструмент для анализа логов",
+            "Конкурент NLog и log4net",
+            "Позволяет отправлять логи в различные приемники (sinks)",
+            "Позволяет обогащать логи контекстной информацией",
+            "Поддерживает шаблоны сообщений",
+            "Библиотека для работы с последовательными портами"
+        ],
+        0
+    ],
+    [
+        "Что такое `IConfiguration`?",
+        [
+            "Интерфейс для доступа к конфигурации приложения в ASP.NET Core",
+            "Представляет собой иерархическую коллекцию пар \"ключ-значение\"",
+            "Может читать данные из `appsettings.json`, переменных окружения, командной строки и др.",
+            "Регистрируется в DI-контейнере по умолчанию",
+            "Все вышеперечисленное",
+            "Используется для `DbContext`",
+            "Устаревший интерфейс",
+            "Интерфейс для настройки Kestrel",
+            "Позволяет изменять конфигурацию во время выполнения",
+            "Связан с `web.config`"
+        ],
+        4
+    ],
+    [
+        "Что такое `WebApplication.CreateBuilder(args)`?",
+        [
+            "Метод для создания и настройки хоста приложения в .NET 6+ Minimal APIs",
+            "Создает `WebApplicationBuilder`",
+            "Настраивает DI, конфигурацию, логирование",
+            "Заменил `CreateHostBuilder` в новых шаблонах",
+            "Все вышеперечисленное",
+            "Устаревший метод",
+            "Создает экземпляр приложения",
+            "Метод для Blazor",
+            "Связан с `IHostedService`",
+            "Запускает веб-сервер Kestrel"
+        ],
+        4
+    ],
+    [
+        "Что такое `CORS` (Cross-Origin Resource Sharing)?",
+        [
+            "Механизм, позволяющий веб-странице запрашивать ресурсы с другого домена",
+            "Политика безопасности браузера",
+            "Настраивается в ASP.NET Core с помощью Middleware",
+            "Все вышеперечисленное",
+            "Способ обхода Same-Origin Policy",
+            "Устаревшая технология",
+            "Связан с CSRF",
+            "Протокол шифрования",
+            "Заголовок HTTP-запроса"
+        ],
+        3
+    ],
+    [
+        "Что такое `MediatR`?",
+        [
+            "Библиотека для реализации паттерна Посредник (Mediator) в .NET",
+            "Помогает уменьшить связанность между компонентами",
+            "Реализует In-process messaging",
+            "Часто используется для реализации CQRS",
+            "Все вышеперечисленное",
+            "Встроен в .NET",
+            "Библиотека для работы с медиа-файлами",
+            "Устаревшая библиотека",
+            "Конкурент SignalR",
+            "Связан с `IHostedService`"
+        ],
+        4
+    ],
+    [
+        "Что такое `Polly`?",
+        [
+            "Библиотека для обработки временных сбоев (transient faults) с помощью политик, таких как Retry, Circuit Breaker, Timeout",
+            "Библиотека для полиморфизма",
+            "Библиотека для работы с полигонами",
+            "Устаревшая библиотека",
+            "Встроена в .NET",
+            "Используется для интеграции с `HttpClientFactory`",
+            "Повышает отказоустойчивость приложений",
+            "Все вышеперечисленное",
+            "Конкурент `MediatR`",
+            "Библиотека для логирования"
+        ],
+        7
+    ],
+    [
+        "Какой паттерн проектирования реализует `IAsyncEnumerable` в сочетании с `yield`?",
+        [
+            "Итератор (Iterator)",
+            "Наблюдатель (Observer)",
+            "Фабрика (Factory)",
+            "Стратегия (Strategy)",
+            "Декоратор (Decorator)",
+            "Адаптер (Adapter)",
+            "Прокси (Proxy)",
+            "Singleton",
+            "Команда (Command)",
+            "Шаблонный метод (Template Method)"
+        ],
+        0
+    ]
+]; //нельзя изменить", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "Сначала увеличивает x на 1, затем использует значение. Пример: x=3 → (++x)+6 → 10"], 0],
+    ["Что такое составное присваивание?", ["x += a. Эквивалент x = x + a", "Все поля размещены по одному адресу. Размер равен размеру наибольшего поля", "Может вызвать переполнение буфера. Требуется резервировать память под результат", "Преимущества: реалистичное отражение разработки через эволюцию, явный анализ риска, использование моделирования. Недостатки: высокие требования к заказчику, трудности контроля сроков и недостаточная статистика эффективности.", "*указатель. Получает значение по адресу", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Сохраняет значение между вызовами функции", "Гибкий — для малого срока жизни, жесткий — для долгосрочного. Гибкий подход применяется для проектов с коротким ЖЦ и изменяющимися требованиями, жесткий — для долгосрочных проектов с фиксированными требованиями. Различаются управляемостью, сроками и технологиями."], 0],
+    ["Как работает switch-case?", ["Проверяет значение на совпадение с case. Требует break для выхода из ветки", "Проблемы с моделированием состояний из-за их количества и недетерминированности входных данных. Сложность связана с огромным числом возможных состояний системы и невозможностью предугадать последовательность действий пользователя, что делает переходы между состояниями непредсказуемыми.", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Неинициализированный указатель. Используется для проверки валидности", "'A', '' (экранирование). Используются как целочисленные значения", "Символом \ в конце строки. Компилятор воспримет как одну строку", "Гибкий — для малого срока жизни, жесткий — для долгосрочного. Гибкий подход применяется для проектов с коротким ЖЦ и изменяющимися требованиями, жесткий — для долгосрочных проектов с фиксированными требованиями. Различаются управляемостью, сроками и технологиями.", "Неинициализированный указатель. Используется для проверки валидности", "a == b. Возвращает 1, если значения равны", "Гибкость в управлении и последовательности этапов. Адаптивные процессы позволяют учитывать динамику требований, упрощают корректировку этапов и подходят для малочисленных команд с активным участием заказчика."], 0],
+    ["Каково назначение функции main()?", ["Точка входа программы. ОС вызывает эту функцию при запуске программы", "Переходит к следующей итерации цикла. Пропускает оставшуюся часть тела", "Символом \ в конце строки. Компилятор воспримет как одну строку", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "const int t = 0; //нельзя изменить", "Может вызвать переполнение буфера. Требуется резервировать память под результат", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "a % b. Только для целочисленных операндов", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС"], 0],
+    ["Что такое определение переменной?", ["Создание объекта в памяти. Одно на всю программу", "Копирует строку src в dest. Требует достаточного размера буфера dest", "Сохраняет значение между вызовами функции", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "Массив char, завершенный '\0'. Функции: strcpy, strcat, strlen, strcmp", "Копирует строку src в dest. Требует достаточного размера буфера dest", "#include "имя_файла". Файл ищется в текущем каталоге", "Переходит к следующей итерации цикла. Пропускает оставшуюся часть тела", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "for(иниц., условие., шаг) тело. Выполняется пока условие истинно"], 0],
+    ["Что такое программный модуль?", ["Физически независимый фрагмент кода, используемый в разных программах. Модуль — это самостоятельный компонент, который программируется, компилируется и тестируется отдельно. Позволяет уменьшить сложность систем и избежать дублирования кода.", "const char *t — данные не могут быть изменены", "Модель позволяет сократить время разработки на 30%, уменьшить затраты до 70% и повысить производительность разработки в 1.5 раза за счет повторного использования проверенных компонентов.", "*указатель. Получает значение по адресу", "Гибкий — для малого срока жизни, жесткий — для долгосрочного. Гибкий подход применяется для проектов с коротким ЖЦ и изменяющимися требованиями, жесткий — для долгосрочных проектов с фиксированными требованиями. Различаются управляемостью, сроками и технологиями.", "const int t = 0; //нельзя изменить", "/* */ для блочных, // для строчных. Улучшают читаемость кода", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)"], 0],
+    ["Как отличается gets() от fgets()?", ["fgets() проверяет размер буфера. gets() уязвим к переполнению", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "Преимущество: заказчик видит модель системы, что уточняет требования. Недостаток: заказчик может принять макет за финальный продукт, игнорируя скрытые проблемы качества и сопровождения.", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Неинициализированный указатель. Используется для проверки валидности", "const char *t — данные не могут быть изменены", "Количество аргументов командной строки. Первый параметр функции main() с аргументами", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации."], 0],
+    ["Что такое макетирование в разработке ПО?", ["Снятие неопределенностей в требованиях заказчика. Макетирование направлено на уточнение требований через создание модели ПО (бумажной, работающей или существующей). Оно помогает заказчику и разработчику согласовать цели и характеристики системы до начала проектирования.", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Сначала увеличивает x на 1, затем использует значение. Пример: x=3 → (++x)+6 → 10", "a % b. Только для целочисленных операндов", "Переходит к следующей итерации цикла. Пропускает оставшуюся часть тела", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "a == b. Возвращает 1, если значения равны", "Переходит к следующей итерации цикла. Пропускает оставшуюся часть тела", "Проблемы с моделированием состояний из-за их количества и недетерминированности входных данных. Сложность связана с огромным числом возможных состояний системы и невозможность предугадать последовательность действий пользователя, что делает переходы между состояниями непредсказуемыми.", "Копирует строку src в dest. Требует достаточного размера буфера dest"], 0],
+    ["Как работает strcpy?", ["Копирует строку src в dest. Требует достаточного размера буфера dest", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Используется многоточие в параметрах. Пример: int printf(char*, ...)., библиотека stdarg.h", "Неинициализированный указатель. Используется для проверки валидности", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "Проблемы с моделированием состояний из-за их количества и недетерминированности входных данных. Сложность связана с огромным числом возможных состояний системы и невозможностью предугадать последовательность действий пользователя, что делает переходы между состояниями непредсказуемыми.", "Компиляторы, редакторы связей, загрузчики, отладчики. Обеспечивают преобразование исходного кода в исполняемые файлы и диагностику ошибок", "a & b. Пример: 1001 & 1100 → 1000", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Недопонимание между участниками и сложность системы. Ошибка может возникнуть из-за разногласий между разработчиками и заказчиками или из-за того, что разработчик не может отслеживать все связи в сложной системе."], 0],
+    ["Как работает printf()?", ["Форматированный вывод в stdout. Аналог fprintf(stdout, ...)", "for(иниц., условие., шаг) тело. Выполняется пока условие истинно", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "#undef имя. Удаляет предыдущее определение макроса", "Внешний доступ. Объявление в других файлах через extern", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "/* */ для блочных, // для строчных. Улучшают читаемость кода", "Гибкий — для малого срока жизни, жесткий — для долгосрочного. Гибкий подход применяется для проектов с коротким ЖЦ и изменяющимися требованиями, жесткий — для долгосрочных проектов с фиксированными требованиями. Различаются управляемостью, сроками и технологиями."], 0],
+    ["Как обозначается побитовое И?", ["a & b. Пример: 1001 & 1100 → 1000", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "Сначала увеличивает x на 1, затем использует значение. Пример: x=3 → (++x)+6 → 10", "/* */ для блочных, // для строчных. Улучшают читаемость кода", "Количество элементов между адресами. x = (адрес2 - адрес1)/sizeof(тип)", "Все поля размещены по одному адресу. Размер равен размеру наибольшего поля", "for(иниц., условие., шаг) тело. Выполняется пока условие истинно", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Количество аргументов командной строки. Первый параметр функции main() с аргументами"], 0],
+    ["Какие преимущества компонентно-ориентированной модели?", ["Снижение времени и стоимости разработки. Модель позволяет сократить время разработки на 30%, уменьшить затраты до 70% и повысить производительность разработки в 1.5 раза за счет повторного использования проверенных компонентов.", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Компиляторы, редакторы связей, загрузчики, отладчики. Обеспечивают преобразование исходного кода в исполняемые файлы и диагностику ошибок", "Переходит к следующей итерации цикла. Пропускает оставшуюся часть тела", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "Гибкость в управлении и последовательности этапов. Адаптивные процессы позволяют учитывать динамику требований, упрощают корректировку этапов и подходят для малочисленных команд с активным участием заказчика.", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "Неинициализированный указатель. Используется для проверки валидности", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами"], 0],
+    ["Что такое описание переменной?", ["Указание свойств без создания объекта. Может быть множественным", "struct {type1 name1., ...}. Обязательна точка с запятой после закрытия", "for(иниц., условие., шаг) тело. Выполняется пока условие истинно", "const char *t — данные не могут быть изменены", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "/* */ для блочных, // для строчных. Улучшают читаемость кода", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "a % b. Только для целочисленных операндов", "a % b. Только для целочисленных операндов"], 0],
+    ["Как разыменовать указатель?", ["*указатель. Получает значение по адресу", "Количество аргументов командной строки. Первый параметр функции main() с аргументами", "Все поля размещены по одному адресу. Размер равен размеру наибольшего поля", "Символом \ в конце строки. Компилятор воспримет как одну строку", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Сначала увеличивает x на 1, затем использует значение. Пример: x=3 → (++x)+6 → 10", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Идентификатор с двоеточием: имя:. Адрес оператора для goto", "#include "имя_файла". Файл ищется в текущем каталоге", "Используется многоточие в параметрах. Пример: int printf(char*, ...)., библиотека stdarg.h"], 0],
+    ["Как объявляются переменные в С?", ["<тип> <имя>. Например: int x., char s.,", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Компиляторы, редакторы связей, загрузчики, отладчики. Обеспечивают преобразование исходного кода в исполняемые файлы и диагностику ошибок", "Модель позволяет сократить время разработки на 30%, уменьшить затраты до 70% и повысить производительность разработки в 1.5 раза за счет повторного использования проверенных компонентов.", "Проверяет значение на совпадение с case. Требует break для выхода из ветки", "Неинициализированный указатель. Используется для проверки валидности", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "a % b. Только для целочисленных операндов"], 0],
+    ["Каковы достоинства и недостатки спиральной модели?", ["Достоинства — учет риска и эволюционный подход. Недостатки — сложность управления и новизна. Преимущества: реалистичное отражение разработки через эволюцию, явный анализ риска, использование моделирования. Недостатки: высокие требования к заказчику, трудности контроля сроков и недостаточная статистика эффективности.", "Количество элементов между адресами. x = (адрес2 - адрес1)/sizeof(тип)", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "a + b. Складывает два операнда", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9", "a + b. Складывает два операнда", "Количество аргументов командной строки. Первый параметр функции main() с аргументами", "Компиляторы, редакторы связей, загрузчики, отладчики. Обеспечивают преобразование исходного кода в исполняемые файлы и диагностику ошибок", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)"], 0],
+    ["Чем отличается union от struct?", ["Все поля размещены по одному адресу. Размер равен размеру наибольшего поля", "Проверяет значение на совпадение с case. Требует break для выхода из ветки", "Преимущество: заказчик видит модель системы, что уточняет требования. Недостаток: заказчик может принять макет за финальный продукт, игнорируя скрытые проблемы качества и сопровождения.", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Символом \ в конце строки. Компилятор воспримет как одну строку", "Проверяет значение на совпадение с case. Требует break для выхода из ветки", "const char *t — данные не могут быть изменены", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации."], 0],
+    ["Что такое инкрементная модель разработки?", ["Построение системы по версиям с базовым продуктом и последующими улучшениями. Инкрементная модель объединяет водопадную структуру и итерации. Первая версия реализует базовые функции, а каждая следующая добавляет новые возможности. Пример: текстовый редактор с постепенным добавлением проверки орфографии и компоновки страниц.", "Символом \ в конце строки. Компилятор воспримет как одну строку", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "'A', '' (экранирование). Используются как целочисленные значения", "a % b. Только для целочисленных операндов", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "Неинициализированный указатель. Используется для проверки валидности", "Символом \ в конце строки. Компилятор воспримет как одну строку"], 0],
+    ["Какие стандарты у C++?", ["C++98, C++03, C++11. Последние версии добавляют улучшения в ядро и библиотеки", "Символом \ в конце строки. Компилятор воспримет как одну строку", "Символом \ в конце строки. Компилятор воспримет как одну строку", "#include "имя_файла". Файл ищется в текущем каталоге", "Количество аргументов командной строки. Первый параметр функции main() с аргументами", "Проверяет значение на совпадение с case. Требует break для выхода из ветки", "Гибкость в управлении и последовательности этапов. Адаптивные процессы позволяют учитывать динамику требований, упрощают корректировку этапов и подходят для малочисленных команд с активным участием заказчика.", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12"], 0],
+    ["Что определяет этап анализа при разработке ПС?", ["Ответ на вопрос "Что должна делать система?". Анализ фокусируется на определении требований к системе через три модели: информационную (данные), функциональную (алгоритмы) и поведенческую (интерфейсы и динамика работы).", "Неинициализированный указатель. Используется для проверки валидности", "Гибкий — для малого срока жизни, жесткий — для долгосрочного. Гибкий подход применяется для проектов с коротким ЖЦ и изменяющимися требованиями, жесткий — для долгосрочных проектов с фиксированными требованиями. Различаются управляемостью, сроками и технологиями.", "Копирует строку src в dest. Требует достаточного размера буфера dest", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "for(иниц., условие., шаг) тело. Выполняется пока условие истинно", "/* */ для блочных, // для строчных. Улучшают читаемость кода", "Недопонимание между участниками и сложность системы. Ошибка может возникнуть из-за разногласий между разработчиками и заказчиками или из-за того, что разработчик не может отслеживать все связи в сложной системе.", "Переходит к следующей итерации цикла. Пропускает оставшуюся часть тела", "const int t = 0; //нельзя изменить"], 0],
+    ["Что такое локальная статическая переменная?", ["static внутри функции. Сохраняет значение между вызовами функции", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9", "const int t = 0; //нельзя изменить", "Сначала увеличивает x на 1, затем использует значение. Пример: x=3 → (++x)+6 → 10", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "*указатель. Получает значение по адресу", "a % b. Только для целочисленных операндов", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС"], 0],
+    ["Что такое рекурсия?", ["Вызов функцией самой себя. Пример: вычисление факториала", "a == b. Возвращает 1, если значения равны", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "Недопонимание между участниками и сложность системы. Ошибка может возникнуть из-за разногласий между разработчиками и заказчиками или из-за того, что разработчик не может отслеживать все связи в сложной системе.", "Недопонимание между участниками и сложность системы. Ошибка может возникнуть из-за разногласий между разработчиками и заказчиками или из-за того, что разработчик не может отслеживать все связи в сложной системе.", "Проверяет значение на совпадение с case. Требует break для выхода из ветки", "Все поля размещены по одному адресу. Размер равен размеру наибольшего поля", "x ? a : b. Возвращает a при истинности x, иначе b", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации."], 0],
+    ["Как закрыть файл после работы?", ["fclose(FILE*). Возвращает 0 при успешном закрытии", "Компиляторы, редакторы связей, загрузчики, отладчики. Обеспечивают преобразование исходного кода в исполняемые файлы и диагностику ошибок", "const int t = 0; //нельзя изменить", "#include "имя_файла". Файл ищется в текущем каталоге", "Внешний доступ. Объявление в других файлах через extern", "*указатель. Получает значение по адресу", "float, double, long double. Различаются точностью и размером", "Количество аргументов командной строки. Первый параметр функции main() с аргументами", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12"], 0],
+    ["Как работает цикл for?", ["for(иниц., условие., шаг) тело. Выполняется пока условие истинно", "Количество элементов между адресами. x = (адрес2 - адрес1)/sizeof(тип)", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "Внешний доступ. Объявление в других файлах через extern", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "Проблемы с моделированием состояний из-за их количества и недетерминированности входных данных. Сложность связана с огромным числом возможных состояний системы и невозможностью предугадать последовательность действий пользователя, что делает переходы между состояниями непредсказуемыми.", "Переходит к следующей итерации цикла. Пропускает оставшуюся часть тела", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "Проверяет значение на совпадение с case. Требует break для выхода из ветки"], 0],
+    ["Как работает логическое И &&?", ["Возвращает 1, если оба операнда истинны. Пример: 5&&3 → 1", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "Нативный компилятор с библиотеками импорта для Windows API", "a % b. Только для целочисленных операндов", "Количество аргументов командной строки. Первый параметр функции main() с аргументами", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "const char *t — данные не могут быть изменены", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации."], 0],
+    ["Какие символьные типы есть?", ["char, signed char, unsigned char. wchar_t для широких символов", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "Сначала увеличивает x на 1, затем использует значение. Пример: x=3 → (++x)+6 → 10", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "Количество элементов между адресами. x = (адрес2 - адрес1)/sizeof(тип)", "*указатель. Получает значение по адресу", "Переходит к следующей итерации цикла. Пропускает оставшуюся часть тела", "float, double, long double. Различаются точностью и размером", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации"], 0],
+    ["Что такое string в Си? Вспомните некоторые функции обработки строк.", ["Массив char, завершенный '\0'. Функции: strcpy, strcat, strlen, strcmp", "Используется многоточие в параметрах. Пример: int printf(char*, ...)., библиотека stdarg.h", "#undef имя. Удаляет предыдущее определение макроса", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "a % b. Только для целочисленных операндов", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "Гибкий — для малого срока жизни, жесткий — для долгосрочного. Гибкий подход применяется для проектов с коротким ЖЦ и изменяющимися требованиями, жесткий — для долгосрочных проектов с фиксированными требованиями. Различаются управляемостью, сроками и технологиями.", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС"], 0],
+    ["Как работает fwrite()?", ["Записывает блоки данных в файл. Принимает указатель, размер и количество элементов", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9", "Все поля размещены по одному адресу. Размер равен размеру наибольшего поля", "Количество элементов между адресами. x = (адрес2 - адрес1)/sizeof(тип)", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9", "#include "имя_файла". Файл ищется в текущем каталоге", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9", "#include "имя_файла". Файл ищется в текущем каталоге", "Количество элементов между адресами. x = (адрес2 - адрес1)/sizeof(тип)", "#undef имя. Удаляет предыдущее определение макроса"], 0],
+    ["Какая IDE популярна в Windows?", ["Microsoft Visual Studio. Проприетарная IDE с компилятором, бесплатна для некоммерческого использования", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "for(иниц., условие., шаг) тело. Выполняется пока условие истинно", "Маленькие модули увеличивают накладные расходы на управление структурой. Большие модули трудны для понимания и изменения. Оптимальный размер: несколько десятков до сотен операторов.", "#include "имя_файла". Файл ищется в текущем каталоге", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "#include "имя_файла". Файл ищется в текущем каталоге", "Символом \ в конце строки. Компилятор воспримет как одну строку"], 0],
+    ["Что такое Visual C++ Express?", ["Облегченная версия Visual Studio. Бесплатная для любого применения версия с ограниченным функционалом", "a == b. Возвращает 1, если значения равны", "Идентификатор с двоеточием: имя:. Адрес оператора для goto", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "Количество элементов между адресами. x = (адрес2 - адрес1)/sizeof(тип)", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "*указатель. Получает значение по адресу", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям"], 0],
+    ["Какие режимы открытия файлов существуют?", ["r - чтение, "w" - запись с очисткой, "a" - добавление, "+" - чтение/запись. Файлы создаются/перезаписываются в зависимости от режима", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Количество элементов между адресами. x = (адрес2 - адрес1)/sizeof(тип)", "'A', '' (экранирование). Используются как целочисленные значения", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Преимущество: заказчик видит модель системы, что уточняет требования. Недостаток: заказчик может принять макет за финальный продукт, игнорируя скрытые проблемы качества и сопровождения.", "Сначала увеличивает x на 1, затем использует значение. Пример: x=3 → (++x)+6 → 10", "Неинициализированный указатель. Используется для проверки валидности"], 0],
+    ["Как записываются константы с плавающей точкой?", ["4.6, 1.25f, 5E+6L. По умолчанию double", "Недопонимание между участниками и сложность системы. Ошибка может возникнуть из-за разногласий между разработчиками и заказчиками или из-за того, что разработчик не может отслеживать все связи в сложной системе.", "Внешний доступ. Объявление в других файлах через extern", "Недопонимание между участниками и сложность системы. Ошибка может возникнуть из-за разногласий между разработчиками и заказчиками или из-за того, что разработчик не может отслеживать все связи в сложной системе.", "*указатель. Получает значение по адресу", "Недопонимание между участниками и сложность системы. Ошибка может возникнуть из-за разногласий между разработчиками и заказчиками или из-за того, что разработчик не может отслеживать все связи в сложной системе.", "Преимущество: заказчик видит модель системы, что уточняет требования. Недостаток: заказчик может принять макет за финальный продукт, игнорируя скрытые проблемы качества и сопровождения.", "#include "имя_файла". Файл ищется в текущем каталоге", "Неинициализированный указатель. Используется для проверки валидности", "a % b. Только для целочисленных операндов"], 0],
+    ["Как объявляются структуры?", ["struct {type1 name1., ...}. Обязательна точка с запятой после закрытия", "Количество аргументов командной строки. Первый параметр функции main() с аргументами", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "float, double, long double. Различаются точностью и размером", "a == b. Возвращает 1, если значения равны", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "/* */ для блочных, // для строчных. Улучшают читаемость кода", "Может вызвать переполнение буфера. Требуется резервировать память под результат", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "Проверяет значение на совпадение с case. Требует break для выхода из ветки"], 0],
+    ["Как работает арифметика указателей?", ["Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "Недопонимание между участниками и сложность системы. Ошибка может возникнуть из-за разногласий между разработчиками и заказчиками или из-за того, что разработчик не может отслеживать все связи в сложной системе.", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Проверяет значение на совпадение с case. Требует break для выхода из ветки", "Внешний доступ. Объявление в других файлах через extern", "Может вызвать переполнение буфера. Требуется резервировать память под результат", "Маленькие модули увеличивают накладные расходы на управление структурой. Большие модули трудны для понимания и изменения. Оптимальный размер: несколько десятков до сотен операторов.", "Количество аргументов командной строки. Первый параметр функции main() с аргументами", "Может вызвать переполнение буфера. Требуется резервировать память под результат"], 0],
+    ["Какие достоинства и недостатки макетирования?", ["Достоинство — полные требования. Недостаток — восприятие макета как готового продукта. Преимущество: заказчик видит модель системы, что уточняет требования. Недостаток: заказчик может принять макет за финальный продукт, игнорируя скрытые проблемы качества и сопровождения.", "for(иниц., условие., шаг) тело. Выполняется пока условие истинно", "/* */ для блочных, // для строчных. Улучшают читаемость кода", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Проблемы с моделированием состояний из-за их количества и недетерминированности входных данных. Сложность связана с огромным числом возможных состояний системы и невозможностью предугадать последовательность действий пользователя, что делает переходы между состояниями непредсказуемыми.", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "Копирует строку src в dest. Требует достаточного размера буфера dest", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)"], 0],
+    ["Какие средства разработки используются при программировании на ЯВУ?", ["Компиляторы, редакторы связей, загрузчики, отладчики. Обеспечивают преобразование исходного кода в исполняемые файлы и диагностику ошибок", "Количество элементов между адресами. x = (адрес2 - адрес1)/sizeof(тип)", "Может вызвать переполнение буфера. Требуется резервировать память под результат", "*указатель. Получает значение по адресу", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9", "#include "имя_файла". Файл ищется в текущем каталоге", "Может вызвать переполнение буфера. Требуется резервировать память под результат", "Внешний доступ. Объявление в других файлах через extern", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9"], 0],
+    ["Что такое язык программирования C?", ["Процедурный язык, разработанный в Bell Labs в 1973 году для UNIX. Стал основой для многих языков, поддерживает системное программирование и микроконтроллеры", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Количество аргументов командной строки. Первый параметр функции main() с аргументами", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "a & b. Пример: 1001 & 1100 → 1000", "for(иниц., условие., шаг) тело. Выполняется пока условие истинно", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9"], 0],
+    ["Что такое прочность модуля и какие классы прочности рекомендуются?", ["Мера внутренних связей. Рекомендуются функциональная и информационная прочность. Прочность определяет, насколько модуль скрывает внутренние связи. Самый слабый тип — модуль по совпадению (без логических связей). Рекомендуемые: функционально-прочный (выполняет одну функцию) и информационно-прочный (работает с одной структурой данных, скрытой от внешнего мира).", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "Проверяет значение на совпадение с case. Требует break для выхода из ветки", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "#include "имя_файла". Файл ищется в текущем каталоге", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "a + b. Складывает два операнда", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "Количество аргументов командной строки. Первый параметр функции main() с аргументами"], 0],
+    ["Как продолжить строку на следующей строке в С?", ["Символом \ в конце строки. Компилятор воспримет как одну строку", "Модель позволяет сократить время разработки на 30%, уменьшить затраты до 70% и повысить производительность разработки в 1.5 раза за счет повторного использования проверенных компонентов.", "Символом \ в конце строки. Компилятор воспримет как одну строку", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "a == b. Возвращает 1, если значения равны", "Гибкий — для малого срока жизни, жесткий — для долгосрочного. Гибкий подход применяется для проектов с коротким ЖЦ и изменяющимися требованиями, жесткий — для долгосрочных проектов с фиксированными требованиями. Различаются управляемостью, сроками и технологиями.", "Переходит к следующей итерации цикла. Пропускает оставшуюся часть тела", "#undef имя. Удаляет предыдущее определение макроса", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "Внешний доступ. Объявление в других файлах через extern"], 0],
+    ["Какова структура программы на языке Си?", ["Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "*указатель. Получает значение по адресу", "Символом \ в конце строки. Компилятор воспримет как одну строку", "Копирует строку src в dest. Требует достаточного размера буфера dest", "Преимущество: заказчик видит модель системы, что уточняет требования. Недостаток: заказчик может принять макет за финальный продукт, игнорируя скрытые проблемы качества и сопровождения.", "Внешний доступ. Объявление в других файлах через extern", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "Количество аргументов командной строки. Первый параметр функции main() с аргументами", "Компиляторы, редакторы связей, загрузчики, отладчики. Обеспечивают преобразование исходного кода в исполняемые файлы и диагностику ошибок"], 0],
+    ["Какие целочисленные типы доступны?", ["short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "#include "имя_файла". Файл ищется в текущем каталоге", "Преимущества: реалистичное отражение разработки через эволюцию, явный анализ риска, использование моделирования. Недостатки: высокие требования к заказчику, трудности контроля сроков и недостаточная статистика эффективности.", "#undef имя. Удаляет предыдущее определение макроса", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Набор функций, включая обязательную функцию main(). main() — точка входа, вызывается ОС", "float, double, long double. Различаются точностью и размером", "Используется многоточие в параметрах. Пример: int printf(char*, ...)., библиотека stdarg.h", "struct {type1 name1., ...}. Обязательна точка с запятой после закрытия", "a % b. Только для целочисленных операндов"], 0],
+    ["Как идеи ООП реализованы в С++?", ["Классы, наследование, виртуальные функции, шаблоны, пространства имен, обработка исключений", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Символом \ в конце строки. Компилятор воспримет как одну строку", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "Внешний доступ. Объявление в других файлах через extern", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "struct {type1 name1., ...}. Обязательна точка с запятой после закрытия", "Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Гибкий — для малого срока жизни, жесткий — для долгосрочного. Гибкий подход применяется для проектов с коротким ЖЦ и изменяющимися требованиями, жесткий — для долгосрочных проектов с фиксированными требованиями. Различаются управляемостью, сроками и технологиями."], 0],
+    ["Чем характеризуется каскадная модель разработки (модель Ройса)?", ["Последовательные этапы без возврата. Каскадная модель предполагает строгое разделение этапов (анализ, проектирование, кодирование, тестирование) и переход на следующий этап только после завершении предыдущего. Достоинства: упорядоченность. Недостатки: отсутствие гибкости и позднее предоставление результатов заказчику.", "a == b. Возвращает 1, если значения равны", "'A', '' (экранирование). Используются как целочисленные значения", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Сначала увеличивает x на 1, затем использует значение. Пример: x=3 → (++x)+6 → 10", "Переходит к следующей итерации цикла. Пропускает оставшуюся часть тела", "Символом \ в конце строки. Компилятор воспримет как одну строку", "Гибкость в управлении и последовательности этапов. Адаптивные процессы позволяют учитывать динамику требований, упрощают корректировку этапов и подходят для малочисленных команд с активным участием заказчика.", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации"], 0],
+    ["Что означает const в параметре функции?", ["const char *t — данные не могут быть изменены", "#include "имя_файла". Файл ищется в текущем каталоге", "Гибкий — для малого срока жизни, жесткий — для долгосрочного. Гибкий подход применяется для проектов с коротким ЖЦ и изменяющимися требованиями, жесткий — для долгосрочных проектов с фиксированными требованиями. Различаются управляемостью, сроками и технологиями.", "Проблемы с моделированием состояний из-за их количества и недетерминированности входных данных. Сложность связана с огромным числом возможных состояний системы и невозможностью предугадать последовательность действий пользователя, что делает переходы между состояниями непредсказуемыми.", "*указатель. Получает значение по адресу", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Гибкость в управлении и последовательности этапов. Адаптивные процессы позволяют учитывать динамику требований, упрощают корректировку этапов и подходят для малочисленных команд с активным участием заказчика.", "const int t = 0; //нельзя изменить", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям"], 0],
+    ["Как инициализировать переменные при объявлении?", ["int a=3, b=4. //c начальными значениями", "Количество аргументов командной строки. Первый параметр функции main() с аргументами", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "short, int, long, long long и их unsigned версии. Размеры зависят от реализации", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "Проблемы с моделированием состояний из-за их количества и недетерминированности входных данных. Сложность связана с огромным числом возможных состояний системы и невозможностью предугадать последовательность действий пользователя, что делает переходы между состояниями непредсказуемыми.", "/* */ для блочных, // для строчных. Улучшают читаемость кода", "Проверяет значение на совпадение с case. Требует break для выхода из ветки"], 0],
+    ["Что возвращает операция деления / для целых чисел?", ["Целочисленный результат. Например, 5/2 → 2, 9/4 → 2", "a % b. Только для целочисленных операндов", "Переходит к следующей итерации цикла. Пропускает оставшуюся часть тела", "a % b. Только для целочисленных операндов", "Символом \ в конце строки. Компилятор воспримет как одну строку", "Нативный компилятор с библиотеками импорта для Windows API", "Символом ##. Пример: #define CONCAT(a,b) a##b → CONCAT(1,2) → 12", "#undef имя. Удаляет предыдущее определение макроса", "a + b. Складывает два операнда", "Гибкий — для малого срока жизни, жесткий — для долгосрочного. Гибкий подход применяется для проектов с коротким ЖЦ и изменяющимися требованиями, жесткий — для долгосрочных проектов с фиксированными требованиями. Различаются управляемостью, сроками и технологиями."], 0],
+    ["Что такое "общность" ПО?", ["Процент реализованных функций от возможных. Общность оценивается как доля функций, реализованных в системе, по сравнению с теоретически возможными для её специализации.", "Всё есть файл (Unix-философия). Обмен потоками данных между программой и файлами/устройствами", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "/* */ для блочных, // для строчных. Улучшают читаемость кода", "Может вызвать переполнение буфера. Требуется резервировать память под результат", "Смещение в байтах = размер_типа * смещение. float *a+10 → a + 10*sizeof(float)", "Компилятор GNU Compiler Collection. Поддерживает C, C++, Objective-C, Java и другие языки, распространяется по GPL/LGPL лицензиям", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9", "float _Complex, double _Complex и long double _Complex. Хранятся как два вещественных числа", "Символом \ в конце строки. Компилятор воспримет как одну строку"], 0],
+    ["Каков минимальный диапазон для int?", ["-32768…32767 (16 бит). На практике зависит от компилятора", "struct {type1 name1., ...}. Обязательна точка с запятой после закрытия", "Проблемы с моделированием состояний из-за их количества и недетерминированности входных данных. Сложность связана с огромным числом возможных состояний системы и невозможностью предугадать последовательность действий пользователя, что делает переходы между состояниями непредсказуемыми.", "Внешний доступ. Объявление в других файлах через extern", "#include "имя_файла". Файл ищется в текущем каталоге", "x++ возвращает старое значение, затем увеличивает. Пример: x=3 → (x++)+6 → 9", "Символом \ в конце строки. Компилятор воспримет как одну строку", "a % b. Только для целочисленных операндов", "const char *t — данные не могут быть изменены", "Неинициализированный указатель. Используется для проверки валидности"], 0]
+];
 
-        document.getElementById('quiz-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            let score = 0;
-            const totalQuestions = Object.keys(correctAnswers).length;
-            
-            document.querySelectorAll('.answer-item label').forEach(label => {
-                label.classList.remove('correct-answer', 'incorrect-answer');
-                const input = label.querySelector('input');
-                if(input) input.disabled = true;
-            });
+const questionTextEl = document.getElementById('question-text');
+const answersContainerEl = document.getElementById('answers-container');
+const feedbackEl = document.getElementById('feedback');
+const nextButton = document.getElementById('next-button');
 
-            for (const qId in correctAnswers) {
-                const correctAnswer = correctAnswers[qId];
-                const selectedAnswer = document.querySelector(`input[name="${qId}"]:checked`);
-                const questionBlock = document.getElementById(qId);
-                
-                if (selectedAnswer) {
-                    const parentLabel = selectedAnswer.parentElement;
-                    if (selectedAnswer.value === correctAnswer) {
-                        score++;
-                        parentLabel.classList.add('correct-answer');
-                    } else {
-                        parentLabel.classList.add('incorrect-answer');
-                        const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
-                        if (correctLabel) correctLabel.classList.add('correct-answer');
-                    }
-                } else {
-                     if(questionBlock) {
-                         const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
-                         if (correctLabel) correctLabel.classList.add('correct-answer');
-                     }
-                }
-            }
+let currentQuestionIndex = 0;
+let score = 0;
+let correctAnswerText = '';
 
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = `<h2>Ваш результат: ${score} из ${totalQuestions}</h2>`;
-            resultsDiv.style.display = 'block';
-            this.querySelector('.submit-button').style.display = 'none';
-            resultsDiv.scrollIntoView({ behavior: 'smooth' });
-        });
-    </script>
-</body>
-</html>
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function showQuestion() {
+  feedbackEl.innerHTML = '';
+  nextButton.disabled = true;
+  
+  if (currentQuestionIndex >= questions.length) {
+      const percentage = (score / questions.length) * 100;
+      let message = '';
+      if (percentage >= 95) {
+          message = 'Отлично!';
+      } else if (percentage >= 75) {
+          message = 'Хорошо!';
+      } else if (percentage >= 50) {
+          message = 'Сомнительно, но окей.';
+      } else if (percentage >= 25) {
+          message = 'Пиздец, бро.';
+      } else {
+          message = 'Тебе пизда :)';
+      }
+
+      questionTextEl.textContent = 'Тест завершен!';
+      answersContainerEl.innerHTML = '';
+      feedbackEl.innerHTML = `Вы набрали ${score} из ${questions.length} (${percentage.toFixed(0)}%). ${message}`;
+      nextButton.textContent = 'Начать заново';
+      nextButton.disabled = false;
+      nextButton.onclick = () => location.reload();
+      return;
+  }
+
+  const questionData = questions[currentQuestionIndex];
+  const question = questionData[0];
+  const allAnswers = questionData[1];
+  const correctAnswIndex = questionData[2]
+  correctAnswerText = allAnswers[correctAnswIndex];
+
+  // Get all incorrect answers
+  const incorrectAnswers = allAnswers.filter((_, index) => index !== correctAnswIndex);
+  
+  // Shuffle incorrect answers and pick two
+  shuffleArray(incorrectAnswers);
+  const selectedIncorrectAnswers = incorrectAnswers.slice(0, 2);
+
+  // Create the final list of answers for the user and shuffle it
+  const answersToShow = [correctAnswerText, ...selectedIncorrectAnswers];
+  shuffleArray(answersToShow);
+
+
+  questionTextEl.textContent = `${currentQuestionIndex + 1}. ${question}`;
+  answersContainerEl.innerHTML = '';
+
+  answersToShow.forEach(answer => {
+    const button = document.createElement('button');
+    button.textContent = answer;
+    button.classList.add('answer-btn');
+    button.onclick = () => selectAnswer(button, answer);
+    answersContainerEl.appendChild(button);
+  });
+}
+
+function selectAnswer(selectedButton, selectedAnswer) {
+  const isCorrect = selectedAnswer === correctAnswerText;
+
+  Array.from(answersContainerEl.children).forEach(button => {
+    button.disabled = true;
+    if (button.textContent === correctAnswerText) {
+      button.classList.add('correct');
+      if (button.textContent === selectedButton.textContent) {
+          if (!selectedButton.classList.contains('wrong')) {
+             score++;
+          }
+      }
+    } else if (button === selectedButton) {
+      button.classList.add('wrong');
+    }
+  });
+
+  if (isCorrect) {
+    feedbackEl.textContent = 'Правильно!';
+    feedbackEl.className = 'correct-text';
+  } else {
+    feedbackEl.textContent = 'Неправильно!';
+    feedbackEl.className = 'wrong-text';
+  }
+
+  nextButton.disabled = false;
+}
+
+nextButton.addEventListener('click', () => {
+    currentQuestionIndex++;
+    showQuestion();
+});
+
+// Initial load
+shuffleArray(questions);
+showQuestion();я х
+</script>
+
+</body></html>
