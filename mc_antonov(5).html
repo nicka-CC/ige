@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Тест 5 по C#</title>
+    <style>
+        :root {
+            --system-background: #f2f2f7;
+            --system-blue: #007aff;
+            --system-gray: #8e8e93;
+            --separator-color: #c6c6c8;
+            --label-primary: #000000;
+            --label-secondary: #8e8e93;
+            --grouped-background: #ffffff;
+            --grouped-background-ios: #f0f0f0;
+            --system-green: #34c759;
+            --system-red: #ff3b30;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif; margin: 0; background-color: var(--grouped-background-ios); color: var(--label-primary); display: flex; flex-direction: column; min-height: 100vh; padding-top: env(safe-area-inset-top); padding-right: env(safe-area-inset-right); padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        .header { background-color: var(--grouped-background); padding: 12px 10px; text-align: center; font-size: 17px; font-weight: 600; border-bottom: 0.5px solid var(--separator-color); position: relative; display: flex; align-items: center; justify-content: center; }
+        .back-button { position: absolute; left: 16px; font-size: 17px; color: var(--system-blue); text-decoration: none; cursor: pointer; }
+        .footer { background-color: var(--grouped-background); padding: 12px 20px; text-align: center; font-size: 12px; color: var(--label-secondary); border-top: 0.5px solid var(--separator-color); margin-top: auto; }
+        main { flex-grow: 1; padding: 22px 0; }
+        .content-container { background-color: var(--grouped-background); margin: 0 16px; border-radius: 10px; overflow: hidden; border: 0.5px solid var(--separator-color); padding: 16px; }
+        #question-text { font-size: 18px; font-weight: 500; margin-bottom: 20px; min-height: 60px; }
+        #answers-container { display: flex; flex-direction: column; gap: 12px; }
+        .answer-btn { width: 100%; padding: 14px 16px; font-size: 17px; cursor: pointer; border: 1px solid var(--separator-color); background: var(--grouped-background); border-radius: 8px; text-align: left; transition: background-color 0.2s; }
+        .answer-btn:hover:not(:disabled) { background: #e5e5ea; }
+        .answer-btn.correct { background-color: var(--system-green); border-color: var(--system-green); color: white; font-weight: 600; }
+        .answer-btn.wrong { background-color: var(--system-red); border-color: var(--system-red); color: white; font-weight: 600; }
+        .answer-btn:disabled { cursor: not-allowed; opacity: 0.8; }
+        #next-button { width: 100%; padding: 14px; font-size: 17px; font-weight: 600; cursor: pointer; display: block; margin: 30px auto 0; background-color: var(--system-blue); color: white; border: none; border-radius: 8px; }
+        #next-button:disabled { background-color: var(--system-gray); }
+        #feedback { text-align: center; font-size: 18px; font-weight: bold; margin-top: 20px; min-height: 25px; }
+        .correct-text { color: var(--system-green); }
+        .wrong-text { color: var(--system-red); }
+        h1 { font-size: 22px; font-weight: 700; margin-bottom: 20px; text-align: center; }
+        @media (min-width: 768px) { main { display: flex; justify-content: center; } .content-container { max-width: 600px; width: 100%; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="mc_antonov.html" class="back-button">&lsaquo; Назад</a>
+        <span>Тест 5</span>
+    </header>
+    <main>
+        <div class="content-container">
+            <h1>Тест 5 по C#</h1>
+            <div id="quiz-area">
+                <div id="question-text"></div>
+                <div id="answers-container"></div>
+                <div id="feedback"></div>
+            </div>
+            <button id="next-button">Следующий вопрос</button>
+        </div>
+    </main>
+    <footer class="footer">
+        Решу игэ - сдам гиа
+    </footer>
+<script>
+const questions = [
+    ["Что такое .NET MAUI?", ["Кросс-платформенный фреймворк для создания нативных мобильных и десктопных приложений", "Новая версия ASP.NET Core", "Библиотека для машинного обучения", "Система управления базами данных"], 0],
+    ["Какой жизненный цикл сервиса в DI контейнере ASP.NET Core создает новый экземпляр для каждого HTTP-запроса, но переиспользует его в рамках одного запроса?", ["Scoped", "Transient", "Singleton", "Pooled"], 0],
+    ["Что делает `AsNoTracking()` в Entity Framework Core?", ["Отключает отслеживание изменений для сущностей, что ускоряет запросы на чтение", "Запускает запрос в отдельном потоке", "Гарантирует, что данные не будут кэшироваться", "Выполняет сырой SQL-запрос"], 0],
+    ["Что такое Primary Constructors в C# 12?", ["Упрощенный синтаксис для объявления конструктора, параметры которого доступны во всем теле класса", "Конструктор, который вызывается первым", "Единственный возможный конструктор для `record`", "Конструктор для примитивных типов"], 0],
+    ["Для чего предназначен паттерн 'Посредник' (Mediator)?", ["Для уменьшения прямой связанности между компонентами путем их взаимодействия через центральный объект", "Для создания объектов без указания их конкретных классов", "Для добавления новой функциональности к объекту динамически", "Для пошагового построения сложного объекта"], 0],
+    ["Что такое `CancellationToken` в асинхронном программировании?", ["Структура, используемая для уведомления операций о том, что они должны быть отменены", "Токен для аутентификации в асинхронных запросах", "Специальный тип исключения", "Маркер завершения асинхронной задачи"], 0],
+    ["Какая основная цель `Rate Limiting Middleware` в ASP.NET Core?", ["Ограничение количества запросов, которые могут быть обработаны за определенный промежуток времени", "Ускорение обработки запросов", "Кэширование ответов сервера", "Аутентификация пользователей"], 0],
+    ["Что такое `[ApiController]` атрибут в ASP.NET Core?", ["Атрибут, который включает специфичное для API поведение, такое как автоматическая валидация модели", "Указывает, что контроллер является частью API", "Заменяет необходимость в `[FromBody]` и `[FromRoute]`", "Все вышеперечисленное"], 3],
+    ["В чем заключается принцип 'Инверсия зависимостей' (Dependency Inversion)?", ["Модули верхних уровней не должны зависеть от модулей нижних уровней. Оба должны зависеть от абстракций", "Классы должны зависеть друг от друга напрямую", "Абстракции должны зависеть от деталей", "Все зависимости должны быть `internal`"], 0],
+    ["Что такое Blazor Server?", ["Модель хостинга Blazor, при которой UI обновляется через соединение SignalR, а C# код выполняется на сервере", "Модель, при которой все приложение компилируется в WebAssembly", "Устаревшая версия Blazor", "Фреймворк для создания десктопных приложений"], 0],
+    ["Как `ConfigureAwait(false)` влияет на асинхронный код?", ["Предотвращает попытку возобновить выполнение в исходном контексте синхронизации, что может улучшить производительность", "Запускает `await` в фоновом потоке", "Всегда замедляет выполнение кода", "Гарантирует выполнение в UI-потоке"], 0],
+    ["Что такое 'сырые' строковые литералы (raw string literals) в C# 11?", ["Способ определения строк, заключенных в тройные кавычки ``, которые не требуют экранирования символов", "Строки, которые не являются объектами `System.String`", "Небезопасные строки, хранящиеся вне управляемой кучи", "Строки, которые могут содержать только ASCII символы"], 0],
+    ["Для чего нужен BenchmarkDotNet?", ["Для надежного измерения и сравнения производительности .NET кода", "Для написания юнит-тестов", "Для анализа покрытия кода тестами", "Для отладки приложений"], 0],
+    ["Что такое IHostedService в ASP.NET Core?", ["Интерфейс для реализации долгоживущих фоновых задач", "Сервис для хостинга статических файлов", "Базовый интерфейс для всех контроллеров", "Интерфейс для управления жизненным циклом приложения"], 0],
+   ["В чем разница между IQueryable<T> и IEnumerable<T>`?", ["`IQueryable<T> позволяет построить выражение, которое может быть транслировано в другой язык (например, SQL), а `IEnumerable<T> выполняется в памяти", "`IEnumerable<T>` быстрее для работы с базами данных", "Разницы нет, это синонимы", "`IQueryable<T>` не поддерживает ленивое выполнение"], 0],
+    ["Что такое required модификатор в C# 11?", ["Указывает, что свойство или поле должно быть обязательно инициализировано при создании объекта", "Делает поле доступным только для чтения", "Требует, чтобы значение не было `null`", "Синоним для `[Required]` атрибута"], 0],
+    ["Что такое аутентификация?", ["Процесс проверки личности пользователя (кто вы?)", "Процесс проверки прав доступа пользователя (что вам можно?)", "Процесс шифрования данных", "Процесс логирования действий пользователя"], 0],
+    ["Что такое `gRPC`?", ["Современный высокопроизводительный фреймворк для удаленного вызова процедур (RPC)", "Новый протокол для передачи файлов", "Библиотека для работы с графикой", "Альтернатива HTML"], 0],
+    ["Как `using` директива (не statement) помогает в коде?", ["Импортирует типы из пространства имен, позволяя использовать их без полного имени", "Освобождает неуправляемые ресурсы", "Создает псевдоним для типа", "Определяет область видимости переменных"], 0],
+    ["Что такое Health Checks в ASP.NET Core?", ["Механизм для мониторинга состояния приложения и его зависимостей (базы данных, внешние сервисы)", "Проверка кода на соответствие стандартам", "Тестирование производительности", "Анализ безопасности приложения"], 0],
+    ["Что такое 'шаблонные выражения' (list patterns) в C# 11?", ["Позволяют сопоставлять массивы и списки с определенными шаблонами, включая проверку длины и использование срезов", "Способ создания списков с помощью шаблонов", "Функция для поиска в списках", "Аналог регулярных выражений для коллекций"], 0],
+    ["Что такое 'обобщенная математика' (generic math) в .NET 7?", ["Набор интерфейсов, позволяющий писать математические алгоритмы, работающие с любыми числовыми типами", "Библиотека для работы с матрицами и векторами", "Новый тип данных для чисел", "Ускорение математических операций с помощью GPU"], 0],
+    ["Что такое `IDisposable`?", ["Интерфейс, предоставляющий механизм для освобождения неуправляемых ресурсов", "Маркер того, что объект может быть удален", "Интерфейс для временных объектов", "Базовый интерфейс для всех коллекций"], 0],
+    ["Что такое 'record' в C#?", ["Тип, предназначенный для инкапсуляции данных, с неявной реализацией сравнения по значению", "Ссылочный тип (по умолчанию)", "Может быть неизменяемым (immutable)", "Все вышеперечисленное"], 3],
+    ["Какой основной HTTP-глагол используется для получения данных с сервера?", ["GET", "POST", "PUT", "DELETE"], 0],
+    ["Что такое 'полиморфизм'?", ["Способность объекта вести себя по-разному в зависимости от его фактического типа во время выполнения", "Возможность наследовать от нескольких классов", "Сокрытие внутренней реализации объекта", "Создание объекта на основе класса"], 0],
+    ["Что такое `init-only` сеттер?", ["Сеттер свойства, который можно использовать только во время инициализации объекта", "Сеттер, который можно вызвать только один раз", "Сеттер для статических полей", "Устаревший синтаксис для `readonly` полей"], 0],
+    ["Что такое 'делегат'?", ["Тип, который представляет собой ссылку на метод с определенной сигнатурой", "Класс, делегирующий выполнение другому классу", "Паттерн проектирования для UI", "Способ асинхронного вызова метода"], 0],
+    ["Какая основная проблема `async void` методов?", ["Исключения, возникающие в них, не могут быть перехвачены стандартным `try-catch` и приводят к падению процесса", "Они выполняются медленнее, чем `async Task`", "Их нельзя ожидать с помощью `await`", "Они блокируют вызывающий поток"], 0],
+    ["Что такое 'интерфейс' в C#?", ["Контракт, определяющий набор членов (методов, свойств), которые должен реализовать класс или структура", "Графический интерфейс пользователя", "Способ взаимодействия между аппаратными устройствами", "Базовый класс для всех объектов"], 0],
+    ["Для чего используется `sealed` модификатор класса?", ["Для запрета наследования от этого класса", "Для того, чтобы сделать класс статическим", "Для оптимизации производительности", "Для указания, что класс завершен и не будет меняться"], 0],
+    ["Какой оператор используется для объединения с null (null-coalescing)?", ["`??`", "`?.`", "`?:`", "`!!`"], 0],
+    ["Что такое `ValueTuple`?", ["Значимый тип (struct) для кортежей, который более эффективен, чем `System.Tuple` (class)", "Ссылочный тип для кортежей", "Синоним для `System.Tuple`", "Тип для хранения только одного значения"], 0],
+    ["Что такое `[Fact]` атрибут в xUnit?", ["Помечает метод как тест, который не принимает аргументов", "Помечает метод как теорию (параметризованный тест)", "Указывает на факт, который всегда истинен", "Атрибут для бенчмарков"], 0],
+    ["Что такое `[Theory]` и `[InlineData]` в xUnit?", ["Атрибуты для создания параметризованных тестов", "Атрибуты для группировки тестов", "Атрибуты для интеграционных тестов", "Атрибуты для игнорирования тестов"], 0],
+    ["В чем заключается принцип 'Единственной ответственности' (Single Responsibility)?", ["Класс должен иметь только одну причину для изменения", "Класс должен отвечать за все аспекты одной сущности", "Метод должен выполнять только одну операцию", "Каждый проект должен иметь только одну сборку"], 0],
+    ["Что такое 'статический полиморфизм'?", ["Полиморфизм, который разрешается во время компиляции, например, через перегрузку методов", "Полиморфизм, который разрешается во время выполнения", "Полиморфизм для статических классов", "Полиморфизм с использованием `dynamic`"], 0],
+    ["Что такое `yield return`?", ["Оператор, который позволяет создавать итераторы, возвращая элементы последовательности по одному", "Завершает выполнение итератора", "Возвращает всю коллекцию сразу", "Приостанавливает выполнение асинхронного метода"], 0],
+    ["Какая разница между `string` и `StringBuilder`?", ["`string` является неизменяемым (immutable), а `StringBuilder` - изменяемым (mutable)", "`StringBuilder` быстрее для многократных операций конкатенации", "Оба хранят текстовые данные", "Все вышеперечисленное"], 3],
+    ["Что такое `Native AOT`?", ["Ahead-Of-Time компиляция, которая создает полностью самодостаточный исполняемый файл без JIT-компилятора", "Новый JIT-компилятор", "Способ запуска .NET на мобильных устройствах", "Виртуальная машина для .NET"], 0],
+    ["Какую проблему решает `using` statement (не директива)?", ["Гарантирует вызов метода `Dispose()` для объекта, даже если произошло исключение", "Импортирует пространство имен", "Освобождает память, занятую объектом", "Завершает текущую транзакцию"], 0],
+    ["Что такое LINQ?", ["Language-Integrated Query - технология, добавляющая возможности запросов непосредственно в C#", "Библиотека для работы с базами данных", "Новый язык программирования", "Система для построения UI"], 0],
+    ["Чем `abstract class` отличается от `interface`?", ["Абстрактный класс может содержать реализацию методов и поля, а интерфейс (до C# 8) - нет", "Класс может наследовать только один абстрактный класс, но реализовывать много интерфейсов", "Абстрактный класс может иметь конструктор", "Все вышеперечисленное"], 3],
+    ["Что такое 'боксинг' (упаковка)?", ["Процесс преобразования значимого типа в ссылочный тип (object)", "Процесс преобразования ссылочного типа в значимый", "Размещение объекта в специальный 'бокс' для безопасности", "Обертывание значения в `Nullable<T>`"], 0],
+    ["Какой метод первым вызывается в конвейере обработки запроса ASP.NET Core?", ["Самый первый Middleware, добавленный в `Program.cs`", "Контроллер", "Фильтр действий", "Обработчик маршрутизации"], 0],
+    ["Что такое 'Open-Closed Principle' (Принцип открытости/закрытости)?", ["Программные сущности должны быть открыты для расширения, но закрыты для модификации", "Код должен быть открытым для всех", "Классы должны быть `sealed`", "Нельзя изменять публичные методы"], 0],
+    ["Что такое `IConfiguration`?", ["Интерфейс для доступа к конфигурации приложения (например, из `appsettings.json`)", "Интерфейс для настройки DI-контейнера", "Интерфейс для настройки логирования", "Интерфейс для управления сборкой мусора"], 0],
+    ["Что такое 'распаковка' (анбоксинг)?", ["Процесс преобразования упакованного значимого типа (object) обратно в его исходный тип", "Извлечение файла из архива", "Процесс десериализации объекта", "Получение значения из `Nullable<T>`"], 0],
+    ["Что такое `CORS`?", ["Cross-Origin Resource Sharing - механизм, позволяющий веб-странице запрашивать ресурсы с другого домена", "Система шифрования", "Паттерн для асинхронной работы", "Библиотека для логирования"], 0],
+    ["Что такое `Minimal APIs`?", ["Упрощенный способ создания HTTP API в .NET без контроллеров", "API, которые имеют только один эндпоинт", "API для микроконтроллеров", "API с минимальной производительностью"], 0]
+];
+const questionTextEl = document.getElementById('question-text');
+const answersContainerEl = document.getElementById('answers-container');
+const feedbackEl = document.getElementById('feedback');
+const nextButton = document.getElementById('next-button');
+let currentQuestionIndex = 0;
+let score = 0;
+let correctAnswerText = '';
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function showQuestion() {
+  feedbackEl.innerHTML = '';
+  nextButton.disabled = true;
+  if (currentQuestionIndex >= questions.length) {
+      const percentage = (score / questions.length) * 100;
+      let message = '';
+      if (percentage >= 95) message = 'Отлично!';
+      else if (percentage >= 75) message = 'Хорошо!';
+      else if (percentage >= 50) message = 'Сомнительно, но окей.';
+      else if (percentage >= 25) message = 'Пиздец, бро.';
+      else message = 'Тебе пизда :)';
+      questionTextEl.textContent = 'Тест завершен!';
+      answersContainerEl.innerHTML = '';
+      feedbackEl.innerHTML = `Вы набрали ${score} из ${questions.length} (${percentage.toFixed(0)}%). ${message}`;
+      nextButton.textContent = 'Начать заново';
+      nextButton.disabled = false;
+      nextButton.onclick = () => location.reload();
+      return;
+  }
+  const questionData = questions[currentQuestionIndex];
+  const question = questionData[0];
+  const allAnswers = questionData[1];
+  const correctAnswIndex = questionData[2];
+  correctAnswerText = allAnswers[correctAnswIndex];
+  const incorrectAnswers = allAnswers.filter((_, index) => index !== correctAnswIndex);
+  shuffleArray(incorrectAnswers);
+  const selectedIncorrectAnswers = incorrectAnswers.slice(0, 2);
+  const answersToShow = [correctAnswerText, ...selectedIncorrectAnswers];
+  shuffleArray(answersToShow);
+  questionTextEl.textContent = `${currentQuestionIndex + 1}. ${question}`;
+  answersContainerEl.innerHTML = '';
+  answersToShow.forEach(answer => {
+    const button = document.createElement('button');
+    button.textContent = answer;
+    button.classList.add('answer-btn');
+    button.onclick = () => selectAnswer(button, answer);
+    answersContainerEl.appendChild(button);
+  });
+}
+
+function selectAnswer(selectedButton, selectedAnswer) {
+  const isCorrect = selectedAnswer === correctAnswerText;
+  Array.from(answersContainerEl.children).forEach(button => {
+    button.disabled = true;
+    if (button.textContent === correctAnswerText) {
+      button.classList.add('correct');
+      if (isCorrect && button === selectedButton) {
+        score++;
+      }
+    } else if (button === selectedButton) {
+      button.classList.add('wrong');
+    }
+  });
+  feedbackEl.textContent = isCorrect ? 'Правильно!' : 'Неправильно!';
+  feedbackEl.className = isCorrect ? 'correct-text' : 'wrong-text';
+  nextButton.disabled = false;
+}
+nextButton.addEventListener('click', () => {
+    currentQuestionIndex++;
+    showQuestion();
+});
+shuffleArray(questions);
+showQuestion();
+</script>
+</body>
+</html>

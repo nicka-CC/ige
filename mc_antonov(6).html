@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Тест 6 по C#</title>
+    <style>
+        :root {
+            --system-background: #f2f2f7;
+            --system-blue: #007aff;
+            --system-gray: #8e8e93;
+            --separator-color: #c6c6c8;
+            --label-primary: #000000;
+            --label-secondary: #8e8e93;
+            --grouped-background: #ffffff;
+            --grouped-background-ios: #f0f0f0;
+            --system-green: #34c759;
+            --system-red: #ff3b30;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Arial", sans-serif; margin: 0; background-color: var(--grouped-background-ios); color: var(--label-primary); display: flex; flex-direction: column; min-height: 100vh; padding-top: env(safe-area-inset-top); padding-right: env(safe-area-inset-right); padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        .header { background-color: var(--grouped-background); padding: 12px 10px; text-align: center; font-size: 17px; font-weight: 600; border-bottom: 0.5px solid var(--separator-color); position: relative; display: flex; align-items: center; justify-content: center; }
+        .back-button { position: absolute; left: 16px; font-size: 17px; color: var(--system-blue); text-decoration: none; cursor: pointer; }
+        .footer { background-color: var(--grouped-background); padding: 12px 20px; text-align: center; font-size: 12px; color: var(--label-secondary); border-top: 0.5px solid var(--separator-color); margin-top: auto; }
+        main { flex-grow: 1; padding: 22px 0; }
+        .content-container { background-color: var(--grouped-background); margin: 0 16px; border-radius: 10px; overflow: hidden; border: 0.5px solid var(--separator-color); padding: 16px; }
+        #question-text { font-size: 18px; font-weight: 500; margin-bottom: 20px; min-height: 60px; }
+        #answers-container { display: flex; flex-direction: column; gap: 12px; }
+        .answer-btn { width: 100%; padding: 14px 16px; font-size: 17px; cursor: pointer; border: 1px solid var(--separator-color); background: var(--grouped-background); border-radius: 8px; text-align: left; transition: background-color 0.2s; }
+        .answer-btn:hover:not(:disabled) { background: #e5e5ea; }
+        .answer-btn.correct { background-color: var(--system-green); border-color: var(--system-green); color: white; font-weight: 600; }
+        .answer-btn.wrong { background-color: var(--system-red); border-color: var(--system-red); color: white; font-weight: 600; }
+        .answer-btn:disabled { cursor: not-allowed; opacity: 0.8; }
+        #next-button { width: 100%; padding: 14px; font-size: 17px; font-weight: 600; cursor: pointer; display: block; margin: 30px auto 0; background-color: var(--system-blue); color: white; border: none; border-radius: 8px; }
+        #next-button:disabled { background-color: var(--system-gray); }
+        #feedback { text-align: center; font-size: 18px; font-weight: bold; margin-top: 20px; min-height: 25px; }
+        .correct-text { color: var(--system-green); }
+        .wrong-text { color: var(--system-red); }
+        h1 { font-size: 22px; font-weight: 700; margin-bottom: 20px; text-align: center; }
+        @media (min-width: 768px) { main { display: flex; justify-content: center; } .content-container { max-width: 600px; width: 100%; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="mc_antonov.html" class="back-button">&lsaquo; Назад</a>
+        <span>Тест 6</span>
+    </header>
+    <main>
+        <div class="content-container">
+            <h1>Тест 6 по C#</h1>
+            <div id="quiz-area">
+                <div id="question-text"></div>
+                <div id="answers-container"></div>
+                <div id="feedback"></div>
+            </div>
+            <button id="next-button">Следующий вопрос</button>
+        </div>
+    </main>
+    <footer class="footer">
+        Решу игэ - сдам гиа
+    </footer>
+<script>
+const questions = [
+    ["Что такое 'выражения коллекций' (collection expressions) в C# 12?", ["Новый синтаксис `[...]` для создания различных типов коллекций, таких как массивы, списки и Span", "Способ фильтрации коллекций с помощью выражений", "Математические операции над коллекциями", "Выражения для определения анонимных коллекций"], 0],
+    ["В чем заключается основное преимущество Blazor WebAssembly?", ["Приложение может работать полностью на стороне клиента, в том числе оффлайн, после первоначальной загрузки", "Не требует .NET runtime в браузере", "UI имеет нулевую задержку (zero latency)", "Всегда быстрее, чем Blazor Server"], 0],
+    ["Что такое 'оптимистичный параллелизм' (optimistic concurrency) в EF Core?", ["Механизм, который предотвращает конфликты при одновременном обновлении данных, проверяя, не были ли они изменены другим пользователем", "Подход, при котором база данных всегда остается в согласованном состоянии", "Стратегия блокировки строк на время их чтения", "Способ ускорить выполнение параллельных запросов"], 0],
+    ["Для чего нужен `[FromServices]` атрибут в ASP.NET Core?", ["Для внедрения зависимости из DI-контейнера непосредственно в параметр метода контроллера", "Для получения сервиса из HTTP-заголовков", "Для создания нового экземпляра сервиса", "Для указания, что сервис является внешним"], 0],
+    ["Что такое 'перехватчики' (interceptors) в EF Core?", ["Позволяют перехватывать, изменять или подавлять операции EF Core, такие как выполнение команд или сохранение изменений", "Механизм для перехвата исключений базы данных", "Способ логирования всех SQL-запросов", "Фильтры для сущностей"], 0],
+    ["Что такое `ValueTask<T>` и в чем его преимущество перед `Task<T>`?", ["Это значимый тип (struct), который помогает избежать выделения памяти в куче, если асинхронная операция завершается синхронно", "Это задача, которая всегда выполняется быстрее", "Это устаревшая версия `Task<T>`", "Это задача, которая может возвращать только структуры"], 0],
+    ["Что такое 'мягкое удаление' (soft delete)?", ["Практика, при которой записи в базе данных не удаляются физически, а помечаются как удаленные (например, с помощью флага `IsDeleted`)", "Удаление, которое можно отменить", "Удаление данных без возможности восстановления", "Медленное удаление большого объема данных"], 0],
+    ["Какой паттерн проектирования инкапсулирует запрос как объект, позволяя параметризовать клиентов с другими запросами, ставить запросы в очередь или логировать их?", ["Команда (Command)", "Стратегия (Strategy)", "Наблюдатель (Observer)", "Декоратор (Decorator)"], 0],
+    ["Что такое `global using` в C# 10?", ["Директива, которая применяет `using` ко всем файлам в проекте", "Способ использования глобальных переменных", "Псевдоним для `System`", "Устаревшая возможность"], 0],
+    ["Что такое SignalR?", ["Библиотека для ASP.NET Core, которая упрощает добавление веб-функциональности в реальном времени в приложения", "Протокол для передачи сигналов", "Новый фреймворк для UI", "Система для отправки SMS"], 0],
+    ["В чем разница между `Single()` и `FirstOrDefault()` в LINQ?", ["`Single()` бросит исключение, если элементов нет или их больше одного. `FirstOrDefault()` вернет значение по умолчанию, если элементов нет, но бросит исключение, если их больше одного.", "`FirstOrDefault()` никогда не бросает исключений", "`Single()` всегда быстрее", "Разницы нет, это синонимы"], 0],
+    ["Что такое `file-scoped namespaces` в C# 10?", ["Позволяет объявить пространство имен для всего файла без вложенных фигурных скобок, уменьшая вложенность кода", "Пространство имен, видимое только внутри одного файла", "Пространство имен для работы с файловой системой", "Устаревший синтаксис"], 0],
+    ["Что такое 'маршрутизация по соглашениям' (convention-based routing) в ASP.NET Core MVC?", ["Способ определения маршрутов глобально, используя шаблоны, такие как `{controller=Home}/{action=Index}/{id?}`", "Определение маршрутов с помощью атрибутов над контроллерами и действиями", "Маршрутизация на основе HTTP-методов", "Устаревший способ маршрутизации"], 0],
+    ["Что такое JWT?", ["JSON Web Token - открытый стандарт для создания токенов доступа, которые используются для безопасной передачи информации между сторонами", "Токен, который шифрует весь трафик", "Токен сессии, хранящийся на сервере", "Токен для работы с веб-сокетами"], 0],
+    ["Что такое `DbContext pooling` в EF Core?", ["Функция, которая позволяет переиспользовать экземпляры `DbContext` вместо их постоянного создания и уничтожения, повышая производительность", "Способ объединения нескольких контекстов в один", "Пул соединений с базой данных", "Кэширование результатов запросов на уровне контекста"], 0],
+    ["Что такое 'политики авторизации' (policy-based authorization) в ASP.NET Core?", ["Гибкий способ авторизации, основанный на требованиях (claims), которые должен иметь пользователь", "Авторизация на основе ролей", "Авторизация на основе IP-адреса", "Способ запретить доступ всем пользователям"], 0],
+    ["Для чего нужен `Serilog`?", ["Это популярная библиотека для структурированного логирования в .NET", "Для сериализации объектов в JSON", "Для логирования в базу данных", "Встроенный логгер .NET"], 0],
+    ["Что такое 'деконструктор' в C#?", ["Метод с именем `Deconstruct`, который позволяет 'распаковать' объект на составные части", "Метод, который уничтожает объект", "Синоним деструктора", "Метод для обратной сериализации"], 0],
+    ["Что такое `record struct` в C# 10?", ["Структура с семантикой равенства по значению и неизменяемостью, характерной для `record`", "Ссылочный тип `record`", "Устаревшая версия `struct`", "Структура, которая может наследоваться"], 0],
+    ["Какой основной глагол HTTP используется для создания нового ресурса?", ["POST", "GET", "PUT", "CREATE"], 0],
+    ["Что такое `Span<T>`?", ["Тип, предоставляющий типобезопасный доступ к непрерывной области памяти без выделения новой памяти", "Коллекция, похожая на `List<T>`", "Обертка над массивом", "Тип для работы с многомерными массивами"], 0],
+    ["Что такое 'проблема N+1 запроса' в ORM?", ["Ситуация, когда для получения связанных данных для N родительских сущностей выполняется 1 запрос для родительских и N дополнительных запросов для дочерних", "Когда один запрос выполняется N+1 раз", "Ошибка, из-за которой запрос возвращает N+1 записей", "Проблема производительности при работе с большими N"], 0],
+    ["Как можно решить 'проблему N+1 запроса' в EF Core?", ["С помощью 'жадной загрузки' (eager loading) с использованием метода `Include()`", "С помощью 'ленивой загрузки' (lazy loading)", "С помощью явной загрузки (explicit loading)", "С помощью проекции в `Select()`"], 0],
+    ["Что такое `Kestrel`?", ["Кросс-платформенный веб-сервер для ASP.NET Core", "Обратный прокси-сервер", "Балансировщик нагрузки", "Библиотека для кэширования"], 0],
+    ["В чем разница между `PUT` и `PATCH` HTTP-методами?", ["`PUT` используется для полного обновления ресурса, а `PATCH` — для частичного", "`PATCH` используется для полного обновления, а `PUT` — для частичного", "Это синонимы", "`PUT` создает ресурс, а `PATCH` обновляет"], 0],
+    ["Что такое 'принцип подстановки Барбары Лисков'?", ["Объекты в программе должны быть заменяемы на экземпляры их подтипов без изменения правильности выполнения программы", "Классы должны быть открыты для расширения, но закрыты для модификации", "Клиенты не должны зависеть от методов, которые они не используют", "Класс должен иметь только одну причину для изменения"], 0],
+    ["Что такое `AutoMapper`?", ["Библиотека для автоматического копирования данных из одного объекта в другой", "Инструмент для создания карт маршрутов", "Часть ASP.NET Core", "Библиотека для работы с геолокацией"], 0],
+    ["Какая основная задача `appsettings.json`?", ["Хранение конфигурационных данных приложения", "Хранение пользовательских настроек", "Хранение секретов приложения", "Хранение логов"], 0],
+    ["Что такое 'фильтры действий' (Action Filters) в ASP.NET Core?", ["Атрибуты, которые позволяют выполнить код до или после выполнения метода действия контроллера", "Фильтры для HTTP-запросов", "Фильтры для исключений", "Фильтры для авторизации"], 0],
+    ["Что такое `async/await`?", ["Синтаксический сахар для написания асинхронного кода, который выглядит как синхронный", "Способ запускать код в нескольких потоках", "Механизм для обработки исключений", "Способ остановить выполнение программы"], 0],
+    ["Что такое 'неизменяемость' (immutability)?", ["Состояние объекта, которое не может быть изменено после его создания", "Свойство `readonly` полей", "Характеристика `const` переменных", "Способ сделать код потокобезопасным"], 0],
+    ["Что такое 'чистая функция'?", ["Функция, которая для одних и тех же входных данных всегда возвращает один и тот же результат и не имеет побочных эффектов", "Функция без аргументов", "Функция, которая ничего не возвращает (`void`)", "Функция, которая не использует глобальные переменные"], 0],
+    ["Что такое `[Theory]` в xUnit?", ["Атрибут, помечающий метод как параметризованный тест, который может выполняться несколько раз с разными данными", "Атрибут для тестов, которые проверяют теорию", "Атрибут для интеграционных тестов", "Устаревший атрибут"], 0],
+    ["Какой инструмент в .NET используется для управления пакетами (библиотеками)?", ["NuGet", "NPM", "Maven", "Pip"], 0],
+    ["Что такое `dynamic` в C#?", ["Тип, который обходит проверку типов во время компиляции, откладывая ее до времени выполнения", "Способ сделать переменные изменяемыми", "Базовый тип для всех динамических языков", "Тип для работы с `ExpandoObject`"], 0],
+    ["Что такое 'рефлексия'?", ["Механизм для получения информации о типах, методах, свойствах во время выполнения программы", "Способ отладки кода", "Процесс компиляции кода", "Отражение света от экрана монитора"], 0],
+    ["Какой жизненный цикл DI сервиса создает новый экземпляр каждый раз, когда он запрашивается?", ["Transient", "Scoped", "Singleton", "Instance"], 0],
+    ["Что такое `ConfigureAwait(false)`?", ["Рекомендация для библиотечного кода, чтобы избежать захвата контекста синхронизации и потенциальных дедлоков", "Способ запустить `Task` в фоновом потоке", "Опция, которая всегда ускоряет `await`", "Отключает обработку исключений для `Task`"], 0],
+    ["Для чего нужен атрибут `[JsonIgnore]`?", ["Чтобы исключить свойство из процесса сериализации/десериализации в JSON", "Чтобы игнорировать ошибки JSON", "Чтобы указать, что свойство содержит JSON", "Чтобы переименовать свойство в JSON"], 0],
+    ["Что такое `Task.WhenAll`?", ["Метод, который создает задачу, завершающуюся, когда все предоставленные задачи в коллекции завершены", "Метод, который ожидает завершения одной задачи из коллекции", "Метод, который запускает все задачи параллельно", "Метод для отмены всех задач"], 0],
+    ["Что такое `Task.WhenAny`?", ["Метод, который создает задачу, завершающуюся, когда любая из предоставленных задач в коллекции завершена", "Метод, который ожидает завершения всех задач", "Метод, который выбирает самую быструю задачу", "Метод для получения результата от любой задачи"], 0],
+    ["Что такое `SemaphoreSlim`?", ["Примитив синхронизации, который ограничивает количество потоков, которые могут одновременно получить доступ к ресурсу или пулу ресурсов", "Облегченная версия мьютекса", "Механизм для блокировки одного потока", "Счетчик для асинхронных операций"], 0],
+    ["Какая разница между `abstract class` и `interface` в C# 8 и новее?", ["Абстрактный класс все еще может иметь состояние (поля) и конструкторы, а интерфейс - нет", "Интерфейс может иметь реализацию по умолчанию для методов", "Класс может наследовать только один абстрактный класс, но много интерфейсов", "Все вышеперечисленное"], 3],
+    ["Что такое `[GeneratedRegex]` в .NET 7?", ["Атрибут, который использует 'генератор кода' для создания оптимизированной реализации регулярного выражения во время компиляции", "Атрибут для генерации случайных строк по шаблону", "Устаревший способ работы с Regex", "Атрибут для валидации строк"], 0],
+    ["Что такое 'объекты-значения' (value objects) в Domain-Driven Design?", ["Небольшие объекты, которые представляют собой описательную характеристику и равенство которых определяется по значениям их свойств, а не по идентичности", "Объекты, которые являются структурами (`struct`)", "Объекты, которые не имеют поведения", "Синонимы для DTO"], 0],
+    ["Какая новая модель рендеринга появилась в Blazor в .NET 8, которая автоматически переключается между Server и WebAssembly?", ["Auto", "Static", "Interactive", "Hybrid"], 0],
+    ["Что такое `IFormFile` в ASP.NET Core?", ["Интерфейс, представляющий файл, отправленный с HTTP-запросом", "Интерфейс для работы с файловой системой", "Представление формы на веб-странице", "Интерфейс для форматирования файлов"], 0],
+    ["Что такое 'каскадная модель' (водопад)?", ["Последовательная модель разработки, где каждый этап должен быть полностью завершен перед началом следующего", "Гибкая модель разработки", "Модель, ориентированная на управление рисками", "Итеративная модель разработки"], 0],
+    ["Что такое 'SOLID'?", ["Акроним для пяти принципов объектно-ориентированного дизайна, которые помогают создавать более понятные, гибкие и поддерживаемые системы", "Новый фреймворк от Microsoft", "Библиотека для 3D-моделирования", "Принцип шифрования данных"], 0],
+    ["Какой оператор позволяет безопасно приводить типы, возвращая `null` в случае неудачи, вместо выбрасывания исключения?", ["`as`", "`is`", "`cast()`", "`(type)`"], 0]
+];
+const questionTextEl = document.getElementById('question-text');
+const answersContainerEl = document.getElementById('answers-container');
+const feedbackEl = document.getElementById('feedback');
+const nextButton = document.getElementById('next-button');
+let currentQuestionIndex = 0;
+let score = 0;
+let correctAnswerText = '';
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function showQuestion() {
+  feedbackEl.innerHTML = '';
+  nextButton.disabled = true;
+  if (currentQuestionIndex >= questions.length) {
+      const percentage = (score / questions.length) * 100;
+      let message = '';
+      if (percentage >= 95) message = 'Отлично!';
+      else if (percentage >= 75) message = 'Хорошо!';
+      else if (percentage >= 50) message = 'Сомнительно, но окей.';
+      else if (percentage >= 25) message = 'Пиздец, бро.';
+      else message = 'Тебе пизда :)';
+      questionTextEl.textContent = 'Тест завершен!';
+      answersContainerEl.innerHTML = '';
+      feedbackEl.innerHTML = `Вы набрали ${score} из ${questions.length} (${percentage.toFixed(0)}%). ${message}`;
+      nextButton.textContent = 'Начать заново';
+      nextButton.disabled = false;
+      nextButton.onclick = () => location.reload();
+      return;
+  }
+  const questionData = questions[currentQuestionIndex];
+  const question = questionData[0];
+  const allAnswers = questionData[1];
+  const correctAnswIndex = questionData[2];
+  correctAnswerText = allAnswers[correctAnswIndex];
+  const incorrectAnswers = allAnswers.filter((_, index) => index !== correctAnswIndex);
+  shuffleArray(incorrectAnswers);
+  const selectedIncorrectAnswers = incorrectAnswers.slice(0, 2);
+  const answersToShow = [correctAnswerText, ...selectedIncorrectAnswers];
+  shuffleArray(answersToShow);
+  questionTextEl.textContent = `${currentQuestionIndex + 1}. ${question}`;
+  answersContainerEl.innerHTML = '';
+  answersToShow.forEach(answer => {
+    const button = document.createElement('button');
+    button.textContent = answer;
+    button.classList.add('answer-btn');
+    button.onclick = () => selectAnswer(button, answer);
+    answersContainerEl.appendChild(button);
+  });
+}
+
+function selectAnswer(selectedButton, selectedAnswer) {
+  const isCorrect = selectedAnswer === correctAnswerText;
+  Array.from(answersContainerEl.children).forEach(button => {
+    button.disabled = true;
+    if (button.textContent === correctAnswerText) {
+      button.classList.add('correct');
+      if (isCorrect && button === selectedButton) {
+        score++;
+      }
+    } else if (button === selectedButton) {
+      button.classList.add('wrong');
+    }
+  });
+  feedbackEl.textContent = isCorrect ? 'Правильно!' : 'Неправильно!';
+  feedbackEl.className = isCorrect ? 'correct-text' : 'wrong-text';
+  nextButton.disabled = false;
+}
+nextButton.addEventListener('click', () => {
+    currentQuestionIndex++;
+    showQuestion();
+});
+shuffleArray(questions);
+showQuestion();
+</script>
+</body>
+</html>
